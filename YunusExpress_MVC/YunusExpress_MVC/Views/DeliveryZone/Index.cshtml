@@ -1,0 +1,34 @@
+﻿@using YunusExpress_MVC.Models
+@model List<DeliveryZone>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Service Types</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Yeni Type Əlavə Et</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Type Name</th>
+            <th>Zone Name</th>
+            <th>Əməliyyatlar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.DeliveryZoneType.TypeName</td>
+                <td>@item.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Redaktə</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

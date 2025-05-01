@@ -1,0 +1,241 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<style>
+    :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #2c3e50;
+    --light-bg: #e6e9f0;
+    --white: #ffffff;
+}
+
+.container {
+    color: var(--text-color);
+    width: 95%;
+    margin: 0 auto;
+}
+
+
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:0 0 60px 0;
+    transition: transform 0.3s ease;
+}
+
+.logo-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
+
+}
+
+.logo-container:hover,.logo-image:hover {
+    transform: scale(1.1);
+}
+
+.brand-text {
+    text-align: center;
+}
+
+.brand-name {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-tagline {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Options Section */
+.options-section {
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.option-card {
+    width: 300px;
+    height: 280px;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+    padding: 0;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Responsive Design */
+@@media (max-width: 768px) {
+    .content-wrapper {
+        gap: 1.5rem;
+    }
+
+    .logo-image {
+        width: 140px;
+        height: 140px;
+    }
+
+    .brand-name {
+        font-size: 2rem;
+    }
+
+    .brand-tagline {
+        font-size: 1rem;
+    }
+
+    .row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .option-card {
+        width: 250px;
+        height: 240px;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+}
+</style>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="~/assets/logo.png" alt="YunisExpress Logo" class="logo-image">
+            <div class="brand-text">
+                <a asp-controller="Home" asp-action="Index">
+                    <h1 class="brand-name">YunisExpress</h1>
+                <p class="brand-tagline">Bağlamaların İzlənilməsi Sistemi</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="options-section">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card option-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-box-open fa-3x mb-3"></i>
+                            <h3 class="card-title">Yeni Sifariş</h3>
+                            <p class="card-text">Yeni bağlama sifarişi</p>
+                            <a asp-controller="Order" asp-action="Create" class="btn btn-primary">Başla</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card option-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-search fa-3x mb-3"></i>
+                            <h3 class="card-title">Tapmaq və Dəyişmək</h3>
+                            <p class="card-text">Bağlamaları tap və dəyiş</p>
+                            <a asp-action="Index" asp-controller="Order" class="btn btn-primary">Axtar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="card option-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-archive fa-3x mb-3"></i>
+                            <h3 class="card-title">Arxiv</h3>
+                            <p class="card-text">Arxivə bax</p>
+                            <a href="#" class="btn btn-primary">Arxiv</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <a asp-action="Create" asp-controller="Courier">Courier Create</a><br />
+    <a asp-action="Create" asp-controller="Receiver">Receiver Create</a><br />
+    <a asp-action="Create" asp-controller="Sender">Sender Create</a><br />
+    <a asp-action="Create" asp-controller="ServiceType">Service Create</a><br />
+    <a asp-action="Create" asp-controller="DeliveryZoneType">DeliveryZone Type Create</a><br />
+    <a asp-action="Create" asp-controller="DeliveryZone">DeliveryZone Create</a><br />
+    <a asp-action="Create" asp-controller="Order">Order Create</a><br />
+    <a asp-action="Index" asp-controller="Order">Order List</a><br />
+
+</div>
+</html>

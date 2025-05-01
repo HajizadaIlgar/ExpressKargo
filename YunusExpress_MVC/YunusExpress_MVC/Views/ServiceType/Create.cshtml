@@ -1,0 +1,16 @@
+﻿@using YunusExpress_MVC.ViewModels
+@model ServiceTypesVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="form-group">
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="ServiceName"></label>
+            <input asp-for="ServiceName" class="form-control" />
+            <span asp-validation-for="ServiceName" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
+</div>

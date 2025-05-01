@@ -1,0 +1,54 @@
+﻿@using YunusExpress_MVC.Models
+@model List<Courier>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Courier Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <a asp-action="Create" asp-controller="Courier">CLick</a>
+
+    <h2 style="text-align:center;">Courier List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Courier ID</th>
+                <th>Name</th>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Məlumatlar dinamik olaraq buraya əlavə olunacaq -->
+            
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.CourierId</td>
+                    <td>@item.CourierName</td>
+                <td>@item.CourierPhoneNum</td>
+                   
+                </tr>
+            } 
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,61 @@
+﻿@using YunusExpress_MVC.Models
+@model List<ServiceTypes>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Service Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.ServiceType</td>
+                <td>
+                    <a asp-action="Delete" asp-controller="ServiceType" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .table {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+
+    .table th, .table td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .table th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:hover {
+        background-color: #ddd;
+    }
+
+    .table-bordered {
+        border: 2px solid #ddd;
+    }
+
+    .table-striped tbody tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+</style>

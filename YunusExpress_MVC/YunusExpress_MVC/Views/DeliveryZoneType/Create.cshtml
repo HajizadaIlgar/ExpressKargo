@@ -1,0 +1,17 @@
+﻿@using YunusExpress_MVC.ViewModels
+@model DeliveryTypeVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create Type</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="TypeName" class="control-label">Type Name</label>
+        <input asp-for="TypeName" class="form-control" placeholder="Məsələn: Şəhər içi" />
+        <span asp-validation-for="TypeName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Yadda saxla</button>
+</form>
+

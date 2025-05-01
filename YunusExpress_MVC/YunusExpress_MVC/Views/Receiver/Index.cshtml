@@ -1,0 +1,28 @@
+﻿@using YunusExpress_MVC.Models
+@model List<Receiver>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h2>Receivers</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var receiver in Model)
+        {
+            <tr>
+                <td>@receiver.ReceiverName</td>
+                <td>@receiver.ReceiverAddress</td>
+                <td>@receiver.ReceiverPhoneNum</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.TypeName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    .table th, .table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    .table thead {
+        background-color: #2c3e50;
+        color: #fff;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>

@@ -1,0 +1,197 @@
+﻿@model YunusExpress_MVC.ViewModels.OrderUpdateVm
+
+@{
+    ViewData["Title"] = "Update Order";
+}
+
+<h2>Update Order</h2>
+<head>
+    <style>
+        /* wwwroot/css/order-create.css */
+
+        :root {
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --primary-color: #4a90e2;
+            --text-color: #333333;
+            --border-color: #dddddd;
+            --input-bg: #fafafa;
+            --radius: 6px;
+            --spacing: 1rem;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            padding: var(--spacing);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: calc(var(--spacing) * 1.5);
+            color: var(--primary-color);
+        }
+
+        form {
+            background-color: var(--card-bg);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(var(--spacing) * 1.5);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .form-group,
+        .col {
+            margin-bottom: var(--spacing);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75em;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background-color: var(--input-bg);
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+            input:focus,
+            textarea:focus,
+            select:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
+            }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 0.85em;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+            button[type="submit"]:hover {
+                background-color: darken(var(--primary-color), 10%);
+            }
+
+        .text-danger {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.25em;
+        }
+    </style>
+</head>
+
+<form asp-action="Update" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="OrderNo"></label>
+        <input asp-for="OrderNo" class="form-control" />
+        <span asp-validation-for="OrderNo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="InvoiceNo"></label>
+        <input asp-for="InvoiceNo" class="form-control" />
+        <span asp-validation-for="InvoiceNo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate"></label>
+        <input asp-for="StartDate" class="form-control" type="datetime-local" />
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EndDate"></label>
+        <input asp-for="EndDate" class="form-control" type="datetime-local" />
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+
+    <div class="col">
+        <label asp-for="ServiceId">Service Type</label>
+        <select class="form-control" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
+            <option>Select Service</option>
+        </select>
+        <span class="text-danger" asp-validation-for="ServiceId"></span>
+    </div>
+
+    <div class="col">
+        <label asp-for="ReceiverId">Select Receiver</label>
+        <select class="form-control" asp-for="ReceiverId" asp-items='new SelectList(ViewBag.Receiver,"Id","ReceiverName")'>
+            <option>Select Receiver</option>
+        </select>
+        <span class="text-danger" asp-validation-for="ReceiverId"></span>
+    </div>
+
+    <div class="col">
+        <label asp-for="Senderid">Select Sender</label>
+        <select class="form-control" asp-for="Senderid" asp-items='new SelectList(ViewBag.Sender,"SenderId","SenderName")'>
+            <option>Select Sender</option>
+        </select>
+        <span class="text-danger" asp-validation-for="Senderid"></span>
+    </div>
+
+    <div class="col">
+        <label asp-for="CourierId">Kuryer</label>
+        <select class="form-control" asp-for="CourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")'>
+            <option>Select Sender</option>
+        </select>
+        <span class="text-danger" asp-validation-for="CourierId"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="OrderPrice"></label>
+        <input asp-for="OrderPrice" class="form-control" />
+        <span asp-validation-for="OrderPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SpecialPrice"></label>
+        <input asp-for="SpecialPrice" class="form-control" />
+        <span asp-validation-for="SpecialPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Discount"></label>
+        <input asp-for="Discount" class="form-control" />
+        <span asp-validation-for="Discount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EDV"></label>
+        <input asp-for="EDV" class="form-control" />
+        <span asp-validation-for="EDV" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Note"></label>
+        <textarea asp-for="Note" class="form-control"></textarea>
+        <span asp-validation-for="Note" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+

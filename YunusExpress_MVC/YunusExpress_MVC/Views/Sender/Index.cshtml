@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Sender List</h2>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sender in Model)
+        {
+            <tr>
+                <td>@sender.SenderName</td>
+                <td>@sender.SenderAddress</td>
+                <td>@sender.SenderPhoneNum</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,27 @@
+﻿@using YunusExpress_MVC.ViewModels
+@model DeliveryZoneVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h2>Yeni Qəsəbə Əlavə Et</h2>
+
+<form asp-action="Create" method="post">
+    <div class="col">
+        <label asp-for="DeliveryZoneTypeId">Brands</label>
+        <select class="form-control" asp-for="DeliveryZoneTypeId" asp-items='new SelectList(ViewBag.DeliveryType,"Id","TypeName")'>
+            <option>Select Brand</option>
+        </select>
+        <span class="text-danger" asp-validation-for="DeliveryZoneTypeId"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Qəsəbə Adı</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Əlavə et</button>
+</form>
+
