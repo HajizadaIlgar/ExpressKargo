@@ -1,46 +1,76 @@
 ﻿namespace YunusExpress_MVC.ViewModels
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class OrderCreateVm
     {
-        public int OrderNo { get; set; } // Sifariş nömrəsi
-        public int InvoiceNo { get; set; } // Qaimə nömrəsi
+        [Required(ErrorMessage = "Sifariş nömrəsi tələb olunur")]
+        public int OrderNo { get; set; }
 
+        [Required(ErrorMessage = "Qaimə nömrəsi tələb olunur")]
+        public int InvoiceNo { get; set; }
 
-        // DateTime
-        public DateTime StartDate { get; set; } // saat formatında
+        [Required(ErrorMessage = "Başlama tarixi tələb olunur")]
+        [DataType(DataType.DateTime)]
+        public DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = "Bitmə tarixi tələb olunur")]
+        [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
-
-        // Services: Daily, Regular, Express, Urgent
+        [Required(ErrorMessage = "Xidmət seçilməlidir")]
         public int ServiceId { get; set; }
 
+        [Required(ErrorMessage = "Qəbul edən seçilməlidir")]
         public int ReceiverId { get; set; }
 
-
+        [Required(ErrorMessage = "Zəng edən şəxsin adı tələb olunur")]
+        [MaxLength(100, ErrorMessage = "Ad maksimum 100 simvol ola bilər")]
         public string ZengEdeninAdi { get; set; }
 
-        // Client - Qəbul edən
+        [Required(ErrorMessage = "Qəbul edənin adı tələb olunur")]
+        [MaxLength(100)]
         public string ReceiverName { get; set; }
+
+        [Required(ErrorMessage = "Qəbul edənin ünvanı tələb olunur")]
         public string ReceiverAddress { get; set; }
+
+        [Required(ErrorMessage = "Qəbul edənin nömrəsi tələb olunur")]
+        [Phone(ErrorMessage = "Telefon nömrəsi düzgün formatda deyil")]
         public string ReceiverPhoneNum { get; set; }
+
+        [Required(ErrorMessage = "Zona seçilməlidir")]
         public int DeliveryZoneId { get; set; }
 
-        // Göndərən müştəri
-
+        [Required(ErrorMessage = "Göndərənin adı tələb olunur")]
         public string SenderName { get; set; }
+
+        [Required(ErrorMessage = "Göndərənin nömrəsi tələb olunur")]
+        [Phone(ErrorMessage = "Telefon nömrəsi düzgün formatda deyil")]
         public string SenderPhoneNum { get; set; }
+
+        [Required(ErrorMessage = "Göndərənin ünvanı tələb olunur")]
         public string SenderAddress { get; set; }
+
+        [Required(ErrorMessage = "Kuryer seçilməlidir")]
         public int CourierId { get; set; }
 
-
-
-        // Qiymətlər hissəsi
+        [Required(ErrorMessage = "Sifariş qiyməti tələb olunur")]
+        [Range(0, 100000, ErrorMessage = "Qiymət 0 ilə 100000 arasında olmalıdır")]
         public decimal OrderPrice { get; set; }
+
+        [Range(0, 100000, ErrorMessage = "Xüsusi qiymət 0 ilə 100000 arasında olmalıdır")]
         public decimal? SpecialPrice { get; set; }
-        public int? Discount { get; set; } // Güzəşt (faizlə)
-        //public decimal TotalPrices { get; set; }
-        public int? EDV { get; set; } // ƏDV 18%, əgər şirkət ƏDV verirsə, əks halda nullable
-        //public decimal FinalPrice { get; set; } // qiymət, güzəşt və s. hesablandıqdan sonra yekun
-        public string? Note { get; set; } // əlavə qeydlər üçün
+
+        [Range(0, 100, ErrorMessage = "Güzəşt 0-100% arasında olmalıdır")]
+        public int? Discount { get; set; }
+
+        [Range(0, 100, ErrorMessage = "ƏDV 0-100% arasında olmalıdır")]
+        public int? EDV { get; set; }
+
+        [MaxLength(500, ErrorMessage = "Qeyd maksimum 500 simvol ola bilər")]
+        public string? Note { get; set; }
     }
+
 }

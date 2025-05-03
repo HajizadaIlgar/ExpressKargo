@@ -17,12 +17,13 @@
         public int ServiceId { get; set; }
 
         public string ZengEdeninAdi { get; set; }
+
         public string ReceiverName { get; set; }
         public string ReceiverAddress { get; set; }
         public string ReceiverPhoneNum { get; set; }
         // Client - Qəbul edən
-        public int ReceiverId { get; set; }
-        public Receiver Receiver { get; set; }
+        //public int ReceiverId { get; set; }
+        //public Receiver? Receiver { get; set; }
 
 
         public string SenderName { get; set; }

@@ -139,7 +139,7 @@ namespace YunusExpress_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReceiverId")
+                    b.Property<int?>("ReceiverId")
                         .HasColumnType("int");
 
                     b.Property<string>("ReceiverName")
@@ -170,6 +170,10 @@ namespace YunusExpress_MVC.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ZengEdeninAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -301,11 +305,9 @@ namespace YunusExpress_MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YunusExpress_MVC.Models.Receiver", "Receiver")
+                    b.HasOne("YunusExpress_MVC.Models.Receiver", null)
                         .WithMany("Orders")
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ReceiverId");
 
                     b.HasOne("YunusExpress_MVC.Models.ServiceTypes", "ServiceType")
                         .WithMany("Orders")
@@ -316,8 +318,6 @@ namespace YunusExpress_MVC.Migrations
                     b.Navigation("Courier");
 
                     b.Navigation("DeliveryZone");
-
-                    b.Navigation("Receiver");
 
                     b.Navigation("ServiceType");
                 });

@@ -10,7 +10,7 @@ namespace YunusExpress_MVC.Controllers
     {
         public async Task<IActionResult> Index()
         {
-            var CourierFullList = await _context.Couriers.Include(x => x.Orders).ToListAsync();
+            var CourierFullList = await _context.Couriers.ToListAsync();
             return View(CourierFullList);
         }
         public async Task<IActionResult> Create()
@@ -27,6 +27,16 @@ namespace YunusExpress_MVC.Controllers
                 CourierPhoneNum = vm.CourierPhoneNum,
             };
             await _context.Couriers.AddAsync(courier);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            var data = await _context.Couriers.Where(x => x.CourierId == id).FirstOrDefaultAsync();
+            if (data == null) return NotFound();
+            _context.Couriers.Remove(data);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

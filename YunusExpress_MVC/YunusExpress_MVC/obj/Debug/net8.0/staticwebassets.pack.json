@@ -9,6 +9,18 @@
       "PackagePath": "staticwebassets\\assets\\logo.png"
     },
     {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\newOrder.css",
+      "PackagePath": "staticwebassets\\assets\\style\\newOrder.css"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\reset.css",
+      "PackagePath": "staticwebassets\\assets\\style\\reset.css"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\styles.css",
+      "PackagePath": "staticwebassets\\assets\\style\\styles.css"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.YunusExpress_MVC.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

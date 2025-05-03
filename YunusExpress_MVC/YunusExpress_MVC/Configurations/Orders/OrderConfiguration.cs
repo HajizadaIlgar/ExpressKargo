@@ -21,9 +21,9 @@ namespace YunusExpress_MVC.Configurations.Orders
                 .HasForeignKey(x => x.ServiceId);
 
             //Relations(Receiver)
-            builder.HasOne(x => x.Receiver)
-                   .WithMany(x => x.Orders)
-                   .HasForeignKey(x => x.ReceiverId);
+            //builder.HasOne(x => x.Receiver)
+            //       .WithMany(x => x.Orders)
+            //       .HasForeignKey(x => x.ReceiverId);
 
             // Relations (Sender)
             //builder.HasOne(x => x.Sender)

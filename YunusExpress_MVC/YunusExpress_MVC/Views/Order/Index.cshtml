@@ -22,13 +22,12 @@
             <th>Sifariş No</th>
             <th>Faktura No</th>
             <th>Başlanğıc Tarixi</th>
-            <th>Bitmə Tarixi</th>
-            <th>Xidmət Tipi</th>
+            <th>Xidmət Növü</th>
             <th>Kuryer</th>
             <th>Göndərən</th>
-            <th>Göndərən unvani </th>
-            <th>Qəbul edən</th>
-            <th>Qəbul edəniin unvani </th>
+            <th>Göndərən Ünvani </th>
+            <th>Alıcı</th>
+            <th>Alıcının ünvanı </th>
             <th>Yekun</th>
             <th>Əməliyyatlar</th>
         </tr>
@@ -45,7 +44,10 @@
                     <td>@order.StartDate.ToString("dd.MM.yyyy HH:mm")</td>
                     <td>@order.ServiceType?.ServiceType</td>
                     <td>@order.Courier?.CourierName</td>
-                  
+                    <td>@order.SenderName</td>
+                    <td>@order.SenderAddress</td>
+                    <td>@order.ReceiverName</td>
+                    <td>@order.ReceiverAddress</td>
                     @if (order.ServiceType!.ServiceType!.Equals("Express"))
                     {
                         <td>@((order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) + (order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) * 18 / 100) ₼</td>

@@ -34,6 +34,7 @@
                 <th>Courier ID</th>
                 <th>Name</th>
                 <th>Phone Number</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -45,7 +46,8 @@
                 <td>@item.CourierId</td>
                     <td>@item.CourierName</td>
                 <td>@item.CourierPhoneNum</td>
-                   
+                <td><a asp-controller="Courier" asp-action="Delete" asp-route-id="@item.CourierId" class="btn btn-sm btn-warning">Sil</a></td>
+
                 </tr>
             } 
         </tbody>

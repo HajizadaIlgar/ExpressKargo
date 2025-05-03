@@ -24,6 +24,7 @@ namespace YunusExpress_MVC.Controllers
                 ReceiverName = vm.ReceiverName,
                 ReceiverAddress = vm.ReceiverAddress,
                 ReceiverPhoneNum = vm.ReceiverPhoneNum,
+                ClientCode = vm.ClientCode,
             };
 
             await _context.Receivers.AddAsync(receiver);

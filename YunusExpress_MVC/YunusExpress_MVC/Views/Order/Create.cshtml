@@ -3,403 +3,300 @@
 @model OrderCreateVm
 
 @{
+    Layout = null;
     ViewData["Title"] = "Yeni Sifariş Yarat";
 }
 
-<h2>Yeni Sifariş</h2>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <style>
-        /* wwwroot/css/order-create.css */
-
-        :root {
-            --bg-color: #f9f9f9;
-            --card-bg: #ffffff;
-            --primary-color: #4a90e2;
-            --text-color: #333333;
-            --border-color: #dddddd;
-            --input-bg: #fafafa;
-            --radius: 6px;
-            --spacing: 1rem;
-            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-family);
-            line-height: 1.6;
-            padding: var(--spacing);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: calc(var(--spacing) * 1.5);
-            color: var(--primary-color);
-        }
-
-        form {
-            background-color: var(--card-bg);
-            max-width: 800px;
-            margin: 0 auto;
-            padding: calc(var(--spacing) * 1.5);
-            border-radius: var(--radius);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .form-group,
-        .col {
-            margin-bottom: var(--spacing);
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5em;
-            font-weight: 600;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="datetime-local"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 0.75em;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            background-color: var(--input-bg);
-            font-size: 1rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-            input:focus,
-            textarea:focus,
-            select:focus {
-                outline: none;
-                border-color: var(--primary-color);
-                box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
-            }
-
-        button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 0.85em;
-            background-color: var(--primary-color);
-            color: #fff;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-            button[type="submit"]:hover {
-                background-color: darken(var(--primary-color), 10%);
-            }
-
-        .text-danger {
-            color: #e74c3c;
-            font-size: 0.9rem;
-            margin-top: 0.25em;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="~/assets/style/newOrder.css" rel="stylesheet">
 </head>
-<form enctype="multipart/form-data" method="post">
-    <div class="form-heading">
-        <div class="rows">
-            <div class="row">
-                <div class="text-section">
-                    <label asp-for=OrderNo class="text-label">Sifariş No</label>
-                    <input asp-for=OrderNo type="text" class="text-input" />
-                </div>
-                <div class="text-section">
-                    <label asp-for=InvoiceNo class="text-label">Veybil</label>
-                    <input asp-for=InvoiceNo type="text" class="text-input" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <label asp-for="ReceiverId">Select Receiver</label>
-                    <select class="form-control" asp-for="ReceiverId" asp-items="ViewBag.Receiver">
-                        <option>Select Receiver</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="ReceiverId"></span>
-                </div>
-                <div class="text-section">
-                    <select class="input-select">
-                        <option value="aze">Private</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div style="width: 350px;">
-            <label asp-for=ZengEdeninAdi class="text-label">Zəng Edənin Adı</label>
-            <input asp-for=ZengEdeninAdi type="text" class="text-input" />
-        </div>
-    </div>
-    <div class="main-colls">
-        <div class="left-coll">
-            <div class="sender">
-                <div class="sender-heading">
-                    <h2>GÖNDƏRƏN</h2>
-                    <!-- <div>
-                      <select class="input-select">
-                        <option value="aze">AZERBAIJAN</option>
-                      </select>
-                    </div> -->
-                </div>
-                <div class="sender-main">
-                    <div class="text-section" style="width: 500px;">
-                        <label asp-for="SenderName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
-                        <input asp-for=SenderName type="text" class="text-input" style="width: 365px;">
+
+<body>
+    <h1>Yeni Sifariş</h1>
+    <div class="container">
+        <form enctype="multipart/form-data" method="post">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-heading">
+                <div class="rows">
+                    <div class="row">
+                        <div class="text-section">
+                            <label asp-for="OrderNo" class="text-label">Sifariş No</label>
+                            <span asp-validation-for="OrderNo"></span>
+                            <input asp-for="OrderNo" type="text" class="text-input" />
+                        </div>
+                        <div class="text-section">
+                            <label asp-for=InvoiceNo class="text-label">Veybil</label>
+                            <input asp-for="InvoiceNo" type="text" class="text-input" required />
+                        </div>
                     </div>
-                    <div class="text-section" style="width: 500px;">
-                        <label asp-for="ReceiverAddress" class="text-label" style="width: 100px;">Ünvanı</label>
-                        <input asp-for=ReceiverAddress type="text" class="text-input" style="width: 365px;">
+
+                    <div class="row">
+                        <div class="text-section">
+                            <label class="text-label">Klientin Kodu</label>
+                            <input type="text" id="clientCode" class="text-input" readonly />
+                        </div>
+                        <div class="col">
+                            <select class="form-control" id="receiverSelect" asp-for="ReceiverId" asp-items="ViewBag.Receiver">
+                                <option value="">Select Receiver</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="ReceiverId"></span>
+                        </div>
                     </div>
-                    <div class="text-section" style="width: 500px;">
-                        <label asp-for=SenderPhoneNum class="text-label" style="width: 100px;">Nömrəsi</label>
-                        <input asp-for="SenderPhoneNum" type="number" class="text-input" style="width: 365px;">
-                    </div>
-                    <div class="text-section" style="width: 500px;">
-                        <label class="text-label" style="width: 100px;">Zona</label>
-                        <select class="input-select" style="width: 380px;">
-                            <option value="aze">Private</option>
-                        </select>
-                    </div>
-                    <!-- ZONA -->
-                    <!-- <div class="text-section" style="width: 500px;">
-                      <label class="text-label" style="width: 100px;">Rayon</label>
-                      <select class="input-select" style="width: 380px;">
-                        <option value="aze">Private</option>
-                      </select>
-                    </div>
-                    <div class="text-section" style="width: 500px;">
-                      <label class="text-label" style="width: 100px;">Xarici</label>
-                      <select class="input-select" style="width: 380px;">
-                        <option value="aze">Private</option>
-                      </select>
-                    </div> -->
+
+
+                </div>
+                <div style="width: 350px;">
+                    <label asp-for="ZengEdeninAdi" class="text-label">Zəng Edənin Adı</label>
+                    <input asp-for="ZengEdeninAdi" type="text" class="text-input" required />
                 </div>
             </div>
-            <div>
-                <button class="opposite-button">ƏKS <span>&#8645;</span></button>
-            </div>
-            <div class="sender">
-                <div class="sender-heading">
-                    <h2>ALAN</h2>
-                    < <div>
-                      <select class="input-select">
-                        <option value="aze">AZERBAIJAN</option>
-                      </select>
-                    </div> -->
+            <div class="main-colls">
+                <div class="left-coll">
+                    <div class="sender">
+                        <div class="sender-heading">
+                            <h2>GÖNDƏRƏN</h2>
+                           
+                        </div>
+                        <div class="sender-main">
+                            <div class="text-section" style="width: 500px;">
+                                <label asp-for="SenderName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
+                                <input asp-for="SenderName" type="text" class="text-input" style="width: 365px;" required>
+                            </div>
+                            <div class="text-section" style="width: 500px;">
+                                <label asp-for="SenderAddress" class="text-label" style="width: 100px;">Ünvanı</label>
+                                <input asp-for="SenderAddress" type="text" class="text-input" style="width: 365px;" required>
+                            </div>
+                            <div class="text-section" style="width: 500px;">
+                                <label asp-for="SenderPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
+                                <input asp-for="SenderPhoneNum" class="text-input" style="width: 365px;" required>
+                            </div>
+
+                            <div class="text-section" style="width: 400px; font-size: 14px; margin: 5px 0;">
+                                <label asp-for="DeliveryZoneId" style="font-size: 14px; padding:10px">Zona</label>
+                                <select class="form-control form-control-sm" asp-for="DeliveryZoneId" asp-items="ViewBag.DeliveryZone"
+                                        style="width: 250px;">
+                                    <option disabled selected>Select Zone</option>
+                                </select>
+                                <span class="text-danger" asp-validation-for="DeliveryZoneId" style="font-size: 13px;"></span>
+                            </div>
+
+
+                          
+                        </div>
+                    </div>
+                    <div>
+                        <button class="opposite-button">ƏKS <span>&#8645;</span></button>
+                    </div>
+                    <div class="sender">
+                        <div class="sender-heading">
+                            <h2>ALAN</h2>
+                            
+                        </div>
+                        <div class="sender-main">
+                            <div class="text-section" style="width: 500px;">
+                                <label asp-for="ReceiverName" class="text-label" style="width: 100px;">Adı</label>
+                                <input asp-for="ReceiverName" type="text" class="text-input" style="width: 365px;">
+                            </div>
+                            <div class="text-section" style="width: 500px;">
+                                <label asp-for="ReceiverAddress" class="text-label" style="width: 100px;">Ünvanı</label>
+                                <input asp-for ="ReceiverAddress" type="text" class="text-input" style="width: 365px;">
+                            </div>
+                            <div class="text-section" style="width: 500px;">
+                                <label asp-for="ReceiverPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
+                                <input asp-for="ReceiverPhoneNum"  class="text-input" style="width: 365px;">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-               @*  <div class="sender-main">
-                    <div class="text-section" style="width: 500px;">
-                        <label class="text-label" style="width: 100px;">Adı</label>
-                        <input type="text" class="text-input" style="width: 365px;">
+                <div class="right-coll">
+                    <div class="form-group">
+                        <label asp-for="StartDate"></label>
+                        <input asp-for="StartDate" class="form-control" type="datetime-local" />
                     </div>
-                    <div class="text-section" style="width: 500px;">
-                        <label class="text-label" style="width: 100px;">Ünvanı</label>
-                        <input type="text" class="text-input" style="width: 365px;">
+
+
+                    <div class="text-section" style="width: 400px; font-size: 14px; margin: 5px 0;">
+                        <!-- Service -->
+                        <div style="margin-bottom: 25px;">
+                            <label asp-for="ServiceId" style="display: block; margin-bottom: 5px;">Xidmət Növü </label>
+                            <select class="form-control" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")' style="margin-bottom: 5px;">
+                                <option>Select Service</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="ServiceId" style="display: block;"></span>
+                        </div>
+
+                        <!-- Courier -->
+                        <div style="margin-bottom: 25px;">
+                            <label asp-for="CourierId" style="display: block; margin-left: 30px;">Kuryer</label>
+                            <select class="form-control" asp-for="CourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' style="margin-left: 30px;">
+                                <option>Select Sender</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="CourierId" style="display: block;"></span>
+                        </div>
                     </div>
-                    <div class="text-section" style="width: 500px;">
-                        <label class="text-label" style="width: 100px;">Nömrəsi</label>
-                        <input type="number" class="text-input" style="width: 365px;">
+
+
+
+                    <div class="desc-text">
+                        <label asp-for="OrderPrice" class="text-label">Qiymət</label>
+                        <input asp-for="OrderPrice" type="number" id="price" class="desc-input" placeholder="Məs: 100.00">
                     </div>
-                </div> *@
-            </div>
-        </div>
-        <div class="right-coll">
-            <div class="desc-text">
-                <label class="text-label">Tarix</label>
-                <div class="desc-time">
-                    <input type="date" class="desc-input-t">
-                    <input type="time" class="desc-input-t">
+
+                    <div class="desc-text">
+                        <label asp-for="SpecialPrice" class="text-label">Xüsusi Qiymət</label>
+                        <input asp-for="SpecialPrice" type="number" id="specialPrice" class="desc-input" placeholder="Kargo və s.">
+                    </div>
+
+                    <div class="desc-text">
+                        <label asp-for="Discount" class="text-label">Güzəşt %</label>
+                        <input asp-for="Discount" type="number" id="discountPercent" class="desc-input" placeholder="Məs: 10">
+                    </div>
+
+                    <div class="desc-text">
+                        <label class="text-label">Cəmi</label>
+                        <input type="text" id="subtotal" class="desc-input" readonly>
+                    </div>
+
+                    <div class="desc-text">
+                        <label  class="text-label">ƏDV (18%)</label>
+                        <input  type="text" id="vat" class="desc-input" readonly>
+                    </div>
+
+                    <div class="desc-text">
+                        <label class="text-label">Yekun</label>
+                        <input type="text" id="total" class="desc-input" readonly>
+                    </div>
+
+                    <div class="desc-text">
+                        <label asp-for="Note" class="text-label">Əlavə Qeyd</label>
+                        <textarea asp-for="Note" class="desc-text-ar"></textarea>
+                    </div>
+
+                    <div class="btns">
+                        <button type="reset" class="btn-reset">Təmizlə</button>
+                        <button type="submit" class="btn-submit">Qeyd Et Və Çıx</button>
+                    </div>
                 </div>
             </div>
-            <div class="desc-text">
-                <label class="text-label">Xidmət Növü</label>
-                <select class="desc-select">
-                    <option value="private">Private</option>
-                </select>
-            </div>
-            <div class="desc-text">
-                <label class="text-label">Kuryer</label>
-                <input type="text" class="desc-input">
-            </div>
-
-            <!-- <div class="desc-text">
-              <label class="text-label">Kuryer 2</label>
-              <input class="desc-input" list="clientCodes" name="clientCode">
-              <datalist id="clientCodes">
-                <option value="001">
-                <option value="002">
-                <option value="003">
-                <option value="004">
-                <option value="005">
-              </datalist>
-            </div> -->
-
-            <div class="desc-text">
-                <label class="text-label">Qiymət</label>
-                <input type="number" id="price" class="desc-input" placeholder="Məs: 100.00">
-            </div>
-
-            <div class="desc-text">
-                <label class="text-label">Xüsusi Qiymət</label>
-                <input type="number" id="specialPrice" class="desc-input" placeholder="Kargo və s.">
-            </div>
-
-            <div class="desc-text">
-                <label class="text-label">Güzəşt %</label>
-                <input type="number" id="discountPercent" class="desc-input" placeholder="Məs: 10">
-            </div>
-
-            <div class="desc-text">
-                <label class="text-label">Cəmi</label>
-                <input type="text" id="subtotal" class="desc-input" readonly>
-            </div>
-
-            <div class="desc-text">
-                <label class="text-label">ƏDV (18%)</label>
-                <input type="text" id="vat" class="desc-input" readonly>
-            </div>
-
-            <div class="desc-text">
-                <label class="text-label">Yekun</label>
-                <input type="text" id="total" class="desc-input" readonly>
-            </div>
-
-            <div class="desc-text">
-                <label class="text-label">Əlavə Qeyd</label>
-                <textarea class="desc-text-ar"></textarea>
-            </div>
-
-            <div class="btns">
-                <button type="reset" class="btn-reset">Təmizlə</button>
-                <button type="submit" class="btn-submit">Qeyd Et Və Çıx</button>
-            </div>
-        </div>
+        </form>
     </div>
 
 
+</body>
+</html>
 
 
-    <div class="form-group">
-        <label asp-for="OrderNo"></label>
-        <input asp-for="OrderNo" class="form-control" />
-    </div>
+<script>
+    const priceEl = document.getElementById('price');
+    const specialEl = document.getElementById('specialPrice');
+    const discountEl = document.getElementById('discountPercent');
+    const subtotalEl = document.getElementById('subtotal');
+    const vatEl = document.getElementById('vat');
+    const totalEl = document.getElementById('total');
 
-    <div class="form-group">
-        <label asp-for="InvoiceNo"></label>
-        <input asp-for="InvoiceNo" class="form-control" />
-    </div>
+    [priceEl, specialEl, discountEl].forEach(el =>
+        el.addEventListener('input', calculateAll)
+    );
 
-    <div class="col">
-        <label asp-for="ReceiverId">Select Receiver</label>
-        <select class="form-control" asp-for="ReceiverId" asp-items="ViewBag.Receiver">
-            <option>Select Receiver</option>
-        </select>
-        <span class="text-danger" asp-validation-for="ReceiverId"></span>
-    </div>
+    function calculateAll() {
+        const price = parseFloat(priceEl.value) || 0;
+        const special = parseFloat(specialEl.value) || 0;
+        const discount = parseFloat(discountEl.value) || 0;
 
-    <div class="form-group">
-        <label asp-for="StartDate"></label>
-        <input asp-for="StartDate" class="form-control" type="datetime-local" />
-    </div>  
+        // 1) Cəmi
+        const sum = price + special;
+        subtotalEl.value = sum.toFixed(2);
 
+        // 2) Endirim məbləği
+        const discountAmount = sum * (discount / 100);
 
-    <div class="form-group">
-        <label asp-for="ReceiverName"></label>
-        <input asp-for="ReceiverName" class="form-control"  />
-    </div> 
-    <div class="form-group">
-        <label asp-for="ReceiverAddress"></label>
-        <input asp-for="ReceiverAddress" class="form-control" />
-    </div>  
-    <div class="form-group">
-        <label asp-for="ReceiverPhoneNum"></label>
-        <input asp-for="ReceiverPhoneNum" class="form-control" />
-    </div>
+        // 3) Endirimdən sonra qalan
+        const netAfterDiscount = sum - discountAmount;
 
-   
+        // 4) ƏDV (18%)
+        const vatAmount = netAfterDiscount * 0.18;
+        vatEl.value = vatAmount.toFixed(2);
 
-    <div class="col">
-        <label asp-for="ServiceId">Service Type</label>
-        <select class="form-control" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
-            <option>Select Service</option>
-        </select>
-        <span class="text-danger" asp-validation-for="ServiceId"></span>
-    </div>
-
-  
-    <div class="form-group">
-        <label asp-for="SenderName"></label>
-        <input asp-for="SenderName" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="SenderAddress"></label>
-        <input asp-for="SenderAddress" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="SenderPhoneNum"></label>
-        <input asp-for="SenderPhoneNum" class="form-control" />
-    </div>
-    <div class="col">
-        <label asp-for="DeliveryZoneId">Zone Type</label>
-        <select class="form-control" asp-for="DeliveryZoneId" asp-items="ViewBag.DeliveryZone">
-            <option disabled selected>Select Zone</option>
-        </select>
-        <span class="text-danger" asp-validation-for="DeliveryZoneId"></span>
-    </div>
+        const grandTotal = netAfterDiscount + vatAmount;
+        totalEl.value = grandTotal.toFixed(2);
+    }
 
 
+    const clientsData = {
+        "1": {
+            "Göndərənin Adı": "ABC Şirkət",
+            "Ünvanı": "Nərimanov rayonu, Bakı",
+            "Nömrəsi": "0123456789",
+            "Zona": "North"
+        },
+        "2": {
+            "Göndərənin Adı": "XYZ MMC",
+            "Ünvanı": "Yasamal rayonu, Bakı",
+            "Nömrəsi": "0551234567",
+            "Zona": "South"
+        }
+    };
+
+    const clientSelect = document.querySelector('.client-select');
+    const senderSections = Array.from(
+        document.querySelectorAll('.sender-main .text-section')
+    );
+
+    function findField(labelText) {
+        const section = senderSections.find(sec => {
+            const lbl = sec.querySelector('label.text-label');
+            return lbl && lbl.textContent.trim() === labelText;
+        });
+        return section && section.querySelector('input, select');
+    }
+
+    clientSelect.addEventListener('change', () => {
+        const id = clientSelect.value;
+        const data = clientsData[id] || {};
+
+        ['Göndərənin Adı', 'Ünvanı', 'Nömrəsi', 'Zona']
+            .forEach(key => {
+                const field = findField(key);
+                if (field) {
+                    field.value = data[key] || '';
+                }
+            });
+    });
 
 
-    <div class="col">
-        <label asp-for="CourierId">Kuryer</label>
-        <select class="form-control" asp-for="CourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")'>
-            <option>Select Sender</option>
-        </select>
-        <span class="text-danger" asp-validation-for="CourierId"></span>
-    </div>
+    $('#receiverSelect').on('change', function () {
+        var receiverId = $(this).val();
+    if (receiverId) {
+        $.ajax({
+            url: '/Receiver/GetClientCode', // Controller/Action
+            type: 'GET',
+            data: { id: receiverId },
+            success: function (response) {
+                $('#clientCode').val(response.clientCode);
+            },
+            error: function () {
+                $('#clientCode').val('');
+                alert('Kod tapılmadı və ya xəta baş verdi.');
+            }
+        });
+        } else {
+        $('#clientCode').val('');
+        }
+    });
 
 
-    <div class="form-group">
-        <label asp-for="OrderPrice"></label>
-        <input asp-for="OrderPrice" class="form-control" />
-    </div>
+</script>
 
-    <div class="form-group">
-        <label asp-for="SpecialPrice"></label>
-        <input asp-for="SpecialPrice" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Discount"></label>
-        <input asp-for="Discount" class="form-control" />
-    </div>
-
-  @*   <div class="form-group">
-        <label asp-for="TotalPrices"></label>
-        <input asp-for="TotalPrices" class="form-control" />
-    </div> *@
-
-    <div class="form-group">
-        <label asp-for="EDV"></label>
-        <input asp-for="EDV" class="form-control" />
-    </div>
-@* 
-    <div class="form-group">
-        <label asp-for="FinalPrice"></label>
-        <input asp-for="FinalPrice" class="form-control" />
-    </div> *@
-
-    <div class="form-group">
-        <label asp-for="Note"></label>
-        <textarea asp-for="Note" class="form-control"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Sifarişi Yarat</button>
-
-</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

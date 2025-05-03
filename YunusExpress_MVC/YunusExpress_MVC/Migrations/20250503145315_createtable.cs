@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YunusExpress_MVC.Migrations
 {
     /// <inheritdoc />
-    public partial class createtables : Migration
+    public partial class createtable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -137,10 +137,10 @@ namespace YunusExpress_MVC.Migrations
                     InvoiceNo = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
+                    ZengEdeninAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverId = table.Column<int>(type: "int", nullable: false),
                     SenderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -150,7 +150,8 @@ namespace YunusExpress_MVC.Migrations
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
                     EDV = table.Column<int>(type: "int", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    ReceiverId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,8 +172,7 @@ namespace YunusExpress_MVC.Migrations
                         name: "FK_Orders_Receivers_ReceiverId",
                         column: x => x.ReceiverId,
                         principalTable: "Receivers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_ServiceTypes_ServiceId",
                         column: x => x.ServiceId,

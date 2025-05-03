@@ -5,5 +5,6 @@
         public string ReceiverName { get; set; }
         public string ReceiverAddress { get; set; }
         public string ReceiverPhoneNum { get; set; }
+        public string ClientCode { get; set; }
     }
 }

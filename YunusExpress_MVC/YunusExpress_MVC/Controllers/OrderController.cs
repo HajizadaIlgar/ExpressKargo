@@ -16,11 +16,14 @@ namespace YunusExpress_MVC.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.Service = await _context.ServiceTypes.ToListAsync();
-            ViewBag.Receiver = await _context.Receivers.Select(x => new SelectListItem
+            var receiverList = await _context.Receivers.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
-                Text = $"{x.ReceiverName} ({x.ReceiverAddress.ToString()})"
+                Text = $"{x.ClientCode} ({x.ReceiverName})"
             }).ToListAsync();
+
+            ViewBag.Receiver = new SelectList(receiverList, "Value", "Text");
+
             ViewBag.Sender = await _context.Senders.Select(x => new SelectListItem
             {
                 Value = x.SenderId.ToString(),
@@ -38,16 +41,28 @@ namespace YunusExpress_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(OrderCreateVm vm)
         {
+            if (!ModelState.IsValid) return View();
+
             Order order = new Order
             {
                 OrderNo = vm.OrderNo,
                 InvoiceNo = vm.InvoiceNo,
                 StartDate = vm.StartDate,
 
-                ServiceId = vm.ServiceId,
+                SenderAddress = vm.SenderAddress,
+                SenderName = vm.SenderName,
+                SenderPhoneNum = vm.SenderPhoneNum,
 
+                ReceiverName = vm.ReceiverName,
+                ReceiverPhoneNum = vm.ReceiverPhoneNum,
+                ReceiverAddress = vm.ReceiverAddress,
+
+
+                ServiceId = vm.ServiceId,
                 CourierId = vm.CourierId,
                 DeliveryZoneId = vm.DeliveryZoneId,
+
+                ZengEdeninAdi = vm.ZengEdeninAdi,
 
                 OrderPrice = vm.OrderPrice,
                 SpecialPrice = vm.SpecialPrice,
@@ -70,9 +85,21 @@ namespace YunusExpress_MVC.Controllers
                 OrderNo = x.OrderNo,
                 InvoiceNo = x.InvoiceNo,
                 StartDate = x.StartDate,
-                ServiceId = x.ServiceId,
 
+                SenderAddress = x.SenderAddress,
+                SenderName = x.SenderName,
+                SenderPhoneNum = x.SenderPhoneNum,
+
+                ReceiverName = x.ReceiverName,
+                ReceiverPhoneNum = x.ReceiverPhoneNum,
+                ReceiverAddress = x.ReceiverAddress,
+
+                ZengEdeninAdi = x.ZengEdeninAdi,
+
+                ServiceId = x.ServiceId,
                 CourierId = x.CourierId,
+                DeliveryZoneId = x.DeliveryZoneId,
+
                 OrderPrice = x.OrderPrice,
                 SpecialPrice = x.SpecialPrice,
                 Discount = x.Discount,
@@ -80,10 +107,24 @@ namespace YunusExpress_MVC.Controllers
                 Note = x.Note
             }).FirstOrDefaultAsync();
 
+
             ViewBag.Service = await _context.ServiceTypes.ToListAsync();
-            ViewBag.Receiver = await _context.Receivers.ToListAsync();
-            ViewBag.Sender = await _context.Senders.ToListAsync();
+            ViewBag.Receiver = await _context.Receivers.Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = $"{x.ClientCode} ({x.ReceiverName.ToString()})"
+            }).ToListAsync();
+            ViewBag.Sender = await _context.Senders.Select(x => new SelectListItem
+            {
+                Value = x.SenderId.ToString(),
+                Text = $"{x.SenderName} ({x.SenderAddress.ToString()})"
+            }).ToListAsync();
             ViewBag.Courier = await _context.Couriers.ToListAsync();
+            ViewBag.DeliveryZone = await _context.DeliveryZones.Select(x => new SelectListItem
+            {
+                Value = x.Id.ToString(),
+                Text = $"{x.Name} ({x.DeliveryZoneType.TypeName})"
+            }).ToListAsync();
 
             return View(data);
         }
@@ -99,15 +140,27 @@ namespace YunusExpress_MVC.Controllers
                 data.InvoiceNo = vm.InvoiceNo;
                 data.StartDate = vm.StartDate;
 
+                data.SenderAddress = vm.SenderAddress;
+                data.SenderName = vm.SenderName;
+                data.SenderPhoneNum = vm.SenderPhoneNum;
+
+                data.ReceiverName = vm.ReceiverName;
+                data.ReceiverPhoneNum = vm.ReceiverPhoneNum;
+                data.ReceiverAddress = vm.ReceiverAddress;
+
+
                 data.ServiceId = vm.ServiceId;
                 data.CourierId = vm.CourierId;
+                data.DeliveryZoneId = vm.DeliveryZoneId;
+
+                data.ZengEdeninAdi = vm.ZengEdeninAdi;
 
                 data.OrderPrice = vm.OrderPrice;
                 data.SpecialPrice = vm.SpecialPrice;
                 data.Discount = vm.Discount;
                 data.EDV = vm.EDV;
-
                 data.Note = vm.Note;
+
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
@@ -120,6 +173,59 @@ namespace YunusExpress_MVC.Controllers
             _context.Orders.Remove(data);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult GetClientCode(int id)
+        {
+            var receiver = _context.Receivers.FirstOrDefault(r => r.Id == id);
+
+            if (receiver == null)
+                return NotFound();
+
+            return Json(new { clientCode = receiver.ClientCode });
+        }
+
+
+        public async Task<IActionResult> CourierIndex()
+        {
+            var couriers = _context.Couriers.ToList();
+            var orders = _context.Orders
+                .Include(o => o.ServiceType)
+                .ToList();
+
+            var salaryList = couriers.Select(courier =>
+            {
+                var courierOrders = orders.Where(o => o.CourierId == courier.CourierId);
+
+                var totalDeliveryAmount = courierOrders.Sum(order => CalculateTotalDeliveryPrice(order));
+
+                var orderNo = orders.Where(y => y.OrderNo == courier.OrdersId);
+                return new CourierSalaryViewModel
+                {
+                    OrderNo = courier.OrdersId,
+                    CourierName = courier.CourierName,
+                    TotalDeliveredAmount = totalDeliveryAmount,
+                    Salary = totalDeliveryAmount * 0.36m
+                };
+            }).ToList();
+
+            return View(salaryList);
+        }
+
+        private decimal CalculateTotalDeliveryPrice(Order order)
+        {
+            if (order.ServiceType?.ServiceType == "Express")
+            {
+                decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
+                return discounted + (discounted * 18 / 100);
+            }
+            else
+            {
+                var withTax = order.OrderPrice + (order.OrderPrice * 18 / 100);
+                var discounted = (order.OrderPrice * order.Discount / 100);
+                return withTax - discounted ?? 0;
+            }
         }
     }
 }

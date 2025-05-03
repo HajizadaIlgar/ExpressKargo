@@ -1,0 +1,41 @@
+﻿@using YunusExpress_MVC.Models
+@using YunusExpress_MVC.ViewModels
+
+@{
+    ViewData["Title"] = "Sifariş Siyahısı";
+}
+<h2>Kuryerlərin Əmək Haqqı Hesabatı</h2>
+
+<style>
+    table.table-bordered {
+        border: 2px solid #000; /* Cədvəl kənarına qalın sərhəd */
+    }
+
+        table.table-bordered th,
+        table.table-bordered td {
+            border: 1px solid #000; /* Hüceyrələrin arasına da sərhəd */
+        }
+</style>
+
+@model List<CourierSalaryViewModel>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Kuryer</th>
+            <th>Çattırılan Sİfarişlərin Məbləği (AZN)</th>
+            <th>Əmək Haqqı (36%)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var courier in Model)
+        {
+            <tr>
+                <td>@courier.CourierName</td>
+                <td>@courier.TotalDeliveredAmount.ToString("0.00")</td>
+                <td>@courier.Salary.ToString("0.00")</td>
+            </tr>
+        }
+    </tbody>
+</table>
