@@ -1,30 +1,60 @@
 ﻿@using YunusExpress_MVC.Models
 @using YunusExpress_MVC.ViewModels
 
+@model List<CourierSalaryViewModel>
+
 @{
     ViewData["Title"] = "Sifariş Siyahısı";
 }
-<h2>Kuryerlərin Əmək Haqqı Hesabatı</h2>
 
 <style>
-    table.table-bordered {
-        border: 2px solid #000; /* Cədvəl kənarına qalın sərhəd */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        padding: 30px;
     }
 
-        table.table-bordered th,
-        table.table-bordered td {
-            border: 1px solid #000; /* Hüceyrələrin arasına da sərhəd */
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .salary-table {
+        width: 80%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .salary-table th {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .salary-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .salary-table tr:hover {
+            background-color: #f1f1f1;
         }
 </style>
 
-@model List<CourierSalaryViewModel>
+<h2>Kuryerlərin Əmək Haqqı Hesabatı</h2>
+<a style="margin-left:150px; margin-bottom:10px" asp-controller="Courier" asp-action="Index" class="btn btn-primary">Geri</a>
 
-
-<table class="table table-bordered">
+<table class="salary-table">
     <thead>
         <tr>
             <th>Kuryer</th>
-            <th>Çattırılan Sİfarişlərin Məbləği (AZN)</th>
+            <th>Çatdırılan Sifarişlərin Məbləği (AZN)</th>
             <th>Əmək Haqqı (36%)</th>
         </tr>
     </thead>

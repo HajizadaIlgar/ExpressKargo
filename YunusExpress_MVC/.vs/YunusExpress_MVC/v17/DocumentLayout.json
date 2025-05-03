@@ -3,32 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\views\\order\\courierindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\views\\order\\courierindex.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\viewmodels\\couriersalaryviewmodel.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\viewmodels\\couriersalaryviewmodel.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\controllers\\couriercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\controllers\\couriercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\views\\courier\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\views\\courier\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|c:\\users\\ilqar\\desktop\\yunus express\\yunusexpress_mvc\\yunusexpress_mvc\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9338B50E-E633-4AD3-AB81-CA7C2591DC9D}|YunusExpress_MVC\\YunusExpress_MVC.csproj|solutionrelative:yunusexpress_mvc\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,58 +22,19 @@
       "DocumentGroups": [
         {
           "DockedHeight": 25,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CourierSalaryViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\ViewModels\\CourierSalaryViewModel.cs",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\ViewModels\\CourierSalaryViewModel.cs",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\ViewModels\\CourierSalaryViewModel.cs",
-              "RelativeToolTip": "YunusExpress_MVC\\ViewModels\\CourierSalaryViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T18:11:19.204Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\Create.cshtml",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\Views\\Order\\Create.cshtml",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\Create.cshtml",
-              "RelativeToolTip": "YunusExpress_MVC\\Views\\Order\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-30T20:51:53.65Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Courier\\Index.cshtml",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\Views\\Courier\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Courier\\Index.cshtml",
-              "RelativeToolTip": "YunusExpress_MVC\\Views\\Courier\\Index.cshtml",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAAADMAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T17:38:11.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CourierController.cs",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Controllers\\CourierController.cs",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\Controllers\\CourierController.cs",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Controllers\\CourierController.cs",
-              "RelativeToolTip": "YunusExpress_MVC\\Controllers\\CourierController.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAA3wA0AAAAXAAAAAAAAAA==",
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "YunusExpress_MVC\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "YunusExpress_MVC\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAALUAAAAAAAAAAAAwwLsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T17:35:50.86Z",
+              "WhenOpened": "2025-05-03T22:15:58.732Z",
               "EditorCaption": ""
             },
             {
@@ -99,40 +44,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "CourierIndex.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\CourierIndex.cshtml",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\Views\\Order\\CourierIndex.cshtml",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\CourierIndex.cshtml",
-              "RelativeToolTip": "YunusExpress_MVC\\Views\\Order\\CourierIndex.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T10:08:48.431Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\Index.cshtml",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\Views\\Order\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\Index.cshtml",
-              "RelativeToolTip": "YunusExpress_MVC\\Views\\Order\\Index.cshtml",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAwDoAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "YunusExpress_MVC\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "YunusExpress_MVC\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAAANwAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-30T20:46:12.293Z",
+              "WhenOpened": "2025-05-03T22:09:40.26Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "OrderController.cs",
-              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Controllers\\OrderController.cs",
-              "RelativeDocumentMoniker": "YunusExpress_MVC\\Controllers\\OrderController.cs",
-              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Controllers\\OrderController.cs",
-              "RelativeToolTip": "YunusExpress_MVC\\Controllers\\OrderController.cs",
-              "ViewState": "AgIAALwAAAAAAAAAAAAmwL0AAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-30T20:45:16.492Z",
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\Create.cshtml",
+              "RelativeDocumentMoniker": "YunusExpress_MVC\\Views\\Order\\Create.cshtml",
+              "ToolTip": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\Views\\Order\\Create.cshtml",
+              "RelativeToolTip": "YunusExpress_MVC\\Views\\Order\\Create.cshtml",
+              "ViewState": "AgIAANEAAAAAAAAAAAAuwOEAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-03T21:57:49.359Z",
               "EditorCaption": ""
             }
           ]

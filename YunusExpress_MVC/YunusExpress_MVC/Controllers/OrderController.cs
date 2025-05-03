@@ -185,8 +185,13 @@ namespace YunusExpress_MVC.Controllers
 
             return Json(new { clientCode = receiver.ClientCode });
         }
-
-
+        //filterizasiya
+        [HttpGet]
+        public async Task<IActionResult> OrderList()
+        {
+            var ordersList = await _context.Orders.ToListAsync();
+            return Json(ordersList);
+        }
         public async Task<IActionResult> CourierIndex()
         {
             var couriers = _context.Couriers.ToList();

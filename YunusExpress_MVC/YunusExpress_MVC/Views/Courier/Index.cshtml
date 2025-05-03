@@ -5,29 +5,98 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <title>Courier Table</title>
     <style>
+        body {
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .create-button {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #4facfe;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+            .create-button:hover {
+                background-color: #4facfe;
+                color: white;
+            }
+
         table {
+            width: 90%;
+            max-width: 800px;
             border-collapse: collapse;
-            width: 60%;
-            margin: 20px auto;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
+
         th, td {
-            border: 1px solid #ccc;
-            padding: 10px 15px;
+            padding: 15px 20px;
             text-align: left;
+            border-bottom: 1px solid #eee;
         }
+
         th {
-            background-color: #f0f0f0;
+            background-color: #f5faff;
+            color: #333;
+            font-weight: 600;
         }
+
+        tr:hover {
+            background-color: #f0f9ff;
+        }
+
+        .btn-warning {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-warning:hover {
+                background-color: #e60000;
+            }
     </style>
 </head>
 <body>
-    <a asp-action="Create" asp-controller="Courier">CLick</a>
 
-    <h2 style="text-align:center;">Courier List</h2>
+    <a asp-action="Create" asp-controller="Courier" class="create-button"><i class="fa-solid fa-square-plus"></i><span style="margin-left: 8px;">Yeni Kuryer Əlavə Et</span> </a>
+    <a asp-action="CourierIndex" asp-controller="Order" class="create-button">
+        <i class="fa-solid fa-money-check-dollar"></i> <span style="margin-left: 8px;">Kuryerlərin Maaşı</span>
+    </a>
+
+    <h2>Kuryerlərim</h2>
+    <a style="margin-left:-735px; margin-bottom:10px" asp-controller="Courier" asp-action="Create" class="btn btn-primary">Geri</a>
+
     <table>
         <thead>
             <tr>
@@ -38,19 +107,19 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Məlumatlar dinamik olaraq buraya əlavə olunacaq -->
-            
             @foreach (var item in Model)
             {
-            <tr>
-                <td>@item.CourierId</td>
+                <tr>
+                    <td>@item.CourierId</td>
                     <td>@item.CourierName</td>
-                <td>@item.CourierPhoneNum</td>
-                <td><a asp-controller="Courier" asp-action="Delete" asp-route-id="@item.CourierId" class="btn btn-sm btn-warning">Sil</a></td>
-
+                    <td>@item.CourierPhoneNum</td>
+                    <td>
+                        <a asp-controller="Courier" asp-action="Delete" asp-route-id="@item.CourierId" class="btn-warning">Delete</a>
+                    </td>
                 </tr>
-            } 
+            }
         </tbody>
     </table>
+
 </body>
 </html>

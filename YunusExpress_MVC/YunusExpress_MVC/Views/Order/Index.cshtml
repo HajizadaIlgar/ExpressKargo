@@ -5,71 +5,108 @@
     ViewData["Title"] = "Sifariş Siyahısı";
 }
 
-<h2 class="text-center">Sifariş Siyahısı</h2>
+<h2 class="text-center my-4" style="color: #333; font-weight: bold;">📦 Sifariş Siyahısı</h2>
+
 <style>
-    table.table-bordered {
-        border: 2px solid #000; /* Cədvəl kənarına qalın sərhəd */
+    .custom-table-container {
+        max-width: 95%;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 20px;
     }
-    table.table-bordered th,
-    table.table-bordered td {
-        border: 1px solid #000; /* Hüceyrələrin arasına da sərhəd */
+
+    .custom-table thead {
+        background: linear-gradient(45deg, #007bff, #00c3ff);
+        color: white;
     }
+
+    .custom-table th, .custom-table td {
+        vertical-align: middle !important;
+        font-size: 14px;
+    }
+
+    .custom-table tbody tr:hover {
+        background-color: #f1f9ff;
+    }
+
+    .back-button {
+        margin: 20px auto;
+        display: block;
+        padding: 10px 20px;
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .back-button:hover {
+            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+            color: white;
+            text-decoration: none;
+        }
+
 </style>
 
-<table class="table table-striped table-bordered mt-4">
-    <thead class="thead-dark">
-        <tr>
-            <th>Sifariş No</th>
-            <th>Faktura No</th>
-            <th>Başlanğıc Tarixi</th>
-            <th>Xidmət Növü</th>
-            <th>Kuryer</th>
-            <th>Göndərən</th>
-            <th>Göndərən Ünvani </th>
-            <th>Alıcı</th>
-            <th>Alıcının ünvanı </th>
-            <th>Yekun</th>
-            <th>Əməliyyatlar</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            int i = 1;
-            foreach (var order in Model)
+<div class="custom-table-container">
+    <table class="table table-bordered table-hover custom-table">
+        <thead>
+            <tr>
+                <th>Sifariş No</th>
+                <th>Faktura No</th>
+                <th>Başlanğıc Tarixi</th>
+                <th>Xidmət Növü</th>
+                <th>Kuryer</th>
+                <th>Göndərən</th>
+                <th>Göndərən Ünvani</th>
+                <th>Alıcı</th>
+                <th>Alıcının Ünvanı</th>
+                <th>Yekun</th>
+                <th>Əməliyyatlar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.OrderNo</td>
+                        <td>@order.InvoiceNo</td>
+                        <td>@order.StartDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@order.ServiceType?.ServiceType</td>
+                        <td>@order.Courier?.CourierName</td>
+                        <td>@order.SenderName</td>
+                        <td>@order.SenderAddress</td>
+                        <td>@order.ReceiverName</td>
+                        <td>@order.ReceiverAddress</td>
+                            @if (order.ServiceType!.ServiceType!.Equals("Express"))
+                            {
+                                <td>@(((order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) + (order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) * 18 / 100))₼</td>
+                            }
+                            else
+                            {
+                             <td>   @(((((order.OrderPrice) * 18) / 100) + order.OrderPrice) - ((order.OrderPrice) * order.Discount) / 100)₼</td>
+                            }
+                        <td>
+                            <a asp-controller="Order" asp-action="Update" asp-route-id="@order.Id" class="btn btn-sm btn-outline-warning me-2">Düzəliş</a>
+                            <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-sm btn-outline-danger">Sil</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@order.OrderNo</td>
-                    <td>@order.InvoiceNo</td>
-                    <td>@order.StartDate.ToString("dd.MM.yyyy HH:mm")</td>
-                    <td>@order.ServiceType?.ServiceType</td>
-                    <td>@order.Courier?.CourierName</td>
-                    <td>@order.SenderName</td>
-                    <td>@order.SenderAddress</td>
-                    <td>@order.ReceiverName</td>
-                    <td>@order.ReceiverAddress</td>
-                    @if (order.ServiceType!.ServiceType!.Equals("Express"))
-                    {
-                        <td>@((order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) + (order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) * 18 / 100) ₼</td>
-                    }else{
-                    <td>@(((((order.OrderPrice)*18)/100)+order.OrderPrice)-((order.OrderPrice)*order.Discount)/100)  ₼</td>
-
-                    }
-                    <td>
-                        <a asp-controller="Order" asp-action="Update" asp-route-id="@order.Id" class="btn btn-sm btn-warning">Düzəliş</a>
-                        <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-sm btn-danger">Sil</a>
-                    </td>
+                    <td colspan="11" class="text-center text-muted">Heç bir sifariş mövcud deyil.</td>
                 </tr>
-                i++;
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="11" class="text-center text-muted">Heç bir sifariş mövcud deyil.</td>
-            </tr>
-        }
-    </tbody>
-    <a asp-action="Index" asp-controller="Home" class="btn btn-sm btn-danger">Geri</a>
-
-</table>
+        </tbody>
+    </table>
+    <a asp-action="Index" asp-controller="Home" class="back-button">🔙 Ana Səhifəyə Qayıt</a>
+</div>
