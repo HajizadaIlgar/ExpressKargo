@@ -166,10 +166,17 @@
                         <input type="text" id="subtotal" class="desc-input" readonly>
                     </div>
 
-                    <div class="desc-text">
-                        <label  class="text-label">ƏDV (18%)</label>
-                        <input  type="text" id="vat" class="desc-input" readonly>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="edvCheckbox" />
+                        <label class="form-check-label" for="edvCheckbox">ƏDV tətbiq et (18%)</label>
                     </div>
+                    <input type="hidden" name="EDV" id="edvHiddenInput" value="0" />
+
+                    <script>
+                        document.getElementById("edvCheckbox").addEventListener("change", function () {
+                            document.getElementById("edvHiddenInput").value = this.checked ? 1 : 0;
+                        });
+                    </script>
 
                     <div class="desc-text">
                         <label class="text-label">Yekun</label>

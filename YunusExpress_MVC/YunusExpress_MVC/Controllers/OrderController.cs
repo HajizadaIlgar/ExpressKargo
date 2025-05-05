@@ -9,9 +9,18 @@ namespace YunusExpress_MVC.Controllers
 {
     public class OrderController(YunusExpressDbContext _context) : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? startDate)
         {
-            return View(await _context.Orders.Include(x => x.DeliveryZone).Include(x => x.Courier).Include(x => x.ServiceType).ToListAsync());
+            var orders = _context.Orders.Include(x => x.DeliveryZone).Include(x => x.Courier).Include(x => x.ServiceType).AsQueryable();
+
+
+            if (startDate.HasValue)
+            {
+                var selectedDate = startDate.Value.Date;
+                orders = orders.Where(o => o.StartDate.Date == selectedDate);
+            }
+
+            return View(orders.ToList());
         }
         public async Task<IActionResult> Create()
         {
@@ -222,14 +231,29 @@ namespace YunusExpress_MVC.Controllers
         {
             if (order.ServiceType?.ServiceType == "Express")
             {
-                decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
-                return discounted + (discounted * 18 / 100);
+                if (order.EDV is not null)
+                {
+                    decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
+                    return discounted;
+                }
+                else
+                {
+                    decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
+                    return discounted + (discounted * 18 / 100);
+                }
             }
             else
             {
-                var withTax = order.OrderPrice + (order.OrderPrice * 18 / 100);
-                var discounted = (order.OrderPrice * order.Discount / 100);
-                return withTax - discounted ?? 0;
+                if (order.EDV is not null)
+                {
+                    decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
+                    return discounted;
+                }
+                else
+                {
+                    decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
+                    return discounted + (discounted * 18 / 100);
+                }
             }
         }
     }

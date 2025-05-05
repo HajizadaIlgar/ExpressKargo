@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("YunusExpress_MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2015f0f88118824ee8604eff59d963580f73fa49")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d31372750534f5e1da3f305321a0943146c35f1d")]
 [assembly: System.Reflection.AssemblyProductAttribute("YunusExpress_MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("YunusExpress_MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
