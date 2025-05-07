@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Ilqar/Desktop/Yunus Express/YunusExpress_MVC/YunusExpress_MVC/Views/Courier/CourierIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cmllclxDb3VyaWVySW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Ilqar/Desktop/Yunus Express/YunusExpress_MVC/YunusExpress_MVC/Views/Courier/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cmllclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -52,10 +56,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Ilqar/Desktop/Yunus Express/YunusExpress_MVC/YunusExpress_MVC/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Ilqar/Desktop/Yunus Express/YunusExpress_MVC/YunusExpress_MVC/Views/Order/CourierIndex.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQ291cmllckluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Ilqar/Desktop/Yunus Express/YunusExpress_MVC/YunusExpress_MVC/Views/Order/Create.cshtml]

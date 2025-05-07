@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YunusExpress_MVC.Migrations
 {
     /// <inheritdoc />
-    public partial class createtable : Migration
+    public partial class createFullDataTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,7 +48,8 @@ namespace YunusExpress_MVC.Migrations
                     ClientCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsEDV = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

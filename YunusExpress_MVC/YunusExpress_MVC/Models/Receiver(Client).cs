@@ -8,6 +8,7 @@
         public string ReceiverName { get; set; }
         public string ReceiverAddress { get; set; }
         public string ReceiverPhoneNum { get; set; }
+        public bool IsEDV { get; set; } = false;
 
         public ICollection<Order> Orders { get; set; }
     }

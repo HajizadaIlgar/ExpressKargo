@@ -13,6 +13,58 @@ namespace YunusExpress_MVC.Controllers
             var CourierFullList = await _context.Couriers.ToListAsync();
             return View(CourierFullList);
         }
+        public async Task<IActionResult> CourierIndex()
+        {
+            var couriers = _context.Couriers.ToList();
+            var orders = _context.Orders
+                .Include(o => o.ServiceType)
+                .ToList();
+
+            var salaryList = couriers.Select(courier =>
+            {
+                var courierOrders = orders.Where(o => o.CourierId == courier.CourierId);
+
+                var totalDeliveryAmount = courierOrders.Sum(order => CalculateTotalDeliveryPrice(order));
+
+                var orderNo = orders.Where(y => y.OrderNo == courier.OrdersId);
+                return new CourierSalaryViewModel
+                {
+                    OrderNo = courier.OrdersId,
+                    CourierName = courier.CourierName,
+                    TotalDeliveredAmount = totalDeliveryAmount,
+                    Salary = totalDeliveryAmount * 0.36m
+                };
+            }).ToList();
+
+            return View(salaryList);
+        }
+        private decimal CalculateTotalDeliveryPrice(Order order)
+        {
+            //if (order.ServiceType?.ServiceType == "Express")
+            //{
+            //if (order.EDV is not null)
+            //{
+            //    decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
+            //    return discounted;
+            //}
+
+            decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
+            return discounted + (discounted * 18 / 100);
+
+
+            //else
+            //{
+            //    //if (order.EDV is not null)
+            //    //{
+            //    decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
+            //    return discounted;
+
+            //    //decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
+            //    // return discounted + (discounted * 18 / 100);
+
+            //}
+        }
+
         public async Task<IActionResult> Create()
         {
             return View();

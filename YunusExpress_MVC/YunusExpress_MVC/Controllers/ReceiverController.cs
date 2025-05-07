@@ -12,6 +12,7 @@ namespace YunusExpress_MVC.Controllers
         {
             return View(await _context.Receivers.ToListAsync());
         }
+
         public async Task<IActionResult> Create()
         {
             return View();

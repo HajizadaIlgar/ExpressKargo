@@ -206,6 +206,9 @@ namespace YunusExpress_MVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsEDV")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ReceiverAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

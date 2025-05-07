@@ -126,7 +126,7 @@
                 {
                     <tr>
                         <td>@order.OrderNo</td>
-                        <td>@order.InvoiceNo</td>
+                        <td><a asp-action="Update" asp-route-id="@order.Id">@order.InvoiceNo</a></td>
                         <td>@order.StartDate.ToString("dd.MM.yyyy HH:mm")</td>
                         <td>@order.ServiceType?.ServiceType</td>
                         <td>@order.Courier?.CourierName</td>
@@ -134,6 +134,7 @@
                         <td>@order.SenderAddress</td>
                         <td>@order.ReceiverName</td>
                         <td>@order.ReceiverAddress</td>
+                        
                             @if (order.ServiceType!.ServiceType!.Equals("Express"))
                             {
                                 <td>@(((order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) + (order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) * 18 / 100))₼</td>
@@ -142,9 +143,9 @@
                             {
                              <td>   @(((((order.OrderPrice) * 18) / 100) + order.OrderPrice) - ((order.OrderPrice) * order.Discount) / 100)₼</td>
                             }
-                        <td>
-                            <a asp-controller="Order" asp-action="Update" asp-route-id="@order.Id" class="btn btn-sm btn-outline-warning me-2">Düzəliş</a>
-                            <a asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-sm btn-outline-danger">Sil</a>
+                         
+                        <td style="width:40px;">
+                            <a style="width:80px;" asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-sm btn-outline-danger me-2">Sil</a>
                         </td>
                     </tr>
                 }

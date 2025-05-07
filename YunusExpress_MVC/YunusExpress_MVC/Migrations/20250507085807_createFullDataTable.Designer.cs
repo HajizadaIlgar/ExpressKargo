@@ -12,8 +12,8 @@ using YunusExpress_MVC.DataAccess;
 namespace YunusExpress_MVC.Migrations
 {
     [DbContext(typeof(YunusExpressDbContext))]
-    [Migration("20250503145315_createtable")]
-    partial class createtable
+    [Migration("20250507085807_createFullDataTable")]
+    partial class createFullDataTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,6 +208,9 @@ namespace YunusExpress_MVC.Migrations
                     b.Property<string>("ClientCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEDV")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ReceiverAddress")
                         .IsRequired()

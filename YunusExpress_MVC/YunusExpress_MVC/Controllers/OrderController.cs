@@ -22,16 +22,34 @@ namespace YunusExpress_MVC.Controllers
 
             return View(orders.ToList());
         }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsInvoiceNoAvailable(int invoiceNo)
+        {
+            var exists = await _context.Orders.AnyAsync(o => o.InvoiceNo == invoiceNo);
+            return Json(!exists);
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<IActionResult> IsOrderNoAvailable(int orderNo)
+        {
+            var exists = await _context.Orders.AnyAsync(o => o.OrderNo == orderNo);
+            return Json(!exists);
+        }
         public async Task<IActionResult> Create()
         {
+
             ViewBag.Service = await _context.ServiceTypes.ToListAsync();
-            var receiverList = await _context.Receivers.Select(x => new SelectListItem
+
+            var receivers = await _context.Receivers.ToListAsync();
+
+            ViewBag.Receiver = receivers.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
                 Text = $"{x.ClientCode} ({x.ReceiverName})"
-            }).ToListAsync();
+            }).ToList();
 
-            ViewBag.Receiver = new SelectList(receiverList, "Value", "Text");
+            ViewBag.ReceiverCodes = receivers.ToDictionary(x => x.Id.ToString(), x => x.ClientCode);
+
 
             ViewBag.Sender = await _context.Senders.Select(x => new SelectListItem
             {
@@ -50,7 +68,8 @@ namespace YunusExpress_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(OrderCreateVm vm)
         {
-            if (!ModelState.IsValid) return View();
+            if (!ModelState.IsValid)
+                return View(vm);
 
             Order order = new Order
             {
@@ -79,11 +98,11 @@ namespace YunusExpress_MVC.Controllers
                 EDV = vm.EDV,
                 Note = vm.Note
             };
+
             await _context.Orders.AddAsync(order);
-
             await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
 
-            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Update(int? id)
         {
@@ -174,9 +193,13 @@ namespace YunusExpress_MVC.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> ReceiverData()
+        {
+            return Json(await _context.Receivers.ToListAsync());
+        }
         public async Task<IActionResult> Delete(int id)
         {
-            var data = await _context.Orders.FirstOrDefaultAsync();
+            var data = await _context.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (data == null)
                 return NotFound();
             _context.Orders.Remove(data);
@@ -201,60 +224,7 @@ namespace YunusExpress_MVC.Controllers
             var ordersList = await _context.Orders.ToListAsync();
             return Json(ordersList);
         }
-        public async Task<IActionResult> CourierIndex()
-        {
-            var couriers = _context.Couriers.ToList();
-            var orders = _context.Orders
-                .Include(o => o.ServiceType)
-                .ToList();
 
-            var salaryList = couriers.Select(courier =>
-            {
-                var courierOrders = orders.Where(o => o.CourierId == courier.CourierId);
 
-                var totalDeliveryAmount = courierOrders.Sum(order => CalculateTotalDeliveryPrice(order));
-
-                var orderNo = orders.Where(y => y.OrderNo == courier.OrdersId);
-                return new CourierSalaryViewModel
-                {
-                    OrderNo = courier.OrdersId,
-                    CourierName = courier.CourierName,
-                    TotalDeliveredAmount = totalDeliveryAmount,
-                    Salary = totalDeliveryAmount * 0.36m
-                };
-            }).ToList();
-
-            return View(salaryList);
-        }
-
-        private decimal CalculateTotalDeliveryPrice(Order order)
-        {
-            if (order.ServiceType?.ServiceType == "Express")
-            {
-                if (order.EDV is not null)
-                {
-                    decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
-                    return discounted;
-                }
-                else
-                {
-                    decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
-                    return discounted + (discounted * 18 / 100);
-                }
-            }
-            else
-            {
-                if (order.EDV is not null)
-                {
-                    decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
-                    return discounted;
-                }
-                else
-                {
-                    decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
-                    return discounted + (discounted * 18 / 100);
-                }
-            }
-        }
     }
 }

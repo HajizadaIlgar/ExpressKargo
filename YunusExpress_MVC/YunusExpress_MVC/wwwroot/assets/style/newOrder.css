@@ -39,6 +39,7 @@ h1{
 .row {
     display: flex;
     align-items: center;
+    justify-content: space-around;
     margin: 0 0 5px 0;
 }
 
@@ -146,6 +147,7 @@ h1{
     border-radius: 4px;
     padding: 5px 8px;
     width: 300px;
+    margin:0 0 0 0;
 }
 
 .desc-input-t {
@@ -153,7 +155,7 @@ h1{
     border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 5px 8px;
-    width: 130px;
+    width: 300px;
 }
 
 .desc-time {
@@ -176,7 +178,7 @@ h1{
 
 .desc-text-ar {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-    width: 318px;
+    width: 317px;
     display: block;
     text-align: center;
     border: none;
@@ -186,7 +188,7 @@ h1{
 
 .desc-text {
     display: flex;
-    justify-content: end;
+    justify-content: space-around;
     width: 490px;
     margin: 0 0 5px 0;
 }

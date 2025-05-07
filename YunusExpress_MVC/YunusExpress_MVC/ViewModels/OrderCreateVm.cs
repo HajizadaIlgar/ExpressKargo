@@ -1,23 +1,26 @@
 ﻿namespace YunusExpress_MVC.ViewModels
 {
+    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.ComponentModel.DataAnnotations;
 
     public class OrderCreateVm
     {
         [Required(ErrorMessage = "Sifariş nömrəsi tələb olunur")]
+        [Remote(action: "IsOrderNoAvailable", controller: "Order", ErrorMessage = "Bu Sifaris nömrəsi artıq mövcuddur.")]
         public int OrderNo { get; set; }
 
         [Required(ErrorMessage = "Qaimə nömrəsi tələb olunur")]
+        [Remote(action: "IsInvoiceNoAvailable", controller: "Order", ErrorMessage = "Bu Qaimə nömrəsi artıq mövcuddur.")]
         public int InvoiceNo { get; set; }
 
         [Required(ErrorMessage = "Başlama tarixi tələb olunur")]
         [DataType(DataType.DateTime)]
         public DateTime StartDate { get; set; }
 
-        [Required(ErrorMessage = "Bitmə tarixi tələb olunur")]
-        [DataType(DataType.DateTime)]
-        public DateTime EndDate { get; set; }
+        //[Required(ErrorMessage = "Bitmə tarixi tələb olunur")]
+        //[DataType(DataType.DateTime)]
+        //public DateTime EndDate { get; set; }
 
         [Required(ErrorMessage = "Xidmət seçilməlidir")]
         public int ServiceId { get; set; }

@@ -1,10 +1,14 @@
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using YunusExpress_MVC.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddFluentValidation();
 
 builder.Services.AddDbContext<YunusExpressDbContext>(opt =>
 {
