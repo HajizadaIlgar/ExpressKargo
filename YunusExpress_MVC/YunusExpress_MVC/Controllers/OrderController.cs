@@ -11,9 +11,7 @@ namespace YunusExpress_MVC.Controllers
     {
         public async Task<IActionResult> Index(DateTime? startDate)
         {
-            var orders = _context.Orders.Include(x => x.DeliveryZone).Include(x => x.Courier).Include(x => x.ServiceType).AsQueryable();
-
-
+            var orders = _context.Orders.Include(x => x.Receiver).Include(x => x.DeliveryZone).Include(x => x.Courier).Include(x => x.ServiceType).AsQueryable();
             if (startDate.HasValue)
             {
                 var selectedDate = startDate.Value.Date;
@@ -22,6 +20,15 @@ namespace YunusExpress_MVC.Controllers
 
             return View(orders.ToList());
         }
+        [HttpGet]
+        public IActionResult GetReceiverById(int id)
+        {
+            var receiver = _context.Receivers.FirstOrDefault(r => r.Id == id);
+            if (receiver == null) return NotFound();
+
+            return Json(receiver);
+        }
+
 
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> IsInvoiceNoAvailable(int invoiceNo)

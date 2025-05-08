@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YunusExpress_MVC.Migrations
 {
     /// <inheritdoc />
-    public partial class createFullDataTable : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -142,6 +142,7 @@ namespace YunusExpress_MVC.Migrations
                     ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: true),
                     SenderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -150,9 +151,8 @@ namespace YunusExpress_MVC.Migrations
                     OrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
-                    EDV = table.Column<int>(type: "int", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    ReceiverId = table.Column<int>(type: "int", nullable: true)
+                    EDV = table.Column<bool>(type: "bit", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {

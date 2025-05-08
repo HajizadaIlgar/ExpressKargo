@@ -40,29 +40,23 @@ namespace YunusExpress_MVC.Controllers
         }
         private decimal CalculateTotalDeliveryPrice(Order order)
         {
-            //if (order.ServiceType?.ServiceType == "Express")
-            //{
-            //if (order.EDV is not null)
-            //{
-            //    decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
-            //    return discounted;
-            //}
+            decimal orderPrice = order.OrderPrice;
+            decimal specialPrice = order.SpecialPrice.HasValue ? order.SpecialPrice.Value : 0;
+            decimal discount = order.Discount.HasValue ? order.Discount.Value : 0;
+            bool hasDiscount = order.Discount.HasValue && order.Discount.Value > 0;
+            bool hasSpecialPrice = order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0;
 
-            decimal discounted = order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100)) ?? 0;
-            return discounted + (discounted * 18 / 100);
+            decimal totalBeforeDiscount = orderPrice + specialPrice;
 
+            decimal discountedPrice = hasDiscount ? totalBeforeDiscount - (totalBeforeDiscount * discount / 100) : totalBeforeDiscount;
 
-            //else
-            //{
-            //    //if (order.EDV is not null)
-            //    //{
-            //    decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
-            //    return discounted;
+            if (order.EDV == true)
+            {
+                decimal edvAmount = discountedPrice * 0.18m;
+                return discountedPrice + edvAmount;
+            }
 
-            //    //decimal discounted = order.OrderPrice * (order.Discount / 100) ?? 0;
-            //    // return discounted + (discounted * 18 / 100);
-
-            //}
+            return discountedPrice;
         }
 
         public async Task<IActionResult> Create()

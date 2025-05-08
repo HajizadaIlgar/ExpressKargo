@@ -1,4 +1,5 @@
 ﻿@using YunusExpress_MVC.Models
+@using YunusExpress_MVC.ViewModels
 @model List<Order>
 
 @{
@@ -124,6 +125,8 @@
             {
                 foreach (var order in Model)
                 {
+                    var isEdv = order.Receiver != null && order.Receiver.IsEDV;
+
                     <tr>
                         <td>@order.OrderNo</td>
                         <td><a asp-action="Update" asp-route-id="@order.Id">@order.InvoiceNo</a></td>
@@ -134,15 +137,69 @@
                         <td>@order.SenderAddress</td>
                         <td>@order.ReceiverName</td>
                         <td>@order.ReceiverAddress</td>
-                        
-                            @if (order.ServiceType!.ServiceType!.Equals("Express"))
-                            {
-                                <td>@(((order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) + (order.OrderPrice - ((order.OrderPrice + order.SpecialPrice) * (order.Discount / 100))) * 18 / 100))₼</td>
-                            }
-                            else
-                            {
-                             <td>   @(((((order.OrderPrice) * 18) / 100) + order.OrderPrice) - ((order.OrderPrice) * order.Discount) / 100)₼</td>
-                            }
+
+                        @if (order.EDV == true && order.Discount.HasValue && order.Discount.Value > 0 && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
+                        {
+                            var totalBeforeDiscount = order.OrderPrice + order.SpecialPrice.Value;  // Qiymət + Xüsusi Qiymət
+                            var discountedAmount = (totalBeforeDiscount * order.Discount!.Value / 100);  // Endirim
+                            var discountedPrice = totalBeforeDiscount - discountedAmount;  // Endirimli qiymət
+                            var edvAmount = discountedPrice * 0.18m;  // EDV tətbiq olunur
+                            var finalPrice = discountedPrice + edvAmount;  // Son qiymət
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+                        else if (order.EDV == false && order.Discount.HasValue && order.Discount.Value > 0 && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
+                        {
+                            var totalBeforeDiscount = order.OrderPrice + order.SpecialPrice.Value;  // Qiymət + Xüsusi Qiymət
+                            var discountedAmount = (totalBeforeDiscount * order.Discount.Value / 100);  // Endirim
+                            var finalPrice = totalBeforeDiscount - discountedAmount;  // Son qiymət (Endirim tətbiq edildikdən sonra)
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+                        else if (order.EDV == true && !order.Discount.HasValue && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
+                        {
+                            var totalBeforeDiscount = order.OrderPrice + order.SpecialPrice.Value;  // Qiymət + Xüsusi Qiymət
+                            var edvAmount = totalBeforeDiscount * 18 / 100;  // EDV tətbiq olunur
+                            var finalPrice = totalBeforeDiscount + edvAmount;  // Son qiymət (Yalnız EDV tətbiq olunur)
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+                        else if (order.EDV == true && order.Discount.HasValue && order.Discount.Value > 0 && !order.SpecialPrice.HasValue)
+                        {
+                            var totalBeforeDiscount = order.OrderPrice;  // Yalnız Qiymət
+                            var discountedAmount = (totalBeforeDiscount * order.Discount.Value / 100);  // Endirim
+                            var discountedPrice = totalBeforeDiscount - discountedAmount;  // Endirimli qiymət
+                            var edvAmount = discountedPrice * 18 / 100;  // EDV tətbiq olunur
+                            var finalPrice = discountedPrice + edvAmount;  // Son qiymət
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+                        else if (order.EDV == true && !order.Discount.HasValue && !order.SpecialPrice.HasValue)
+                        {
+                            var edvAmount = order.OrderPrice * 18 / 100;  // Yalnız EDV tətbiq olunur
+                            var finalPrice = order.OrderPrice + edvAmount;  // Son qiymət (Yalnız EDV tətbiq olunur)
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+                        else if (order.EDV == false && !order.Discount.HasValue && !order.SpecialPrice.HasValue)
+                        {
+                            <td>@($"{order.OrderPrice:F2}₼")</td>
+                            // Yalnız Qiymət
+                        }
+                        else if (order.EDV == false && order.Discount.HasValue && order.Discount.Value > 0 && !order.SpecialPrice.HasValue)
+                        {
+                            var discountedAmount = (order.OrderPrice * order.Discount.Value / 100);  // Endirim
+                            var finalPrice = order.OrderPrice - discountedAmount;  // Son qiymət (Endirim tətbiq edildikdən sonra)
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+                        else if (order.EDV == false && !order.Discount.HasValue && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
+                        {
+                            var finalPrice = order.OrderPrice + order.SpecialPrice.Value;  // Son qiymət (Xüsusi qiymət əlavə edilir)
+
+                            <td>@($"{finalPrice:F2}₼")</td>
+                        }
+
                          
                         <td style="width:40px;">
                             <a style="width:80px;" asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-sm btn-outline-danger me-2">Sil</a>

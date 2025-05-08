@@ -16,10 +16,10 @@ namespace YunusExpress_MVC.Helpers
             }
 
             // 3. ƏDV tətbiq et (əgər varsa)
-            if (order.EDV.HasValue)
-            {
-                basePrice += basePrice * order.EDV.Value / 100;
-            }
+            //if (order.EDV.HasValue)
+            //{
+            //    basePrice += basePrice * order.EDV.Value / 100;
+            //}
 
             return Math.Round(basePrice, 2); // Yekun qiyməti yuvarlaqlaşdır
         }

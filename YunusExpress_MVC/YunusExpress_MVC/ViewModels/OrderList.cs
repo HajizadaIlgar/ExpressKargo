@@ -1,6 +1,8 @@
-﻿namespace YunusExpress_MVC.Models
+﻿using YunusExpress_MVC.Models;
+
+namespace YunusExpress_MVC.ViewModels
 {
-    public class Order //Sifariş
+    public class OrderList
     {
         public int Id { get; set; } // unikal ID (OrderNo-dan fərqli ola bilər)
 
@@ -22,8 +24,8 @@
         public string ReceiverAddress { get; set; }
         public string ReceiverPhoneNum { get; set; }
         // Client - Qəbul edən
-        public int? ReceiverId { get; set; }
-        public Receiver? Receiver { get; set; }
+        //public int ReceiverId { get; set; }
+        //public Receiver? Receiver { get; set; }
 
 
         public string SenderName { get; set; }
@@ -51,5 +53,4 @@
         //public decimal FinalPrice { get; set; } // qiymət, güzəşt və s. hesablandıqdan sonra yekun
         public string? Note { get; set; } // əlavə qeydlər üçün
     }
-
 }

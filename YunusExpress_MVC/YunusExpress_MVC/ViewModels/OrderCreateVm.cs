@@ -69,8 +69,7 @@
         [Range(0, 100, ErrorMessage = "Güzəşt 0-100% arasında olmalıdır")]
         public int? Discount { get; set; }
 
-        [Range(0, 100, ErrorMessage = "ƏDV 0-100% arasında olmalıdır")]
-        public int? EDV { get; set; }
+        public bool EDV { get; set; }
 
         [MaxLength(500, ErrorMessage = "Qeyd maksimum 500 simvol ola bilər")]
         public string? Note { get; set; }

@@ -57,6 +57,7 @@ namespace YunusExpress_MVC.ViewModels
         [Required(ErrorMessage = "Kuryer seçilməlidir")]
         public int CourierId { get; set; }
 
+
         [Required(ErrorMessage = "Sifariş qiyməti tələb olunur")]
         [Range(0, 100000, ErrorMessage = "Qiymət 0 ilə 100000 arasında olmalıdır")]
         public decimal OrderPrice { get; set; }
@@ -67,8 +68,7 @@ namespace YunusExpress_MVC.ViewModels
         [Range(0, 100, ErrorMessage = "Güzəşt 0-100% arasında olmalıdır")]
         public int? Discount { get; set; }
 
-        [Range(0, 100, ErrorMessage = "ƏDV 0-100% arasında olmalıdır")]
-        public int? EDV { get; set; }
+        public bool EDV { get; set; }
 
         [MaxLength(500, ErrorMessage = "Qeyd maksimum 500 simvol ola bilər")]
         public string? Note { get; set; }

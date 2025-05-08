@@ -30,7 +30,35 @@
         <input asp-for="ReceiverPhoneNum" class="form-control" />
         <span asp-validation-for="ReceiverPhoneNum" class="text-danger"></span>
     </div>
- 
-    <button type="submit" class="btn btn-primary">Create</button>
+
+    <div class="form-group">
+        <label for="isEdvSelect">ƏDV</label>
+        <select id="isEdvSelect" class="form-control">
+            <option value="true">Var</option>
+            <option value="false">Yoxdu</option>
+        </select>
+
+        <!-- Gizli input göndərmək üçün -->
+        <input asp-for="IsEdv" type="hidden" />
+        <span asp-validation-for="IsEdv" class="text-danger"></span>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const select = document.getElementById("isEdvSelect");
+            const hiddenInput = document.querySelector("input[name='IsEdv']");
+
+            // İlk dəyəri təyin et
+            hiddenInput.value = select.value;
+
+            // Dəyişiklik olduqda input-u yenilə
+            select.addEventListener("change", function () {
+                hiddenInput.value = select.value;
+            });
+        });
+    </script>
+
+
+    <button style="margin:20px" type="submit" class="btn btn-primary">Create</button>
 </form>
 

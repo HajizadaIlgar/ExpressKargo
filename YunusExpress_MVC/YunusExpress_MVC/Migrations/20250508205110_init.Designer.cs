@@ -12,8 +12,8 @@ using YunusExpress_MVC.DataAccess;
 namespace YunusExpress_MVC.Migrations
 {
     [DbContext(typeof(YunusExpressDbContext))]
-    [Migration("20250507085807_createFullDataTable")]
-    partial class createFullDataTable
+    [Migration("20250508205110_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,8 +122,8 @@ namespace YunusExpress_MVC.Migrations
                     b.Property<int?>("Discount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EDV")
-                        .HasColumnType("int");
+                    b.Property<bool>("EDV")
+                        .HasColumnType("bit");
 
                     b.Property<int>("InvoiceNo")
                         .HasColumnType("int");
@@ -311,7 +311,7 @@ namespace YunusExpress_MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("YunusExpress_MVC.Models.Receiver", null)
+                    b.HasOne("YunusExpress_MVC.Models.Receiver", "Receiver")
                         .WithMany("Orders")
                         .HasForeignKey("ReceiverId");
 
@@ -324,6 +324,8 @@ namespace YunusExpress_MVC.Migrations
                     b.Navigation("Courier");
 
                     b.Navigation("DeliveryZone");
+
+                    b.Navigation("Receiver");
 
                     b.Navigation("ServiceType");
                 });

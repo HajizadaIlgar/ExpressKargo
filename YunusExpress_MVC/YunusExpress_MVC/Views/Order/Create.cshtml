@@ -262,10 +262,21 @@
                         <input type="text" id="subtotal" class="desc-input" readonly>
                     </div>
 
-                    <div class="text-section" style="width: 500px;">
-                        <label for="isEDV" class="text-label">ƏDV-li</label>
-                        <input type="checkbox" id="isEDV" onchange="calculateAll()" />
-                    </div>
+                <div class="text-section" style="width: 500px; margin-left:13px">
+                    <label asp-for="EDV" class="control-label">ƏDV-li</label>
+                    <input asp-for="EDV" type="checkbox" id="isEDV" />
+                </div>
+
+
+                <script>
+                    function calculateAll() {
+                        const checkbox = document.getElementById("isEDV");
+                        const hiddenInput = document.querySelector("input[name='EDV']");
+                        hiddenInput.value = checkbox.checked ? "1" : "0";
+                    }
+                </script>
+
+
                     <div class="desc-text">
                         <label class="text-label">Yekun</label>
                         <input type="text" id="total" class="desc-input" readonly>

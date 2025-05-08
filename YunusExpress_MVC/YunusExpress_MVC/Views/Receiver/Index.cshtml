@@ -13,6 +13,7 @@
             <th>Name</th>
             <th>Address</th>
             <th>Phone Number</th>
+            <th>EDV</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,16 @@
                 <td>@receiver.ReceiverName</td>
                 <td>@receiver.ReceiverAddress</td>
                 <td>@receiver.ReceiverPhoneNum</td>
+                <td>
+                    @if (receiver.IsEDV ==true)
+                    {
+                        <p>Var</p>
+                    }
+                    else
+                    {
+                        <p>Yoxdu</p>
+                    }
+                </td>
             </tr>
         }
     </tbody>
