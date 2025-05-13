@@ -6,216 +6,162 @@
     ViewData["Title"] = "Sifariş Siyahısı";
 }
 
-<h2 class="text-center my-4" style="color: #333; font-weight: bold;">📦 Sifariş Siyahısı</h2>
 
+<!DOCTYPE html>
+<html lang="en">
 
-<style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tap Və Dəyiş</title>
+    <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link rel="stylesheet" href="~/assets/style/findAndChange.css">
+</head>
+<body>
+    <div class="container">
+            <div class="form-heading">
+            <form method="get" action="/Order/Index">
+                <div class="form-heading">
+                    <div style="display: flex;">
+                        <div>
+                            <!-- Göndərən -->
+                            <div class="text-section" style="width: 350px;">
+                                <label class="text-label">Göndərən</label>
+                                <select id="senderDropdown" name="clientCode" class="text-input" style="width: 150px;"></select>
+                                <input type="text" id="receiverNameInput" name="receiverName" class="text-input" readonly />
+                            </div>
 
-    .btn-danger {
-        background-color: #dc3545;
-        border-color: #dc3545;
-        color: white;
-        font-weight: 500;
-        margin-right:50px;
-        transition: 0.3s ease;
-    }
+                            <!-- Kuryer -->
+                            <div class="text-section" style="width: 350px;">
+                                <label class="text-label">Kuryer</label>
+                                <select id="courierDropdown" name="courierCode" class="text-input" style="width: 150px;"></select>
+                                <input type="text" id="courierNameInput" name="courierName" class="text-input" readonly />
+                            </div>
+                        </div>
 
-    .btn-danger:hover {
-        background-color: #c82333;
-        border-color: #bd2130;
-        color: white;
-    }
+                        <!-- Tarix -->
+                        <div style="margin: 0 0 0 50px;">
+                            <div style="width: 150px;margin:0 0 5px 0">
+                                <input type="date" class="text-input" name="startDate" />
+                                <p style="display: inline;">-dən</p>
+                            </div>
+                            @*  <div style="width: 150px;">
+                            <input type="date" class="text-input" name="endDate" />
+                            <p style="display: inline;">-dək</p>
+                            </div> *@
+                        </div>
+                    </div>
 
+                    <!-- Filter növü -->
+                    <div class="radios">
+                        <div class="radio-section">
+                            <input type="radio" class="radio-input" id="all" name="type" value="all" checked />
+                            <label class="radio-label" for="all">Hamısı</label>
+                        </div>
 
-    .custom-table-container {
-        max-width: 95%;
-        margin: auto;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        padding: 20px;
-    }
+                        <div class="radio-section">
+                            <input type="radio" class="radio-input" id="waybil" name="type" value="waybil" />
+                            <label class="radio-label" for="waybil">waybill - 0</label>
+                        </div>
+                    </div>
 
-    .custom-table thead {
-        background: linear-gradient(45deg, #007bff, #00c3ff);
-        color: white;
-    }
+                    <button type="submit">Filtrlə</button>
+                </div>
+            </form>
+            <script>
+                document.addEventListener("DOMContentLoaded", async () => {
+                    // Göndərənlər üçün məlumat al
+                    const senderDropdown = document.getElementById("senderDropdown");
+                    const receiverInput = document.getElementById("receiverNameInput");
 
-    .custom-table th, .custom-table td {
-        vertical-align: middle !important;
-        font-size: 14px;
-    }
+                    const courierDropdown = document.getElementById("courierDropdown");
+                    const courierInput = document.getElementById("courierNameInput");
 
-    .custom-table tbody tr:hover {
-        background-color: #f1f9ff;
-    }
+                    try {
+                        const senderResponse = await fetch("/Order/GetSenders");
+                        const senderData = await senderResponse.json();
 
-    .back-button {
-        margin: 20px auto;
-        display: block;
-        padding: 10px 20px;
-        background: linear-gradient(45deg, #ff416c, #ff4b2b);
-        color: white;
-        border: none;
-        border-radius: 25px;
-        font-weight: bold;
-        transition: background 0.3s ease;
-        text-decoration: none;
-        text-align: center;
-    }
+                        senderData.forEach(s => {
+                            const option = document.createElement("option");
+                            option.value = s.clientCode;
+                            option.textContent = `${s.clientCode} - ${s.receiverName}`;
+                            option.dataset.receiverName = s.receiverName;
+                            senderDropdown.appendChild(option);
+                        });
 
-        .back-button:hover {
-            background: linear-gradient(45deg, #ff4b2b, #ff416c);
-            color: white;
-            text-decoration: none;
-        }
+                        const courierResponse = await fetch("/Order/GetCouriers");
+                        const courierData = await courierResponse.json();
 
-</style>
+                        courierData.forEach(c => {
+                            const option = document.createElement("option");
+                            option.value = c.courierCode;
+                            option.textContent = `${c.courierCode} - ${c.courierName}`;
+                            option.dataset.courierName = c.courierName;
+                            courierDropdown.appendChild(option);
+                        });
+                    } catch (err) {
+                        console.error("Xəta baş verdi:", err);
+                    }
 
+                    senderDropdown.addEventListener("change", function () {
+                        const selected = this.selectedOptions[0];
+                        receiverInput.value = selected.dataset.receiverName || "";
+                    });
 
-<!-- Bootstrap əlavə olunmayıbsa -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+                    courierDropdown.addEventListener("change", function () {
+                        const selected = this.selectedOptions[0];
+                        courierInput.value = selected.dataset.courierName || "";
+                    });
+                });
+            </script>
 
-<!-- Form -->
-<div class="container mt-3">
-    <div class="d-flex justify-content-center">
-        <form method="get" asp-controller="Order" asp-action="Index" class="d-flex align-items-center gap-2 p-3 rounded shadow-sm" style="background-color: #f9f9f9; border: 1px solid #ddd;">
-            <label for="startDate" class="form-label mb-0 me-2 text-secondary">Tarix:</label>
-            <input type="date" name="startDate" id="startDate" class="form-control form-control-sm" style="max-width: 180px;" required />
-            <button type="submit" class="btn btn-sm btn-outline-success">
-                <i class="bi bi-search"></i> Filtrlə
-            </button>
-        </form>
+            
+                <div style="width: 250px;display: flex;">
+                    <button class="today-btn">Bu gün</button>
+                </div>
+            </div>
+            <div class="form-table">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th class="column-sifaris">Sifarişin No</th>
+                            <th class="column-gonderen">Göndərən</th>
+                            <th class="column-waybill">Waybill</th>
+                            <th class="column-paylanma">Paylanma</th>
+                            <th class="column-tarix">Tarix</th>
+                            <th class="column-nov">Növ</th>
+                            <th class="column-kuryer">Kuryer</th>
+                            <th class="column-gonderen-unvan">Göndərənin Ünvanı</th>
+                            <th class="column-alici">Alıcı</th>
+                            <th class="column-alici-unvan">Alıcının Ünvanı</th>
+                            <th class="column-mebleg">Məbləğ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.SenderName</td>
+                                <td>@item.InvoiceNo</td>
+                                <td><input type="checkbox" readonly></td>
+                                <td>@item.StartDate</td>
+                                <td>@item.ServiceType!.ServiceType</td>
+                                <td>@item.Courier!.CourierName</td>
+                                <td>@item.SenderAddress</td>
+                                <td>@item.ReceiverName</td>
+                                <td>@item.ReceiverAddress</td>
+                                <td>$10</td>
+                            </tr>
+                        }
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="back-btn">
+                <a asp-action="Index" asp-controller="Home">⬅</a>
+            </div>
     </div>
-</div>
+</body>
 
-<!-- Bootstrap icons (əgər istifadə edəcəksənsə) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<!-- Bootstrap əlavə olunmayıbsa -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-<div class="text-end mb-3">
-    <!-- sağda yerləşməsi və alt boşluq üçün -->
-    <a asp-action="Index" asp-controller="Order" class="btn btn-danger btn-sm px-4 shadow-sm">
-        Bütün Sifarişlər
-    </a>
-</div>
-
-<div class="custom-table-container">
-    <table class="table table-bordered table-hover custom-table">
-        <thead>
-           
-            <tr>
-                <th>Sifariş No</th>
-                <th>Faktura No</th>
-                <th>Başlanğıc Tarixi</th>
-                <th>Xidmət Növü</th>
-                <th>Kuryer</th>
-                <th>Göndərən</th>
-                <th>Göndərən Ünvani</th>
-                <th>Alıcı</th>
-                <th>Alıcının Ünvanı</th>
-                <th>Yekun</th>
-                <th>Əməliyyatlar</th>
-            </tr>
-
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Any())
-            {
-                foreach (var order in Model)
-                {
-                    var isEdv = order.Receiver != null && order.Receiver.IsEDV;
-
-                    <tr>
-                        <td>@order.OrderNo</td>
-                        <td><a asp-action="Update" asp-route-id="@order.Id">@order.InvoiceNo</a></td>
-                        <td>@order.StartDate.ToString("dd.MM.yyyy HH:mm")</td>
-                        <td>@order.ServiceType?.ServiceType</td>
-                        <td>@order.Courier?.CourierName</td>
-                        <td>@order.SenderName</td>
-                        <td>@order.SenderAddress</td>
-                        <td>@order.ReceiverName</td>
-                        <td>@order.ReceiverAddress</td>
-
-                        @if (order.EDV == true && order.Discount.HasValue && order.Discount.Value > 0 && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
-                        {
-                            var totalBeforeDiscount = order.OrderPrice + order.SpecialPrice.Value;  // Qiymət + Xüsusi Qiymət
-                            var discountedAmount = (totalBeforeDiscount * order.Discount!.Value / 100);  // Endirim
-                            var discountedPrice = totalBeforeDiscount - discountedAmount;  // Endirimli qiymət
-                            var edvAmount = discountedPrice * 0.18m;  // EDV tətbiq olunur
-                            var finalPrice = discountedPrice + edvAmount;  // Son qiymət
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-                        else if (order.EDV == false && order.Discount.HasValue && order.Discount.Value > 0 && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
-                        {
-                            var totalBeforeDiscount = order.OrderPrice + order.SpecialPrice.Value;  // Qiymət + Xüsusi Qiymət
-                            var discountedAmount = (totalBeforeDiscount * order.Discount.Value / 100);  // Endirim
-                            var finalPrice = totalBeforeDiscount - discountedAmount;  // Son qiymət (Endirim tətbiq edildikdən sonra)
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-                        else if (order.EDV == true && !order.Discount.HasValue && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
-                        {
-                            var totalBeforeDiscount = order.OrderPrice + order.SpecialPrice.Value;  // Qiymət + Xüsusi Qiymət
-                            var edvAmount = totalBeforeDiscount * 18 / 100;  // EDV tətbiq olunur
-                            var finalPrice = totalBeforeDiscount + edvAmount;  // Son qiymət (Yalnız EDV tətbiq olunur)
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-                        else if (order.EDV == true && order.Discount.HasValue && order.Discount.Value > 0 && !order.SpecialPrice.HasValue)
-                        {
-                            var totalBeforeDiscount = order.OrderPrice;  // Yalnız Qiymət
-                            var discountedAmount = (totalBeforeDiscount * order.Discount.Value / 100);  // Endirim
-                            var discountedPrice = totalBeforeDiscount - discountedAmount;  // Endirimli qiymət
-                            var edvAmount = discountedPrice * 18 / 100;  // EDV tətbiq olunur
-                            var finalPrice = discountedPrice + edvAmount;  // Son qiymət
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-                        else if (order.EDV == true && !order.Discount.HasValue && !order.SpecialPrice.HasValue)
-                        {
-                            var edvAmount = order.OrderPrice * 18 / 100;  // Yalnız EDV tətbiq olunur
-                            var finalPrice = order.OrderPrice + edvAmount;  // Son qiymət (Yalnız EDV tətbiq olunur)
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-                        else if (order.EDV == false && !order.Discount.HasValue && !order.SpecialPrice.HasValue)
-                        {
-                            <td>@($"{order.OrderPrice:F2}₼")</td>
-                            // Yalnız Qiymət
-                        }
-                        else if (order.EDV == false && order.Discount.HasValue && order.Discount.Value > 0 && !order.SpecialPrice.HasValue)
-                        {
-                            var discountedAmount = (order.OrderPrice * order.Discount.Value / 100);  // Endirim
-                            var finalPrice = order.OrderPrice - discountedAmount;  // Son qiymət (Endirim tətbiq edildikdən sonra)
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-                        else if (order.EDV == false && !order.Discount.HasValue && order.SpecialPrice.HasValue && order.SpecialPrice.Value > 0)
-                        {
-                            var finalPrice = order.OrderPrice + order.SpecialPrice.Value;  // Son qiymət (Xüsusi qiymət əlavə edilir)
-
-                            <td>@($"{finalPrice:F2}₼")</td>
-                        }
-
-                         
-                        <td style="width:40px;">
-                            <a style="width:80px;" asp-action="Delete" asp-controller="Order" asp-route-id="@order.Id" class="btn btn-sm btn-outline-danger me-2">Sil</a>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="11" class="text-center text-muted">Heç bir sifariş mövcud deyil.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <a asp-action="Index" asp-controller="Home" class="back-button">🔙 Ana Səhifəyə Qayıt</a>
-</div>
-
-
+</html>

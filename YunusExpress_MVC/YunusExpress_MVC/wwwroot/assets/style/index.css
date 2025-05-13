@@ -1,0 +1,173 @@
+:root {
+    --primary-color: #0066cc;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #2c3e50;
+    --light-bg: #e6e9f0;
+    --white: #ffffff;
+    --text-color: #ffffff;
+    --input-bg: #ffffff;
+    --border-color: rgba(255, 255, 255, 0.2);
+    --button-hover: #265686;
+    --success-hover: #14940f;
+    --danger-hover: #c51212;
+}
+
+body {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    margin: 0;
+    padding: 6px;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+.main-card{
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+    justify-content: center;
+    padding: 25px;
+    border-radius: 5px;
+}
+/* LOGO SECTION  */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+.logo-image {
+    width: 150px;
+    object-fit: cover;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    transition: transform 0.3s ease;
+}
+
+.logo-container:hover,.logo-image:hover {
+    transform: scale(1.1);
+}
+
+.brand-name {
+    font: 700 2.5rem/1.2  'Poppins', sans-serif;
+    color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.section-title {
+    font: 700 2.5rem/1.2  'Poppins', sans-serif;
+    color: #ffffff;
+    margin: 0 0 20px 0;
+}
+
+
+/* Options Section */
+
+
+
+.option-card {
+    width: 500px;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding:4px 2px;
+    background: var(--white);
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+.option-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+
+.card-title {
+    font-size: 23px;
+    font-weight: 600;
+    width: 250px;
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    border: none;
+    border-radius: 4px;
+    width: 100px;
+    padding: 5px 12px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--light-bg);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+.btn{
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    border: none;
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--light-bg);
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
+        gap: 1.5rem;
+    }
+
+    .logo-image {
+        width: 140px;
+        height: 140px;
+    }
+
+    .brand-name {
+        font-size: 2rem;
+    }
+
+    .brand-tagline {
+        font-size: 1rem;
+    }
+
+    .row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .option-card {
+        width: 250px;
+        height: 240px;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+    }
+}

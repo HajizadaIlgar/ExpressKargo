@@ -13,6 +13,10 @@ namespace YunusExpress_MVC.Controllers
             var CourierFullList = await _context.Couriers.ToListAsync();
             return View(CourierFullList);
         }
+        public async Task<IActionResult> CourierHomePage()
+        {
+            return View();
+        }
         public async Task<IActionResult> CourierIndex()
         {
             var couriers = _context.Couriers.ToList();

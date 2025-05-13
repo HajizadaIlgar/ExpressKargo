@@ -1,0 +1,37 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\logo.png",
+      "PackagePath": "staticwebassets\\assets\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\newOrder.css",
+      "PackagePath": "staticwebassets\\assets\\style\\newOrder.css"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\reset.css",
+      "PackagePath": "staticwebassets\\assets\\style\\reset.css"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\styles.css",
+      "PackagePath": "staticwebassets\\assets\\style\\styles.css"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.YunusExpress_MVC.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.build.YunusExpress_MVC.props",
+      "PackagePath": "build\\YunusExpress_MVC.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.buildMultiTargeting.YunusExpress_MVC.props",
+      "PackagePath": "buildMultiTargeting\\YunusExpress_MVC.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\win-x64\\staticwebassets\\msbuild.buildTransitive.YunusExpress_MVC.props",
+      "PackagePath": "buildTransitive\\YunusExpress_MVC.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

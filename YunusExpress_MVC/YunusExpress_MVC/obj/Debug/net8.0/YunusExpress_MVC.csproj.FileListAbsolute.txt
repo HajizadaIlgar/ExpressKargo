@@ -260,3 +260,10 @@ C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug
 C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
 C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\obj\Debug\net8.0\YunusExpress_MVC.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\System.Web.Mvc.dll
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\System.Web.Razor.dll
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\System.Web.Helpers.dll
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\System.Web.WebPages.Deployment.dll
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\System.Web.WebPages.Razor.dll
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\System.Web.WebPages.dll
+C:\Users\Ilqar\Desktop\Yunus Express\YunusExpress_MVC\YunusExpress_MVC\bin\Debug\net8.0\Microsoft.Web.Infrastructure.dll

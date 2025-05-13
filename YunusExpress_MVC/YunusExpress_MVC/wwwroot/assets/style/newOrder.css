@@ -4,6 +4,9 @@
     --text-color: #ffffff;
     --input-bg: #ffffff;
     --border-color: rgba(255, 255, 255, 0.2);
+    --button-hover: #265686;
+    --success-hover: #14940f;
+    --danger-hover: #c51212;
 }
 
 body {
@@ -15,10 +18,12 @@ body {
     box-sizing: border-box;
     color: var(--text-color);
 }
-h1{
+
+h1 {
     text-align: center;
     font: 700 35px arial;
 }
+
 .container {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
@@ -26,21 +31,18 @@ h1{
     padding: 10px;
     border: 1px solid var(--border-color);
     height: 80vh;
-    /* margin-top: 75px; */
 }
 
 /* FORM-HEADING */
 .form-heading {
     display: flex;
     justify-content: space-around;
-    
 }
 
 .row {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    margin: 0 0 5px 0;
+    margin: 0 0 5px;
 }
 
 .text-section {
@@ -61,7 +63,12 @@ h1{
     margin-right: 3px;
 }
 
-.text-input {
+.text-input,
+.input-select,
+.desc-input,
+.desc-input-t,
+.desc-select,
+.desc-text-ar {
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -69,21 +76,16 @@ h1{
 }
 
 .input-select {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 5px 8px;
     width: 187px;
     font-size: 0.8rem;
     text-align: center;
 }
 
 /* MAIN-COLLS */
-
 .main-colls {
     display: flex;
     justify-content: space-around;
-    margin: 20px 0 0 0;
+    margin: 20px 0 0;
 }
 
 .left-coll {
@@ -95,7 +97,7 @@ h1{
     width: 40%;
 }
 
-/* SENDER  */
+/* SENDER */
 .sender {
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -115,8 +117,9 @@ h1{
     margin: 8px 0 13px;
 }
 
-.opposite-button{
-    width: 525px;
+.opposite-button,
+.btn-submit {
+    width: 245px;
     padding: 7px 5px;
     font: 700 20px arial;
     color: var(--text-color);
@@ -126,9 +129,20 @@ h1{
     cursor: pointer;
     transition: 0.2s ease;
 }
-.opposite-button:hover{
-    background-color: #265686;
+
+.opposite-button {
+    width: 525px;
 }
+
+.opposite-button:hover {
+    background-color: var(--button-hover);
+}
+
+.btn-submit:hover {
+    background-color: var(--success-hover);
+}
+
+
 
 /* RIGHT-COLL */
 .right-coll {
@@ -142,20 +156,11 @@ h1{
 }
 
 .desc-input {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 5px 8px;
     width: 300px;
-    margin:0 0 0 0;
 }
 
 .desc-input-t {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    padding: 5px 8px;
-    width: 300px;
+    width: 130px;
 }
 
 .desc-time {
@@ -165,34 +170,30 @@ h1{
 }
 
 .desc-select {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
     width: 318px;
-    display: block;
     text-align: center;
-    padding: 5px 8px;
-    border: none;
-    border-radius: 4px;
+    box-shadow: 0 0 0 2px var(--border-color);
     outline: none;
-
 }
 
 .desc-text-ar {
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-    width: 317px;
-    display: block;
+    width: 300px;
     text-align: center;
-    border: none;
-    border-radius: 4px;
+    box-shadow: 0 0 0 2px var(--border-color);
     outline: none;
 }
 
 .desc-text {
     display: flex;
-    justify-content: space-around;
+    justify-content: end;
     width: 490px;
-    margin: 0 0 5px 0;
+    margin: 0 0 5px;
 }
-.btn-submit,.btn-reset{
+
+.back-home-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
     width: 245px;
     padding: 7px 5px;
     font: 700 20px arial;
@@ -201,34 +202,13 @@ h1{
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: 0.2s ease;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    z-index: 777;
 }
-.btn-submit:hover{
-    background-color: #14940f;
-}
-.btn-reset:hover{
-    background-color: #c51212;
 
-}
-@media (max-width: 768px) {
-    .container-fluid {
-        padding: 10px;
-        height: calc(100vh - 20px);
-    }
+.back-home-button:hover {
+    background-color: var(--secondary-color);
 
-    .form-section {
-        padding-bottom: 8px;
-        margin-bottom: 8px;
-    }
-
-    .form-row {
-        flex-direction: column;
-        gap: 0.2rem;
-        margin-bottom: 0.2rem;
-    }
-
-    .form-control,
-    .form-select {
-        margin-bottom: 0.2rem;
-    }
 }

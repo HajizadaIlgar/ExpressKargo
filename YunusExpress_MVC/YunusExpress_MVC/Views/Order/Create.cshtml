@@ -32,6 +32,14 @@
             margin-right: 5px;
         }
 
+    .transparent-border {
+        border: 1px solid transparent;
+    }
+
+    .error-border {
+        border: 1px solid red;
+    }
+
 </style>
 <body>
     <h1>Yeni Sifariş</h1>
@@ -46,12 +54,12 @@
                         <div class="text-section">
                             <label asp-for="OrderNo" class="text-label">Sifariş No</label>
                             <input asp-for="OrderNo" type="text" class="text-input" />
-                            <span asp-validation-for="OrderNo" class="text-danger"></span>
                         </div>
                         <div class="text-section">
                             <label asp-for="InvoiceNo" class="text-label">Veybil</label>
                             <input asp-for="InvoiceNo" type="text" class="text-input" required />
-                            <span asp-validation-for="InvoiceNo" class="text-danger"></span>
+                            
+
                         </div>
                     </div>
 
@@ -61,7 +69,6 @@
                             <label class="text-label">Klientin Kodu</label>
                             <input class="text-input" list="receiverList" id="receiverInput" placeholder="Receiver seçin" />
                             <datalist id="receiverList"></datalist>
-                            <span asp-validation-for="ReceiverId" class="text-danger"></span>
                         </div>
 
                         <!-- Müştəri kodunu göstərən input -->
@@ -161,17 +168,17 @@
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="SenderName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
                                 <input asp-for="SenderName" type="text" class="text-input" style="width: 365px;" id="senderName" required>
-                                <span asp-validation-for="SenderName" class="text-danger"></span>
+                                
                             </div>
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="SenderAddress" class="text-label" style="width: 100px;">Ünvanı</label>
                                 <input asp-for="SenderAddress" type="text" class="text-input" style="width: 365px;" id="senderAdd" required>
-                                <span asp-validation-for="SenderAddress" class="text-danger"></span>
+                                
                             </div>
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="SenderPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
                                 <input asp-for="SenderPhoneNum" class="text-input" style="width: 365px;" id="senderNum" required>
-                                <span asp-validation-for="SenderPhoneNum" class="text-danger"></span>
+                               
                             </div>
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="DeliveryZoneId" class="text-label" style="width:100px">Zona</label>
@@ -179,7 +186,7 @@
                                         style="width: 380px;">
                                     <option disabled selected>Select Zone</option>
                                 </select>
-                                <span asp-validation-for="DeliveryZoneId" style="font-size: 13px;" class="text-danger"></span>
+                               
                             </div>
                         </div>
                     </div>
@@ -196,17 +203,16 @@
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="ReceiverName" class="text-label" style="width: 100px;">Alan Adı</label>
                                 <input asp-for="ReceiverName" type="text" class="text-input" id="acceptName" style="width: 365px;">
-                                <span asp-validation-for="ReceiverName" class="text-danger"></span>
+                                
                             </div>
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="ReceiverAddress" class="text-label" style="width: 100px;">Ünvanı</label>
                                 <input asp-for="ReceiverAddress" type="text" class="text-input" id="acceptAdd" style="width: 365px;">
-                                <span asp-validation-for="ReceiverAddress" class="text-danger"></span>
+                                
                             </div>
                             <div class="text-section" style="width: 500px;">
                                 <label asp-for="ReceiverPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
                                 <input asp-for="ReceiverPhoneNum" class="text-input" id="acceptNum" style="width: 365px;">
-                                <span asp-validation-for="ReceiverPhoneNum" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -219,7 +225,7 @@
                     <div class="desc-text">
                         <label asp-for="StartDate" class="text-label">Tarix</label>
                         <input asp-for="StartDate" class="desc-input" type="datetime-local" />
-                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                        
                     </div>
                     <div class="desc-text">
                     
@@ -227,7 +233,6 @@
                             <select class="desc-select" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
                                 <option>Select Service</option>
                             </select>
-                            <span asp-validation-for="ServiceId" class="text-danger" style="display: block;"></span>
                     </div>
 
                         <div class="desc-text">
@@ -235,26 +240,24 @@
                             <select class="desc-select" asp-for="CourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")'>
                                 <option>Kuryer Seçin</option>
                             </select>
-                            <span asp-validation-for="CourierId" class="text-danger" style="display: block;"></span>
                         </div>
                     
 
                     <div class="desc-text">
                         <label asp-for="OrderPrice" class="text-label">Qiymət</label>
                         <input asp-for="OrderPrice" onchange="calculateAll()" type="number" id="price" class="desc-input" placeholder="Məs: 100.00">
-                        <span asp-validation-for="OrderPrice" class="text-danger"></span>
+                        
                     </div>
 
                     <div class="desc-text">
                         <label asp-for="SpecialPrice" class="text-label">Xüsusi Qiymət</label>
                         <input asp-for="SpecialPrice" onchange="calculateAll()" type="number" id="specialPrice" class="desc-input" placeholder="Kargo və s.">
-                        <span asp-validation-for="SpecialPrice" class="text-danger"></span>
                     </div>
 
                     <div class="desc-text">
                         <label asp-for="Discount" class="text-label">Güzəşt %</label>
                         <input asp-for="Discount" onchange="calculateAll()" type="number" id="discountPercent" class="desc-input" placeholder="Məs: 10">
-                        <span asp-validation-for="Discount" class="text-danger"></span>
+                        
                     </div>
 
                     <div class="desc-text">
@@ -263,8 +266,8 @@
                     </div>
 
                 <div class="text-section" style="width: 500px; margin-left:13px">
-                    <label asp-for="EDV" class="control-label">ƏDV-li</label>
-                    <input asp-for="EDV" type="checkbox" id="isEDV" />
+                    <label asp-for="EDV" class="text-label">ƏDV(18%)</label>
+                    <input asp-for="EDV" class="desc-input" type="checkbox" id="isEDV" />
                 </div>
 
 
@@ -311,7 +314,7 @@
                     <div class="desc-text">
                         <label asp-for="Note" class="text-label">Əlavə Qeyd</label>
                         <textarea asp-for="Note" class="desc-text-ar"></textarea>
-                        <span asp-validation-for="Note" class="text-danger"></span>
+                        
                     </div>
 
                     <div class="btns">
@@ -320,6 +323,54 @@
                     </div>
                 </div>
             </div>
+            <div id="validation-err" style="display:none">
+                <span asp-validation-for="SenderName" class="text-danger"></span>
+                <span asp-validation-for="SenderAddress" class="text-danger"></span>
+                <span asp-validation-for="SenderPhoneNum" class="text-danger"></span>
+                <span asp-validation-for="DeliveryZoneId" style="font-size: 13px;" class="text-danger"></span>
+                <span asp-validation-for="ReceiverName" class="text-danger"></span>
+                <span asp-validation-for="ReceiverAddress" class="text-danger"></span>
+                <span asp-validation-for="ReceiverPhoneNum" class="text-danger"></span>
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <span asp-validation-for="ServiceId" class="text-danger" style="display: block;"></span>8
+                <span asp-validation-for="CourierId" class="text-danger" style="display: block;"></span>8
+                <span asp-validation-for="OrderPrice" class="text-danger"></span>
+                <span asp-validation-for="SpecialPrice" class="text-danger"></span>
+                <span asp-validation-for="Discount" class="text-danger"></span>
+                <span asp-validation-for="Note" class="text-danger"></span>
+                <span asp-validation-for="InvoiceNo" class="text-danger"></span>
+                <span asp-validation-for="OrderNo" class="text-danger"></span>
+                <span asp-validation-for="ReceiverId" class="text-danger"></span>
+
+            </div>
+    <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const errorContainer = document.getElementById("validation-err");
+
+                    if (!errorContainer) return;
+
+                    const errorSpans = errorContainer.querySelectorAll("span");
+
+                    errorSpans.forEach(span => {
+                        span.style.display = "none"; // heç vaxt görünməsin
+
+                        const errorText = span.textContent.trim();
+
+                        if (errorText !== "") {
+                            const inputId = span.getAttribute("asp-validation-for"); // inputun ID-si span'da saxlanır
+
+                            if (inputId) {
+                                const input = document.getElementById(inputId);
+                                if (input) {
+                                    input.style.border = "1px solid red";
+                                }
+                            }
+                        }
+                    });
+                });
+
+    </script>
+
         </form>
     </div>
 

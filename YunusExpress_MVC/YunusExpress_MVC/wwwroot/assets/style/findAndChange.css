@@ -1,0 +1,190 @@
+:root {
+    --primary-color: #0066cc;
+    --secondary-color: #003366;
+    --text-color: #ffffff;
+    --input-bg: #ffffff;
+    --border-color: rgba(255, 255, 255, 0.2);
+    --button-hover: #265686;
+    --success-hover: #14940f;
+    --danger-hover: #c51212;
+}
+
+body {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    margin: 0;
+    padding: 6px;
+    box-sizing: border-box;
+    color: var(--text-color);
+}
+
+.container {
+    width: 99%;
+    margin: 0 auto;
+}
+.form-heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 0 0 0;
+}
+.text-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    margin: 0 5px 5px 0;
+}
+
+.text-label {
+    font-weight: 500;
+    font-size: 0.8rem;
+    background-color: var(--border-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    width: 80px;
+    margin-right: 3px;
+}
+
+.text-input {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 3px 8px;
+}
+
+.input-select {
+    width: 187px;
+    font-size: 0.8rem;
+    text-align: center;
+}
+.radios{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; 
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: #006ad4;
+}
+.today-btn{
+    padding: 20px 13px;
+    width: 150px;
+    font: 700 20px arial;
+    color: var(--text-color);
+    background-color: #469df3;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.today-btn:hover{
+    background-color: var(--button-hover);
+}
+
+/* TABLE  */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font: 500 13px arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table thead tr {
+    background-color: #0066cc;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.styled-table th{
+    padding: 3px 3px;
+    border: 1px solid #dddddd;
+}
+
+.styled-table td {
+    padding: 3px 3px;
+    border: 1px solid #dddddd;
+    color: #000000;
+}
+
+
+.styled-table tbody tr:hover {
+    background-color: #acacac63; 
+    cursor: pointer;
+}
+.styled-table tbody tr td:hover {
+    background-color: #acacaca4; 
+    cursor: pointer;
+}
+
+/* CELLS */
+.column-sifaris {
+    width: 4%; 
+}
+
+.column-gonderen {
+    width: 15%; 
+}
+
+.column-waybill {
+    width: 3%; 
+}
+.column-paylanma{
+    width: 1%; 
+}
+.column-tarix {
+    width: 10%;
+}
+
+.column-nov {
+    width: 1%; 
+}
+
+.column-kuryer {
+    width: 15%; 
+}
+
+.column-gonderen-unvan {
+    width: 20%; 
+}
+
+.column-alici {
+    width: 15%; 
+}
+
+.column-alici-unvan {
+    width: 20%; 
+}
+
+.back-btn {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+
+.back-btn a {
+  color: black;
+  text-decoration: none;
+  font: bold 16px "MS Sans Serif", Arial, sans-serif;
+  background-color: #C0C0C0;
+  border: 2px outset #fff;
+  padding: 6px 12px;
+  display: inline-block;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+  cursor: pointer;
+}
+
+.back-btn a:hover {
+  background-color: #A0A0A0;
+  border: 2px inset #000;
+}
+

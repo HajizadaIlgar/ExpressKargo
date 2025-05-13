@@ -9,17 +9,59 @@ namespace YunusExpress_MVC.Controllers
 {
     public class OrderController(YunusExpressDbContext _context) : Controller
     {
-        public async Task<IActionResult> Index(DateTime? startDate)
+        public async Task<IActionResult> Index(string receiverName, string courierName, DateTime? startDate)
         {
-            var orders = _context.Orders.Include(x => x.Receiver).Include(x => x.DeliveryZone).Include(x => x.Courier).Include(x => x.ServiceType).AsQueryable();
-            if (startDate.HasValue)
-            {
-                var selectedDate = startDate.Value.Date;
-                orders = orders.Where(o => o.StartDate.Date == selectedDate);
-            }
+            var orders = _context.Orders
+                .Include(x => x.Receiver)
+                .Include(x => x.DeliveryZone)
+                .Include(x => x.Courier)
+                .Include(x => x.ServiceType)
+                .AsQueryable();
 
-            return View(orders.ToList());
+            ViewBag.Senders = new SelectList(await _context.Receivers.ToListAsync(), "ClientCode", "ReceiverName");
+            ViewBag.Couriers = new SelectList(await _context.Couriers.Select(x => x.CourierName).Distinct().ToListAsync());
+
+            // Filter
+            if (!string.IsNullOrEmpty(receiverName))
+                orders = orders.Where(o => o.Receiver.ReceiverName == receiverName);
+
+            if (!string.IsNullOrEmpty(courierName))
+                orders = orders.Where(o => o.Courier.CourierName == courierName);
+
+            return View(await orders.ToListAsync());
         }
+
+        [HttpGet]
+        public IActionResult GetSenders()
+        {
+            var senders = _context.Receivers
+                .Select(o => new
+                {
+                    clientCode = o.ClientCode,
+                    receiverName = o.ReceiverName
+                })
+                .Distinct()
+                .ToList();
+
+            return Json(senders);
+        }
+
+        [HttpGet]
+        public IActionResult GetCouriers()
+        {
+            var couriers = _context.Couriers
+                .Select(o => new
+                {
+                    courierCode = o.CourierId,
+                    courierName = o.CourierName
+                })
+                .Distinct()
+                .ToList();
+
+            return Json(couriers);
+        }
+
+
         [HttpGet]
         public IActionResult GetReceiverById(int id)
         {
@@ -202,7 +244,11 @@ namespace YunusExpress_MVC.Controllers
         }
         public async Task<IActionResult> ReceiverData()
         {
-            return Json(await _context.Receivers.ToListAsync());
+            return Json(await _context.Receivers.Select(x => new
+            {
+                x.ClientCode,
+                x.ReceiverName,
+            }).ToListAsync());
         }
         public async Task<IActionResult> Delete(int id)
         {
@@ -231,7 +277,5 @@ namespace YunusExpress_MVC.Controllers
             var ordersList = await _context.Orders.ToListAsync();
             return Json(ordersList);
         }
-
-
     }
 }
