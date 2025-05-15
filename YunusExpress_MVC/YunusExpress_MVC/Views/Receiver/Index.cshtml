@@ -7,32 +7,33 @@
 
 <h2>Receivers</h2>
 
-<table class="table table-bordered">
+
+<table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Phone Number</th>
-            <th>EDV</th>
+            <th>Müştəri Nömrəsi</th>
+            <th>Müştəri Adı</th>
+            <th>Telefon</th>
+            <th>Tarix</th>
+            <th>ƏDV</th>
+            <th>Bank Adı</th>
+            <th>VÖEN</th>
+            <th>Qiymət Seçimi</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var receiver in Model)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@receiver.ReceiverName</td>
-                <td>@receiver.ReceiverAddress</td>
-                <td>@receiver.ReceiverPhoneNum</td>
-                <td>
-                    @if (receiver.IsEDV ==true)
-                    {
-                        <p>Var</p>
-                    }
-                    else
-                    {
-                        <p>Yoxdu</p>
-                    }
-                </td>
+                <td>@item.ClientCode</td>
+                <td>@item.ReceiverName</td>
+                <td>@item.ReceiverPhoneNum</td>
+                <td>@item.ContractDate.ToString("yyyy-MM-dd")</td>
+                <td>@(item.IsEDV ? "Var" : "Yoxdu")</td>
+                <td>@item.BankName</td>
+                <td>@item.Voen</td>
+                <td>@(item.QiymetVar ? "Yeni Qiymət" : "Köhnə Qiymət")</td>
+              
             </tr>
         }
     </tbody>

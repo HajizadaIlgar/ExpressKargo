@@ -202,15 +202,35 @@ namespace YunusExpress_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BankCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BankVoen")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ClientCode")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ContractDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Iban")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsEDV")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Mh")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("QiymetVar")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ReceiverAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverName")
@@ -219,7 +239,12 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("ReceiverPhoneNum")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Swift")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Voen")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

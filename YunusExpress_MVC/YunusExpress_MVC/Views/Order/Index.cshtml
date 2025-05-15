@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = "Sifariş Siyahısı";
+    Layout = null;
 }
 
 
@@ -20,100 +21,32 @@
 <body>
     <div class="container">
             <div class="form-heading">
-            <form method="get" action="/Order/Index">
-                <div class="form-heading">
-                    <div style="display: flex;">
-                        <div>
-                            <!-- Göndərən -->
-                            <div class="text-section" style="width: 350px;">
-                                <label class="text-label">Göndərən</label>
-                                <select id="senderDropdown" name="clientCode" class="text-input" style="width: 150px;"></select>
-                                <input type="text" id="receiverNameInput" name="receiverName" class="text-input" readonly />
-                            </div>
-
-                            <!-- Kuryer -->
-                            <div class="text-section" style="width: 350px;">
-                                <label class="text-label">Kuryer</label>
-                                <select id="courierDropdown" name="courierCode" class="text-input" style="width: 150px;"></select>
-                                <input type="text" id="courierNameInput" name="courierName" class="text-input" readonly />
-                            </div>
+            <form method="get">
+                <div style="display: flex;">
+                    <div>
+                        <div class="text-section" style="width: 150px;">
+                            <label class="text-label">Göndərən</label>
+                            @Html.DropDownList("senderName", (SelectList)ViewBag.Senders, "Hamısı", new { @class = "text-input", style = "width: 50px;" })
                         </div>
 
-                        <!-- Tarix -->
-                        <div style="margin: 0 0 0 50px;">
-                            <div style="width: 150px;margin:0 0 5px 0">
-                                <input type="date" class="text-input" name="startDate" />
-                                <p style="display: inline;">-dən</p>
-                            </div>
-                            @*  <div style="width: 150px;">
-                            <input type="date" class="text-input" name="endDate" />
-                            <p style="display: inline;">-dək</p>
-                            </div> *@
+                        <div class="text-section" style="width: 350px;">
+                            <label class="text-label">Kuryer</label>
+                            @Html.DropDownList("courierName", (SelectList)ViewBag.Couriers, "Hamısı", new { @class = "text-input", style = "width: 200px;" })
                         </div>
                     </div>
 
-                    <!-- Filter növü -->
-                    <div class="radios">
-                        <div class="radio-section">
-                            <input type="radio" class="radio-input" id="all" name="type" value="all" checked />
-                            <label class="radio-label" for="all">Hamısı</label>
-                        </div>
-
-                        <div class="radio-section">
-                            <input type="radio" class="radio-input" id="waybil" name="type" value="waybil" />
-                            <label class="radio-label" for="waybil">waybill - 0</label>
+                    <div style="margin: 0 0 0 50px;">
+                        <div style="width: 150px;margin:0 0 5px 0">
+                            <input type="date" name="startDate" class="text-input" style="width: 140px;" value="@@Request.Query["startDate"]" />
+                            <p style="display: inline;">-dən</p>
                         </div>
                     </div>
 
-                    <button type="submit">Filtrlə</button>
+                    <div style="margin-left: 20px;">
+                        <button type="submit" class="btn btn-primary">Filtrlə</button>
+                    </div>
                 </div>
             </form>
-            <script>
-                document.addEventListener("DOMContentLoaded", async () => {
-                    // Göndərənlər üçün məlumat al
-                    const senderDropdown = document.getElementById("senderDropdown");
-                    const receiverInput = document.getElementById("receiverNameInput");
-
-                    const courierDropdown = document.getElementById("courierDropdown");
-                    const courierInput = document.getElementById("courierNameInput");
-
-                    try {
-                        const senderResponse = await fetch("/Order/GetSenders");
-                        const senderData = await senderResponse.json();
-
-                        senderData.forEach(s => {
-                            const option = document.createElement("option");
-                            option.value = s.clientCode;
-                            option.textContent = `${s.clientCode} - ${s.receiverName}`;
-                            option.dataset.receiverName = s.receiverName;
-                            senderDropdown.appendChild(option);
-                        });
-
-                        const courierResponse = await fetch("/Order/GetCouriers");
-                        const courierData = await courierResponse.json();
-
-                        courierData.forEach(c => {
-                            const option = document.createElement("option");
-                            option.value = c.courierCode;
-                            option.textContent = `${c.courierCode} - ${c.courierName}`;
-                            option.dataset.courierName = c.courierName;
-                            courierDropdown.appendChild(option);
-                        });
-                    } catch (err) {
-                        console.error("Xəta baş verdi:", err);
-                    }
-
-                    senderDropdown.addEventListener("change", function () {
-                        const selected = this.selectedOptions[0];
-                        receiverInput.value = selected.dataset.receiverName || "";
-                    });
-
-                    courierDropdown.addEventListener("change", function () {
-                        const selected = this.selectedOptions[0];
-                        courierInput.value = selected.dataset.courierName || "";
-                    });
-                });
-            </script>
 
             
                 <div style="width: 250px;display: flex;">

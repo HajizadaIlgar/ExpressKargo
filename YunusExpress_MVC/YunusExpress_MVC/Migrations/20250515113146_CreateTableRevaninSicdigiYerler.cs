@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YunusExpress_MVC.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class CreateTableRevaninSicdigiYerler : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,9 +47,18 @@ namespace YunusExpress_MVC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReceiverName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsEDV = table.Column<bool>(type: "bit", nullable: false)
+                    ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContractDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsEDV = table.Column<bool>(type: "bit", nullable: false),
+                    BankName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BankVoen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Swift = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Voen = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Iban = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mh = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QiymetVar = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

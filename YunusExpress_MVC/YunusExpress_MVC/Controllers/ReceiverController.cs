@@ -20,13 +20,25 @@ namespace YunusExpress_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ReceiverCreateVm vm)
         {
+
+
             Receiver receiver = new Receiver
             {
                 ReceiverName = vm.ReceiverName,
                 ReceiverAddress = vm.ReceiverAddress,
                 ReceiverPhoneNum = vm.ReceiverPhoneNum,
                 ClientCode = vm.ClientCode,
-                IsEDV = vm.IsEdv,
+                IsEDV = vm.IsEDV,
+                ContractDate = vm.ContractDate,
+
+                BankName = vm.BankName,
+                BankCode = vm.BankCode,
+                BankVoen = vm.BankVoen,
+                Swift = vm.Swift,
+                Voen = vm.Voen,
+                Iban = vm.Iban,
+                Mh = vm.Mh,
+                QiymetVar = vm.QiymetVar,
             };
 
             await _context.Receivers.AddAsync(receiver);

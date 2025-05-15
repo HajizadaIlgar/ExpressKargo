@@ -1,6 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    
+    Layout = null;
 }
 
 
@@ -43,7 +43,7 @@
 
             <div class="option-card">
                 <h3 class="card-title">Yeni Müştəri</h3>
-                <a href="#" class="btn-primary">Başla</a>
+                <a asp-controller="Receiver" asp-action="Create" class="btn-primary">Başla</a>
             </div>
 
         </div>

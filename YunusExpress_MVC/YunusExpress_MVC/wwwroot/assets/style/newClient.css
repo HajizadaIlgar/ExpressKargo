@@ -29,17 +29,44 @@ body {
 }
 
 h1 {
-    text-align: center;
     font: 700 35px arial;
+}
+
+h4 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+fieldset {
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    padding: 4px 5px;
+    transition: border-color 0.3s ease;
+}
+
+fieldset:hover {
+    border-color: #1abc9c;
+}
+
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0 10px;
 }
 
 .container {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    border-radius: 6px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     padding: 10px;
     border: 1px solid var(--border-color);
-    max-width: 500px;
     margin: 40px auto 0 auto;
     display: flex;
     align-items: center;
@@ -71,20 +98,23 @@ h1 {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 0px 8px;
-    /* width: 100%; */
     font-size: 1rem;
     color: #222;
 }
-
+.input-select{
+     background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+}
 .btns {
     display: flex;
     justify-content: center;
 
 }
 
-.btn-submit,
-.btn-reset {
-    width: 160px;
+.btn-submit{
+    width: 400px;
     padding: 8px 0;
     font: 700 18px arial;
     color: var(--text-color);
@@ -96,33 +126,31 @@ h1 {
 }
 
 .btn-submit:hover {
-    background-color: var(--success-hover);
+    background-color: #0066cc;
 }
 
-.btn-reset:hover {
-    background-color: var(--danger-hover);
-}
+
+
 .back-btn {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  z-index: 1000;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000;
 }
 
 .back-btn a {
-  color: black;
-  text-decoration: none;
-  font: bold 16px "MS Sans Serif", Arial, sans-serif;
-  background-color: #C0C0C0;
-  border: 2px outset #fff;
-  padding: 6px 12px;
-  display: inline-block;
-  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
-  cursor: pointer;
+    color: black;
+    text-decoration: none;
+    font: bold 16px "MS Sans Serif", Arial, sans-serif;
+    background-color: #C0C0C0;
+    border: 2px outset #fff;
+    padding: 6px 12px;
+    display: inline-block;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+    cursor: pointer;
 }
 
 .back-btn a:hover {
-  background-color: #A0A0A0;
-  border: 2px inset #000;
+    background-color: #A0A0A0;
+    border: 2px inset #000;
 }
-

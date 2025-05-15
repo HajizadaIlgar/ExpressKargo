@@ -9,7 +9,7 @@ namespace YunusExpress_MVC.Controllers
 {
     public class OrderController(YunusExpressDbContext _context) : Controller
     {
-        public async Task<IActionResult> Index(string receiverName, string courierName, DateTime? startDate)
+        public async Task<IActionResult> Index(string senderName, string courierName, DateTime? startDate)
         {
             var orders = _context.Orders
                 .Include(x => x.Receiver)
@@ -18,18 +18,40 @@ namespace YunusExpress_MVC.Controllers
                 .Include(x => x.ServiceType)
                 .AsQueryable();
 
-            ViewBag.Senders = new SelectList(await _context.Receivers.ToListAsync(), "ClientCode", "ReceiverName");
-            ViewBag.Couriers = new SelectList(await _context.Couriers.Select(x => x.CourierName).Distinct().ToListAsync());
+            // ViewBag-lərə SelectList veririk
+            var senderList = await _context.Orders
+                .Select(x => x.SenderName)
+                .Distinct()
+                .ToListAsync();
+            ViewBag.Senders = new SelectList(senderList);
 
-            // Filter
-            if (!string.IsNullOrEmpty(receiverName))
-                orders = orders.Where(o => o.Receiver.ReceiverName == receiverName);
+            var courierList = await _context.Couriers
+                .Select(x => x.CourierName)
+                .Distinct()
+                .ToListAsync();
+            ViewBag.Couriers = new SelectList(courierList);
+
+            // Filterlər
+            if (!string.IsNullOrEmpty(senderName))
+            {
+                orders = orders.Where(o => o.SenderName.Contains(senderName));
+            }
 
             if (!string.IsNullOrEmpty(courierName))
-                orders = orders.Where(o => o.Courier.CourierName == courierName);
+            {
+                orders = orders.Where(o => o.Courier.CourierName.Contains(courierName));
+            }
+
+            if (startDate.HasValue)
+            {
+                var selectedDate = startDate.Value.Date;
+                var endDate = selectedDate.AddDays(1);
+                orders = orders.Where(o => o.StartDate >= selectedDate && o.StartDate < endDate);
+            }
 
             return View(await orders.ToListAsync());
         }
+
 
         [HttpGet]
         public IActionResult GetSenders()
@@ -248,6 +270,8 @@ namespace YunusExpress_MVC.Controllers
             {
                 x.ClientCode,
                 x.ReceiverName,
+                x.ReceiverPhoneNum,
+                x.ReceiverAddress,
             }).ToListAsync());
         }
         public async Task<IActionResult> Delete(int id)

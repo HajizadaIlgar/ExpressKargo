@@ -30,31 +30,34 @@ h1 {
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     padding: 10px;
     border: 1px solid var(--border-color);
-    height: 80vh;
+    width: 800px;
+    margin: 0 auto;
 }
 
 /* FORM-HEADING */
 .form-heading {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .row {
     display: flex;
     align-items: center;
+    justify-content: start;
     margin: 0 0 5px;
+    width: 500px;
 }
 
 .text-section {
     display: flex;
     align-items: center;
-    width: 300px;
+    justify-content: space-around;
     margin: 0 5px 5px 0;
 }
 
 .text-label {
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     background-color: var(--border-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -72,26 +75,25 @@ h1 {
     background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    padding: 5px 8px;
+    padding: 4px 8px;
 }
 
 .input-select {
-    width: 187px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     text-align: center;
 }
 
 /* MAIN-COLLS */
 .main-colls {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin: 20px 0 0;
 }
 
 .left-coll {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     height: 450px;
     width: 40%;
@@ -102,14 +104,12 @@ h1 {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 12px;
-    width: 100%;
 }
 
 .sender-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 380px;
 }
 
 .sender-heading h2 {
@@ -129,9 +129,11 @@ h1 {
     cursor: pointer;
     transition: 0.2s ease;
 }
-
+.btn-submit{
+    width: 360px;
+}
 .opposite-button {
-    width: 525px;
+    width: 331px;
 }
 
 .opposite-button:hover {
@@ -152,32 +154,33 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 40%;
+    justify-content: center;
+    width: 45%;
 }
 
 .desc-input {
-    width: 300px;
+    width: 160px;
 }
 
 .desc-input-t {
-    width: 130px;
+    width: 70px;
 }
 
 .desc-time {
-    width: 318px;
+    width: 178px;
     display: flex;
     justify-content: space-between;
 }
 
 .desc-select {
-    width: 318px;
+    width: 178px;
     text-align: center;
     box-shadow: 0 0 0 2px var(--border-color);
     outline: none;
 }
 
 .desc-text-ar {
-    width: 300px;
+    width: 160px;
     text-align: center;
     box-shadow: 0 0 0 2px var(--border-color);
     outline: none;
@@ -185,30 +188,34 @@ h1 {
 
 .desc-text {
     display: flex;
-    justify-content: end;
+    justify-content: center;
     width: 490px;
     margin: 0 0 5px;
 }
 
-.back-home-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 245px;
-    padding: 7px 5px;
-    font: 700 20px arial;
-    color: var(--text-color);
-    background-color: #469df3;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    text-decoration: none;
-    z-index: 777;
+
+
+.back-btn {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  z-index: 777;
 }
 
-.back-home-button:hover {
-    background-color: var(--secondary-color);
-
+.back-btn a {
+  color: black;
+  text-decoration: none;
+  font: bold 16px "MS Sans Serif", Arial, sans-serif;
+  background-color: #C0C0C0;
+  border: 2px outset #fff;
+  padding: 6px 12px;
+  display: inline-block;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+  cursor: pointer;
 }
+
+.back-btn a:hover {
+  background-color: #A0A0A0;
+  border: 2px inset #000;
+}
+

@@ -2,46 +2,174 @@
 @model ReceiverCreateVm
 @{
     ViewData["Title"] = "Create";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="az">
 
-<h2>Create Receiver</h2>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yeni Müştəri</title>
+    <link href="~/assets/style/reset.css" rel="stylesheet">
+    <link href="~/assets/style/newClient.css" rel="stylesheet">
+</head>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="ClientCode"></label>
-        <input asp-for="ClientCode" class="form-control" />
-        <span asp-validation-for="ClientCode" class="text-danger"></span>
+<body>
+
+    <h1>Müştəri Yarat</h1>
+    <div class="container">
+        <form method="post">
+            <!-- Client's Rekvisits -->
+            <div class="form-section">
+                <fieldset>
+                    <legend>Müştərinin Məlumatları</legend>
+
+                    <div class="text-section">
+                        <label asp-for="ClientCode" class="text-label">Müştəri Nömrəsi</label>
+                        <input asp-for="ClientCode" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="ReceiverName" class="text-label">Müştəri Adı</label>
+                        <input asp-for="ReceiverName" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="ReceiverAddress" class="text-label">Müştərinin Adresi</label>
+                        <input asp-for="ReceiverAddress" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="ReceiverPhoneNum" class="text-label">Müştərinin Telefon Nömrəsi</label>
+                        <input asp-for="ReceiverPhoneNum" type="tel" class="text-input" maxlength="17" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="ContractDate" class="text-label">Müqavilənin Tarixi</label>
+                        <input asp-for="ContractDate" type="date" class="text-input" style="width: 199px;" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="IsEDV" class="text-label">ƏDV</label>
+                        <select asp-for="IsEDV" class="input-select" style="width: 199px;">
+                            <option value="true">Var</option>
+                            <option value="false">Yoxdu</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-section">
+                <fieldset>
+                    <legend>Müştərinin Rekvizitləri</legend>
+
+                    <div class="text-section">
+                        <label asp-for="BankName" class="text-label">Bank Adı</label>
+                        <input asp-for="BankName" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="BankCode" class="text-label">Kod</label>
+                        <input asp-for="BankCode" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="BankVoen" class="text-label">Bankın VÖEN-i</label>
+                        <input asp-for="BankVoen" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="Swift" class="text-label">S.W.I.F.T.</label>
+                        <input asp-for="Swift" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="Voen" class="text-label">VÖEN</label>
+                        <input asp-for="Voen" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="Iban" class="text-label">IBAN</label>
+                        <input asp-for="Iban" type="text" class="text-input" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="Mh" class="text-label">M/H</label>
+                        <input asp-for="Mh" type="text" class="text-input" />
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-section">
+                <fieldset>
+                    <div class="text-section">
+                        <label asp-for="QiymetVar" class="text-label">Qiymət Seçimi</label>
+                        <select asp-for="QiymetVar" class="input-select" style="width: 199px;">
+                            <option value="New">Yeni Qiymət</option>
+                            <option value="Old">Köhnə Qiymət</option>
+                        </select>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="btns">
+                <button type="submit" class="btn-submit">Yarat</button>
+            </div>
+        </form>
+        <div class="back-btn">
+            <a asp-controller="Home" asp-action="Index">⬅</a>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="ReceiverName"></label>
-        <input asp-for="ReceiverName" class="form-control" />
-        <span asp-validation-for="ReceiverName" class="text-danger"></span>
-    </div>
+</body>
 
-    <div class="form-group">
-        <label asp-for="ReceiverAddress"></label>
-        <input asp-for="ReceiverAddress" class="form-control" />
-        <span asp-validation-for="ReceiverAddress" class="text-danger"></span>
-    </div>
+</html>
 
-    <div class="form-group">
-        <label asp-for="ReceiverPhoneNum"></label>
-        <input asp-for="ReceiverPhoneNum" class="form-control" />
-        <span asp-validation-for="ReceiverPhoneNum" class="text-danger"></span>
-    </div>
 
-    <div class="form-group">
-        <label for="isEdvSelect">ƏDV</label>
-        <select id="isEdvSelect" class="form-control">
-            <option value="true">Var</option>
-            <option value="false">Yoxdu</option>
-        </select>
 
-        <!-- Gizli input göndərmək üçün -->
-        <input asp-for="IsEdv" type="hidden" />
-        <span asp-validation-for="IsEdv" class="text-danger"></span>
-    </div>
+<script>
+    const phoneInput = document.getElementById("kuryer-tel");
+
+    function formatAzerbaijanPhone(value) {
+        let digits = value.replace(/\D/g, "");
+        if (digits.startsWith("994")) digits = "+" + digits;
+        else if (digits.startsWith("0")) digits = "+994" + digits.slice(1);
+        else if (!digits.startsWith("994")) digits = "+994" + digits;
+
+        return digits
+            .replace(/^(\+994)(\d{2})?(\d{3})?(\d{2})?(\d{2})?/, function (_, p1, p2, p3, p4, p5) {
+                return [
+                    p1,
+                    p2 ? " " + p2 : "",
+                    p3 ? " " + p3 : "",
+                    p4 ? " " + p4 : "",
+                    p5 ? " " + p5 : ""
+                ].join("");
+            });
+    }
+
+    // Autofill on page load
+    window.addEventListener("DOMContentLoaded", () => {
+        if (!phoneInput.value.trim()) {
+            phoneInput.value = "+994 ";
+        }
+    });
+
+    // Autofill on focus
+    phoneInput.addEventListener("focus", () => {
+        if (!phoneInput.value.startsWith("+994")) {
+            phoneInput.value = "+994 ";
+        }
+    });
+
+    // Format while typing
+    phoneInput.addEventListener("input", (e) => {
+        const formatted = formatAzerbaijanPhone(e.target.value);
+        e.target.value = formatted;
+    });
+</script>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -57,8 +185,4 @@
             });
         });
     </script>
-
-
-    <button style="margin:20px" type="submit" class="btn btn-primary">Create</button>
-</form>
-
+ 
