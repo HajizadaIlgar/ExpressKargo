@@ -20,7 +20,7 @@
 <body>
   <h1>Yeni Sifariş</h1>
   <div class="container">
-    <form>
+    <form method="post" id="myForm">
       <div class="vcontainer">
         <div class="form-heading">
           <div class="rows">
@@ -63,16 +63,16 @@
               </div>
               <div class="sender-main">
                 <div class="text-section" style="width: 300px;">
-                  <label class="text-label" style="width: 100px;">Göndərənin Adı</label>
-                  <input type="text" class="text-input" id="senderName">
+                  <label  asp-for="ReceiverName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
+                  <input asp-for="ReceiverName" type="text" class="text-input" id="senderName">
                 </div>
                 <div class="text-section" style="width: 300px;">
-                  <label class="text-label" style="width: 100px;">Ünvanı</label>
-                  <input type="text" class="text-input" id="senderAdd">
+                  <label asp-for="ReceiverAddress" class="text-label" style="width: 100px;">Ünvanı</label>
+                  <input asp-for="ReceiverAddress" type="text" class="text-input" id="senderAdd">
                 </div>
                 <div class="text-section" style="width: 300px;">
-                  <label class="text-label" style="width: 100px;">Nömrəsi</label>
-                  <input type="number" class="text-input" id="senderNum">
+                  <label asp-for="ReceiverPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
+                  <input asp-for="ReceiverPhoneNum" type="number" class="text-input" id="senderNum">
                 </div>
                  <div class="text-section" style="width: 300px;">
                                 <label asp-for="DeliveryZoneId" class="text-label" style="width:93px">Zona</label>
@@ -80,13 +80,12 @@
                                         style="width: 187px;">
                                     <option disabled selected>Select Zone</option>
                                 </select>
-                               
                  </div>
               </div>
             </div>
             <div>
-                        <button onclick="transferValues()" type="button" class="opposite-button">ƏKS <span>&#8645;</span></button>
-                    </div>
+                <button onclick="transferValues()" type="button" class="opposite-button">ƏKS <span>&#8645;</span></button>
+            </div> 
             <!-- SENDER  -->
             <div class="sender">
               <div class="sender-heading">
@@ -94,43 +93,54 @@
               </div>
               <div class="sender-main">
                 <div class="text-section" style="width: 300px;">
-                  <label class="text-label" style="width: 100px;">Göndərənin Adı</label>
-                  <input type="text" class="text-input" id="acceptName">
+                  <label asp-for="SenderName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
+                  <input asp-for="SenderName" type="text" class="text-input" id="acceptName">
                 </div>
                 <div class="text-section" style="width: 300px;">
-                  <label class="text-label" style="width: 100px;">Ünvanı</label>
-                  <input type="text" class="text-input" id="acceptAdd">
+                  <label asp-for="SenderAddress" class="text-label" style="width: 100px;">Ünvanı</label>
+                  <input asp-for="SenderAddress" type="text" class="text-input" id="acceptAdd">
                 </div>
                 <div class="text-section" style="width: 300px;">
-                  <label class="text-label" style="width: 100px;">Nömrəsi</label>
-                  <input type="number" class="text-input" id="acceptNum">
+                  <label asp-for="SenderPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
+                  <input asp-for="SenderPhoneNum" type="number" class="text-input" id="acceptNum">
                 </div>
 
               </div>
             </div>
           </div>
           <div class="right-coll">
-            <div class="desc-text">
-              <label class="text-label">Tarix</label>
-              <div class="desc-time">
-                <input type="date" class="desc-input-t">
-                <input type="time" class="desc-input-t">
-              </div>
-            </div>
-            <div class="desc-text">
+                        <div class="desc-text">
+                            <label class="text-label" for="start-date">Tarix</label>
+                            <div class="desc-time">
+                                <input type="date" id="start-date" name="StartDate_Date" class="desc-input-t" />
+                                <input type="time" id="start-time" name="StartDate_Time" class="desc-input-t" />
+                            </div>
+                        </div>
+
+                        <!-- Gizli input, burada birləşdirilmiş datetime olacaq -->
+                        <input type="hidden" id="StartDate" name="StartDate" />
+                          <div class="desc-text">
                     
                             <label asp-for="ServiceId" class="text-label">Xidmət Növü</label>
                             <select class="desc-select" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
-                                <option>Select Service</option>
+                                <option></option>
                             </select>
-                    </div>
+                          </div>
 
-                        <div class="desc-text">
-                            <label asp-for="CourierId" class="text-label">Kuryer</label>
-                            <select class="desc-select" asp-for="CourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")'>
-                                <option>Kuryer Seçin</option>
-                            </select>
-                        </div>
+                           <div class="desc-text">
+                                <label class="text-label" for="from-courier">Kuryer 1</label>
+                                <select class="desc-select" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="from-courier">
+                                    <option disabled selected>Seçin...</option>
+                                </select>
+                            </div>
+
+                            <div class="desc-text">
+                                <label class="text-label" for="to-courier">Kuryer 2</label>
+                                <select class="desc-select" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="to-courier">
+                                    <option disabled selected>Seçin...</option>
+                                </select>
+                            </div>
+                       
             <div class="desc-text">
             @*   <label class="text-label">Kuryer 2</label>
               <input class="desc-input" list="clientCodes" name="clientCode">
@@ -189,6 +199,29 @@
 </html>
 
 <script>
+document.getElementById("myForm").addEventListener("submit", function (e) {
+    const date = document.getElementById("start-date").value;
+    const time = document.getElementById("start-time").value;
+
+    if (!date) {
+        alert("Tarixi daxil edin");
+        e.preventDefault();
+        return;
+    }
+
+    if (!time) {
+        alert("Saatı daxil edin");
+        e.preventDefault();
+        return;
+    }
+
+    // Tarix və saatı ISO 8601 formatında birləşdiririk (2025-05-17T14:30)
+    const combinedDateTime = date + "T" + time;
+    document.getElementById("StartDate").value = combinedDateTime;
+});
+</script>
+
+<script>
                 document.addEventListener("DOMContentLoaded", function () {
                     const errorContainer = document.getElementById("validation-err");
 
@@ -215,7 +248,7 @@
                 });
 
     </script>
-   <script>
+<script>
                     let receivers = [];
 
                     document.addEventListener("DOMContentLoaded", async () => {

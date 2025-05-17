@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace YunusExpress_MVC.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateTableRevaninSicdigiYerler : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,6 +17,7 @@ namespace YunusExpress_MVC.Migrations
                 {
                     CourierId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CourierCode = table.Column<int>(type: "int", nullable: false),
                     CourierName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CourierPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrdersId = table.Column<int>(type: "int", nullable: false)
@@ -156,12 +157,14 @@ namespace YunusExpress_MVC.Migrations
                     SenderPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SenderAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeliveryZoneId = table.Column<int>(type: "int", nullable: false),
-                    CourierId = table.Column<int>(type: "int", nullable: false),
+                    FromCourierId = table.Column<int>(type: "int", nullable: false),
+                    ToCourierId = table.Column<int>(type: "int", nullable: false),
                     OrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
                     EDV = table.Column<bool>(type: "bit", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CourierId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -170,8 +173,17 @@ namespace YunusExpress_MVC.Migrations
                         name: "FK_Orders_Couriers_CourierId",
                         column: x => x.CourierId,
                         principalTable: "Couriers",
-                        principalColumn: "CourierId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CourierId");
+                    table.ForeignKey(
+                        name: "FK_Orders_Couriers_FromCourierId",
+                        column: x => x.FromCourierId,
+                        principalTable: "Couriers",
+                        principalColumn: "CourierId");
+                    table.ForeignKey(
+                        name: "FK_Orders_Couriers_ToCourierId",
+                        column: x => x.ToCourierId,
+                        principalTable: "Couriers",
+                        principalColumn: "CourierId");
                     table.ForeignKey(
                         name: "FK_Orders_DeliveryZones_DeliveryZoneId",
                         column: x => x.DeliveryZoneId,
@@ -212,6 +224,11 @@ namespace YunusExpress_MVC.Migrations
                 column: "DeliveryZoneId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_FromCourierId",
+                table: "Orders",
+                column: "FromCourierId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_InvoiceNo",
                 table: "Orders",
                 column: "InvoiceNo",
@@ -232,6 +249,11 @@ namespace YunusExpress_MVC.Migrations
                 name: "IX_Orders_ServiceId",
                 table: "Orders",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ToCourierId",
+                table: "Orders",
+                column: "ToCourierId");
         }
 
         /// <inheritdoc />

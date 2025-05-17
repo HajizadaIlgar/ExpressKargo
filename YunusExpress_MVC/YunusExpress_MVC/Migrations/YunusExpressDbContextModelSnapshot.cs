@@ -45,6 +45,9 @@ namespace YunusExpress_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourierId"));
 
+                    b.Property<int>("CourierCode")
+                        .HasColumnType("int");
+
                     b.Property<string>("CourierName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -110,7 +113,7 @@ namespace YunusExpress_MVC.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CourierId")
+                    b.Property<int?>("CourierId")
                         .HasColumnType("int");
 
                     b.Property<int>("DeliveryZoneId")
@@ -121,6 +124,9 @@ namespace YunusExpress_MVC.Migrations
 
                     b.Property<bool>("EDV")
                         .HasColumnType("bit");
+
+                    b.Property<int>("FromCourierId")
+                        .HasColumnType("int");
 
                     b.Property<int>("InvoiceNo")
                         .HasColumnType("int");
@@ -171,6 +177,9 @@ namespace YunusExpress_MVC.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ToCourierId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ZengEdeninAdi")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -181,6 +190,8 @@ namespace YunusExpress_MVC.Migrations
 
                     b.HasIndex("DeliveryZoneId");
 
+                    b.HasIndex("FromCourierId");
+
                     b.HasIndex("InvoiceNo")
                         .IsUnique();
 
@@ -190,6 +201,8 @@ namespace YunusExpress_MVC.Migrations
                     b.HasIndex("ReceiverId");
 
                     b.HasIndex("ServiceId");
+
+                    b.HasIndex("ToCourierId");
 
                     b.ToTable("Orders");
                 });
@@ -321,16 +334,20 @@ namespace YunusExpress_MVC.Migrations
 
             modelBuilder.Entity("YunusExpress_MVC.Models.Order", b =>
                 {
-                    b.HasOne("YunusExpress_MVC.Models.Courier", "Courier")
+                    b.HasOne("YunusExpress_MVC.Models.Courier", null)
                         .WithMany("Orders")
-                        .HasForeignKey("CourierId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourierId");
 
                     b.HasOne("YunusExpress_MVC.Models.DeliveryZone", "DeliveryZone")
                         .WithMany("Orders")
                         .HasForeignKey("DeliveryZoneId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("YunusExpress_MVC.Models.Courier", "FromCourier")
+                        .WithMany()
+                        .HasForeignKey("FromCourierId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("YunusExpress_MVC.Models.Receiver", "Receiver")
@@ -343,13 +360,21 @@ namespace YunusExpress_MVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Courier");
+                    b.HasOne("YunusExpress_MVC.Models.Courier", "ToCourier")
+                        .WithMany()
+                        .HasForeignKey("ToCourierId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("DeliveryZone");
+
+                    b.Navigation("FromCourier");
 
                     b.Navigation("Receiver");
 
                     b.Navigation("ServiceType");
+
+                    b.Navigation("ToCourier");
                 });
 
             modelBuilder.Entity("YunusExpress_MVC.Models.Courier", b =>

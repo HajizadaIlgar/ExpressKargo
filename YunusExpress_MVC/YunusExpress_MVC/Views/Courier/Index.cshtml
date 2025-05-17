@@ -100,9 +100,9 @@
     <table>
         <thead>
             <tr>
-                <th>Courier ID</th>
-                <th>Name</th>
-                <th>Phone Number</th>
+                <th>Kuryer Nömrəsi</th>
+                <th>Adı,Soyadı</th>
+                <th>Telefon Nömrəsi</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -110,7 +110,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.CourierId</td>
+                    <td>@item.CourierCode</td>
                     <td>@item.CourierName</td>
                     <td>@item.CourierPhoneNum</td>
                     <td>

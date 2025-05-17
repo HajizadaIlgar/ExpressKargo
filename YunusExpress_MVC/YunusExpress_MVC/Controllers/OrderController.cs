@@ -9,46 +9,93 @@ namespace YunusExpress_MVC.Controllers
 {
     public class OrderController(YunusExpressDbContext _context) : Controller
     {
-        public async Task<IActionResult> Index(string senderName, string courierName, DateTime? startDate)
+        public async Task<IActionResult> Index(string senderName, string courierName, DateTime? startDate, DateTime? endDate, string type)
         {
             var orders = _context.Orders
                 .Include(x => x.Receiver)
                 .Include(x => x.DeliveryZone)
-                .Include(x => x.Courier)
+                .Include(x => x.ToCourier)
+                .Include(x => x.FromCourier)
                 .Include(x => x.ServiceType)
                 .AsQueryable();
 
             // ViewBag-lərə SelectList veririk
-            var senderList = await _context.Orders
-                .Select(x => x.SenderName)
+            // Kod siyahısı üçün
+            var senders = await _context.Receivers
+                .Select(r => new SelectListItem
+                {
+                    Value = r.ReceiverName,    // kod
+                    Text = $"{r.ClientCode} ({r.ReceiverName})"
+                })
                 .Distinct()
                 .ToListAsync();
-            ViewBag.Senders = new SelectList(senderList);
+            // Kod → Ad map-i
+            var senderNames = await _context.Receivers
+                .ToDictionaryAsync(r => r.ClientCode, r => r.ReceiverName);
+            ViewBag.Senders = senders;
+            ViewBag.SenderNames = senderNames;
+
 
             var courierList = await _context.Couriers
-                .Select(x => x.CourierName)
+                .Select(x => new SelectListItem
+                {
+                    Value = x.CourierName.ToString(),   // KOD dropdown-un value-sudur
+                    Text = $"{x.CourierCode} ({x.CourierName})"     // Dropdown-da görünəcək də koddur
+                })
                 .Distinct()
                 .ToListAsync();
-            ViewBag.Couriers = new SelectList(courierList);
 
-            // Filterlər
-            if (!string.IsNullOrEmpty(senderName))
+            // KOD → AD xəritəsi
+            var courierNames = await _context.Couriers
+               .ToDictionaryAsync(r => r.CourierCode.ToString(), r => r.CourierName);
+
+            ViewBag.Couriers = courierList;
+            ViewBag.CourierNames = courierNames;
+
+
+
+            if (!string.IsNullOrEmpty(senderName) && senderName != "Hamısı")
             {
-                orders = orders.Where(o => o.SenderName.Contains(senderName));
+                orders = orders.Where(x => x.ReceiverName == senderName);
             }
+
 
             if (!string.IsNullOrEmpty(courierName))
             {
-                orders = orders.Where(o => o.Courier.CourierName.Contains(courierName));
+                orders = orders.Where(o => o.ToCourier.CourierName.Contains(courierName));
             }
+
+
+            if (startDate.HasValue && endDate.HasValue)
+            {
+                var start = startDate.Value.Date;
+                var end = endDate.Value.Date.AddDays(1); // endDate gününü də daxil etmək üçün
+                orders = orders.Where(x => x.StartDate >= start && x.StartDate < end);
+            }
+            else if (startDate.HasValue)
+            {
+                var date = startDate.Value.Date;
+                orders = orders.Where(x => x.StartDate.Date == date);
+            }
+            else if (endDate.HasValue)
+            {
+                var date = endDate.Value.Date;
+                orders = orders.Where(x => x.StartDate.Date <= date);
+            }
+
+
+
 
             if (startDate.HasValue)
             {
-                var selectedDate = startDate.Value.Date;
-                var endDate = selectedDate.AddDays(1);
-                orders = orders.Where(o => o.StartDate >= selectedDate && o.StartDate < endDate);
+                // startDate tarixi ilə eyni gün olanları seç
+                orders = orders.Where(x => x.StartDate.Date == startDate.Value.Date);
             }
-
+            if (type == "waybill")
+            {
+                // Məsələn: Waybill-ə görə `SenderName == "Private"`
+                orders = orders.Where(x => x.SenderName == "Private");
+            }
             return View(await orders.ToListAsync());
         }
 
@@ -158,7 +205,8 @@ namespace YunusExpress_MVC.Controllers
 
 
                 ServiceId = vm.ServiceId,
-                CourierId = vm.CourierId,
+                ToCourierId = vm.ToCourierId,
+                FromCourierId = vm.FromCourierId,
                 DeliveryZoneId = vm.DeliveryZoneId,
 
                 ZengEdeninAdi = vm.ZengEdeninAdi,
@@ -196,7 +244,10 @@ namespace YunusExpress_MVC.Controllers
                 ZengEdeninAdi = x.ZengEdeninAdi,
 
                 ServiceId = x.ServiceId,
-                CourierId = x.CourierId,
+
+                ToCourierId = x.ToCourierId,
+                FromCourierId = x.FromCourierId,
+
                 DeliveryZoneId = x.DeliveryZoneId,
 
                 OrderPrice = x.OrderPrice,
@@ -204,6 +255,7 @@ namespace YunusExpress_MVC.Controllers
                 Discount = x.Discount,
                 EDV = x.EDV,
                 Note = x.Note
+
             }).FirstOrDefaultAsync();
 
 
@@ -249,7 +301,10 @@ namespace YunusExpress_MVC.Controllers
 
 
                 data.ServiceId = vm.ServiceId;
-                data.CourierId = vm.CourierId;
+
+                data.ToCourierId = vm.ToCourierId;
+                data.FromCourierId = vm.FromCourierId;
+
                 data.DeliveryZoneId = vm.DeliveryZoneId;
 
                 data.ZengEdeninAdi = vm.ZengEdeninAdi;

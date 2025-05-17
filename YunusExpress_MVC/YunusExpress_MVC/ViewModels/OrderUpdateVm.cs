@@ -55,8 +55,10 @@ namespace YunusExpress_MVC.ViewModels
         public string SenderAddress { get; set; }
 
         [Required(ErrorMessage = "Kuryer seçilməlidir")]
-        public int CourierId { get; set; }
+        public int FromCourierId { get; set; }
 
+        [Required(ErrorMessage = "Kuryer seçilməlidir")]
+        public int ToCourierId { get; set; }
 
         [Required(ErrorMessage = "Sifariş qiyməti tələb olunur")]
         [Range(0, 100000, ErrorMessage = "Qiymət 0 ilə 100000 arasında olmalıdır")]

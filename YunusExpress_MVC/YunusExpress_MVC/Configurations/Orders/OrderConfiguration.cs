@@ -31,11 +31,16 @@ namespace YunusExpress_MVC.Configurations.Orders
             //       .HasForeignKey(x => x.Senderid);
 
             // Relations (Courier)
-            builder
-                  .HasOne(o => o.Courier)
-                  .WithMany(c => c.Orders)
-                  .HasForeignKey(o => o.CourierId);
 
+            builder.HasOne(o => o.FromCourier)
+                  .WithMany()
+                  .HasForeignKey(o => o.FromCourierId)
+                  .OnDelete(DeleteBehavior.NoAction); // <=== Əlavə olunur
+
+            builder.HasOne(o => o.ToCourier)
+                .WithMany()
+                .HasForeignKey(o => o.ToCourierId)
+                .OnDelete(DeleteBehavior.NoAction); // <=== Əlavə olunur
 
             //  qaime unique olmalidi
             builder.HasIndex(x => x.InvoiceNo).IsUnique();

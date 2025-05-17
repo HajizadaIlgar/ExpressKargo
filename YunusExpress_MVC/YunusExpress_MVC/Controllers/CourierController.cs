@@ -26,7 +26,7 @@ namespace YunusExpress_MVC.Controllers
 
             var salaryList = couriers.Select(courier =>
             {
-                var courierOrders = orders.Where(o => o.CourierId == courier.CourierId);
+                var courierOrders = orders.Where(o => o.ToCourierId == courier.CourierId);
 
                 var totalDeliveryAmount = courierOrders.Sum(order => CalculateTotalDeliveryPrice(order));
 
@@ -40,7 +40,7 @@ namespace YunusExpress_MVC.Controllers
                 };
             }).ToList();
 
-            return View(salaryList);
+            return View(orders);
         }
         private decimal CalculateTotalDeliveryPrice(Order order)
         {
@@ -70,16 +70,26 @@ namespace YunusExpress_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CourierCreateVm vm)
         {
+
             if (vm is null) return NotFound();
             Courier courier = new Courier
             {
                 CourierName = vm.CourierName,
+                CourierCode = vm.CourierCode,
                 CourierPhoneNum = vm.CourierPhoneNum,
             };
             await _context.Couriers.AddAsync(courier);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public async Task<IActionResult> IsCourierCodeExists(int code)
+        {
+            bool exists = await _context.Couriers.AnyAsync(c => c.CourierCode == code);
+            return Json(new { exists });
+        }
+
+
 
         public async Task<IActionResult> Delete(int? id)
         {

@@ -20,20 +20,20 @@
 
     <h1>Kuryer Yarat</h1>
     <div class="container">
-        <form method="post">
+        <form id="courier-form" method="post">
             <div class="form-section">
                 <div class="text-section">
-                    <label class="text-label" for="kuryer-nomre">Kuryer Nömrəsi</label>
-                    <input type="text" class="text-input" id="kuryer-nomre" name="kuryer-nomre" />
+                    <label asp-for="CourierCode" class="text-label" for="kuryer-nomre">Kuryer Nömrəsi</label>
+                    <input asp-for="CourierCode" type="text" class="text-input" id="kuryer-nomre" name="CourierCode" />
+                    <span asp-validation-for="CourierCode" class="text-danger"></span>
                 </div>
                 <div class="text-section">
-                    <label class="text-label" for="kuryer-ad">Kuryerin Adı</label>
-                    <input type="text" class="text-input" id="kuryer-ad" name="kuryer-ad" />
+                    <label asp-for="CourierName" class="text-label" for="kuryer-ad">Kuryerin Adı</label>
+                    <input asp-for="CourierName" type="text" class="text-input" id="kuryer-ad" name="CourierName" />
                 </div>
                 <div class="text-section">
-                    <label class="text-label" for="kuryer-tel">Kuryerin Telefon Nömrəsi</label>
-
-                    <input type="tel" class="text-input" id="kuryer-tel" name="kuryer-tel" maxlength="17" />
+                    <label asp-for="CourierPhoneNum" class="text-label" for="kuryer-tel">Kuryerin Telefon Nömrəsi</label>
+                    <input asp-for="CourierPhoneNum" type="tel" class="text-input" id="kuryer-tel" name="CourierPhoneNum" maxlength="17" />
                 </div>
             </div>
             <div class="btns">
@@ -80,6 +80,33 @@
         phoneInput.addEventListener("input", (e) => {
             const formatted = formatAzerbaijanPhone(e.target.value);
             e.target.value = formatted;
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("courier-form");
+            const courierCodeInput = document.getElementById("kuryer-nomre");
+
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const code = courierCodeInput.value.trim();
+
+                if (!code) {
+                    alert("Kuryer nömrəsi boş ola bilməz.");
+                    return;
+                }
+
+                const response = await fetch(`/Courier/IsCourierCodeExists?code=${encodeURIComponent(code)}`);
+                const data = await response.json();
+
+                if (data.exists) {
+                    alert("Bu kuryer nömrəsi artıq mövcuddur!");
+                    return;
+                }
+
+                form.submit();
+            });
         });
     </script>
 

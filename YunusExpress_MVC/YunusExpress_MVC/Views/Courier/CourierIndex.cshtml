@@ -1,71 +1,73 @@
 ﻿@using YunusExpress_MVC.Models
 @using YunusExpress_MVC.ViewModels
-
-@model List<CourierSalaryViewModel>
+@model List<Order>
 
 @{
     ViewData["Title"] = "Sifariş Siyahısı";
+    Layout = null;
 }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f6f8;
-        padding: 30px;
-    }
 
-    h2 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 30px;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    .salary-table {
-        width: 80%;
-        margin: 0 auto;
-        border-collapse: collapse;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-        .salary-table th {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-        }
-
-        .salary-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .salary-table tr:hover {
-            background-color: #f1f1f1;
-        }
-</style>
-
-<h2>Kuryerlərin Əmək Haqqı Hesabatı</h2>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tap Və Dəyiş</title>
+    <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link rel="stylesheet" href="~/assets/style/findAndChange.css">
+</head>
 <a style="margin-left:150px; margin-bottom:10px" asp-controller="Courier" asp-action="Index" class="btn btn-primary">Geri</a>
 
-<table class="salary-table">
-    <thead>
-        <tr>
-            <th>Kuryer</th>
-            <th>Çatdırılan Sifarişlərin Məbləği (AZN)</th>
-            <th>Əmək Haqqı (36%)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var courier in Model)
-        {
-            <tr>
-                <td>@courier.CourierName</td>
-                <td>@courier.TotalDeliveredAmount.ToString("0.00")₼</td>
-                <td>@courier.Salary.ToString("0.00")₼</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<body>
+    <div class="container">
+        <div class="form-heading">
+        </div>
+        <div class="form-table">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th class="column-sifaris">Sifarişin No</th>
+                        <th class="column-waybill">Waybill</th>
+                        <th class="column-gonderen">Göndərən</th>
+                        <th class="column-tarix">Tarix</th>
+                        <th class="column-nov">Növ</th>
+                        <th class="column-kuryer">Kuryer</th>
+                        <th class="column-gonderen-unvan">Göndərənin Ünvanı</th>
+                        <th class="column-alici">Alıcı</th>
+                        <th class="column-alici-unvan">Alıcının Ünvanı</th>
+                        <th class="column-mebleg">Məbləğ</th>
+                        <th class="column-mebleg">Kuryerin Faizi</th>
+                        <th class="column-mebleg">Faizin Məbləği</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.OrderNo</td>
+                            <td>@item.InvoiceNo</td>
+                            <td>@item.SenderName</td>
+                            <td>@item.StartDate</td>
+                            <td>@item.ServiceType!.ServiceType</td>
+                            <td>@item.ToCourier!.CourierName</td>
+                            <td>@item.SenderAddress</td>
+                            <td>@item.ReceiverName</td>
+                            <td>@item.ReceiverAddress</td>
+                            <td>@item.OrderPrice</td>
+                            <td>36%</td>
+                            <td>@(item.OrderPrice*36/100)</td>
+                        </tr>
+                    }
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+        <div class="back-btn">
+            <a asp-action="Index" asp-controller="Home">⬅</a>
+        </div>
+    </div>
+</body>
+
+</html>

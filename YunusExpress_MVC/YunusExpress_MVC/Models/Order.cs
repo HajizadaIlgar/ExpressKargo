@@ -37,8 +37,11 @@
         //public int Senderid { get; set; }
         //public Sender Sender { get; set; }
 
-        public int CourierId { get; set; }
-        public Courier Courier { get; set; }
+        public int FromCourierId { get; set; }
+        public Courier FromCourier { get; set; }
+
+        public int ToCourierId { get; set; }
+        public Courier ToCourier { get; set; }
 
 
 
