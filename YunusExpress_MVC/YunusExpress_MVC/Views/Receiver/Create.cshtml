@@ -19,7 +19,7 @@
 
     <h1>Müştəri Yarat</h1>
     <div class="container">
-        <form method="post">
+        <form id="client-form" method="post">
             <!-- Client's Rekvisits -->
             <div class="form-section">
                 <fieldset>
@@ -125,6 +125,55 @@
 </body>
 
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("client-form");
+
+        const clientCodeInput = document.getElementById("ClientCode");
+        const receiverNameInput = document.getElementById("ReceiverName");
+        const receiverAddressInput = document.getElementById("ReceiverAddress");
+        const receiverPhoneInput = document.getElementById("ReceiverPhoneNum");
+
+        form.addEventListener("submit", function (e) {
+            const clientCode = clientCodeInput.value.trim();
+            const receiverName = receiverNameInput.value.trim();
+            const receiverAddress = receiverAddressInput.value.trim();
+            const receiverPhone = receiverPhoneInput.value.trim();
+
+            if (!clientCode) {
+                alert("Müştəri nömrəsi boş ola bilməz.");
+                e.preventDefault();
+                return;
+            }
+
+            if (!/^\d+$/.test(clientCode)) {
+                alert("Müştəri nömrəsi yalnız rəqəmlərdən ibarət olmalıdır.");
+                e.preventDefault();
+                return;
+            }
+
+            if (!receiverName) {
+                alert("Müştəri adı boş ola bilməz.");
+                e.preventDefault();
+                return;
+            }
+
+            if (!receiverAddress) {
+                alert("Müştərinin adresi boş ola bilməz.");
+                e.preventDefault();
+                return;
+            }
+
+            if (!receiverPhone) {
+                alert("Müştərinin telefon nömrəsi boş ola bilməz.");
+                e.preventDefault();
+                return;
+            }
+        });
+    });
+</script>
+
 
 
 

@@ -20,7 +20,7 @@
 <body>
   <h1>Yeni Sifariş</h1>
   <div class="container">
-    <form method="post" id="myForm">
+        <form method="post" id="order-form">
       <div class="vcontainer">
         <div class="form-heading">
           <div class="rows">
@@ -197,9 +197,62 @@
 </body>
 
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("order-form"); // Formun ID-sini öz formuna uyğun dəyiş
+        const orderNoInput = document.getElementById("OrderNo");
+        const invoiceNoInput = document.getElementById("InvoiceNo");
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const orderNo = orderNoInput.value.trim();
+            const invoiceNo = invoiceNoInput.value.trim();
+
+            // Boşluq yoxlaması
+            if (!orderNo || !invoiceNo) {
+                alert("Sifariş No və ya Veybil boş ola bilməz.");
+                return;
+            }
+
+            // Rəqəm olub olmadığını yoxla
+            if (!/^\d+$/.test(orderNo)) {
+                alert("Sifariş No yalnız rəqəmlərdən ibarət olmalıdır.");
+                return;
+            }
+
+            if (!/^\d+$/.test(invoiceNo)) {
+                alert("Veybil yalnız rəqəmlərdən ibarət olmalıdır.");
+                return;
+            }
+
+            // Serverə yoxlama sorğuları
+            const [orderRes, invoiceRes] = await Promise.all([
+                fetch(`/Order/IsOrderNoAvailable?orderNo=${encodeURIComponent(orderNo)}`),
+                fetch(`/Order/IsInvoiceNoAvailable?invoiceNo=${encodeURIComponent(invoiceNo)}`)
+            ]);
+
+            const orderExists = await orderRes.json();
+            const invoiceExists = await invoiceRes.json();
+
+            if (!orderExists) {
+                alert("Bu Sifariş No artıq mövcuddur!");
+                return;
+            }
+
+            if (!invoiceExists) {
+                alert("Bu Veybil artıq mövcuddur!");
+                return;
+            }
+
+            form.submit();
+        });
+    });
+</script>
+
 
 <script>
-document.getElementById("myForm").addEventListener("submit", function (e) {
+    document.getElementById("order-form").addEventListener("submit", function (e) {
     const date = document.getElementById("start-date").value;
     const time = document.getElementById("start-time").value;
 
