@@ -8,5 +8,9 @@ namespace YunusExpress_MVC.Controllers
         {
             return View();
         }
+        public IActionResult Hesabatlar()
+        {
+            return View();
+        }
     }
 }

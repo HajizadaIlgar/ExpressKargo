@@ -13,6 +13,7 @@
     <title>YunisExpress</title>
     <link rel="stylesheet" href="~/assets/style/index.css">
     <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
 </head>
 
 <body>
@@ -40,10 +41,9 @@
                 <h3 class="card-title">Kuryerlərim</h3>
                 <a asp-controller="Courier" asp-action="CourierHomePage" class="btn-primary">Keç</a>
             </div>
-
             <div class="option-card">
-                <h3 class="card-title">Yeni Müştəri</h3>
-                <a asp-controller="Receiver" asp-action="Create" class="btn-primary">Başla</a>
+                <h3 class="card-title">Hesabatlar</h3>
+                <a href="javascript:void(0);" onclick="checkPassword()" class="btn-primary">Keç</a>
             </div>
 
         </div>
@@ -52,17 +52,16 @@
 
 </html>
 
+<script>
+    function checkPassword() {
+        const correctPassword = "admin123"; // 🔑 Change to your real password
+        const input = prompt("Zəhmət olmasa şifrəni daxil edin:");
 
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <a asp-action="Create" asp-controller="Courier">Courier Create</a><br />
-    <a asp-action="Create" asp-controller="Receiver">Receiver Create</a><br />
-    <a asp-action="Create" asp-controller="Sender">Sender Create</a><br />
-    <a asp-action="Create" asp-controller="ServiceType">Service Create</a><br />
-    <a asp-action="Create" asp-controller="DeliveryZoneType">DeliveryZone Type Create</a><br />
-    <a asp-action="Create" asp-controller="DeliveryZone">DeliveryZone Create</a><br />
-    <a asp-action="Create" asp-controller="Order">Order Create</a><br />
-    <a asp-action="Index" asp-controller="Order">Order List</a><br />
-
-</div>
- *@
+        if (input === correctPassword) {
+            window.location.href = "/Home/Hesabatlar";
+        } else if (input !== null) {
+            alert("Şifrə yanlışdır. Giriş imtina edildi.");
+        }
+        // If input === null, user clicked Cancel
+    }
+</script>

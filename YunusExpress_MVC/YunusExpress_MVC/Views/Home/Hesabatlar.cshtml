@@ -1,0 +1,43 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YunisExpress</title>
+    <link rel="stylesheet" href="~/assets/style/index.css">
+    <link rel="stylesheet" href="~/assets/style/reset.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-card">
+            <div class="logo-container">
+                <h1 style="padding: 20px;font: 700 40px arial;">Hesabatlar</h1>
+            </div>
+            <div class="option-card">
+                <h3 class="card-title">Yeni Müştəri</h3>
+                <a asp-controller="Receiver" asp-action="Create" class="btn-primary">Başla</a>
+            </div>
+            <div class="option-card">
+                <h3 class="card-title">Invoys Tap</h3>
+                <a asp-controller="Order" asp-action="InvoiceTab" class="btn-primary">Keç</a>
+            </div>
+            <div class="option-card">
+                <h3 class="card-title">Hesab Faktura</h3>
+                <a asp-controller="Order" asp-action="ForPrintInvoice" class="btn-primary">Keç</a>
+            </div>
+
+        </div>
+        <div class="back-btn">
+            <a asp-controller="Home" asp-action="Index">⬅</a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 ﻿@using YunusExpress_MVC.Models
 @using YunusExpress_MVC.ViewModels
-@model List<Order>
+@model CourierSalaryPageViewModel
 
 @{
     ViewData["Title"] = "Sifariş Siyahısı";
@@ -14,60 +14,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tap Və Dəyiş</title>
+    <title>Kuryerlərin Maaşı</title>
     <link rel="stylesheet" href="~/assets/style/reset.css">
     <link rel="stylesheet" href="~/assets/style/findAndChange.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
 </head>
-<a style="margin-left:150px; margin-bottom:10px" asp-controller="Courier" asp-action="Index" class="btn btn-primary">Geri</a>
+ @*<a style="margin-left:150px; margin-bottom:10px" asp-controller="Courier" asp-action="Index" class="btn btn-primary">Geri</a>*@
 
-<body>
-    <div class="container">
-        <div class="form-heading">
-        </div>
-        <div class="form-table">
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th class="column-sifaris">Sifarişin No</th>
-                        <th class="column-waybill">Waybill</th>
-                        <th class="column-gonderen">Göndərən</th>
-                        <th class="column-tarix">Tarix</th>
-                        <th class="column-nov">Növ</th>
-                        <th class="column-kuryer">Kuryer</th>
-                        <th class="column-gonderen-unvan">Göndərənin Ünvanı</th>
-                        <th class="column-alici">Alıcı</th>
-                        <th class="column-alici-unvan">Alıcının Ünvanı</th>
-                        <th class="column-mebleg">Məbləğ</th>
-                        <th class="column-mebleg">Kuryerin Faizi</th>
-                        <th class="column-mebleg">Faizin Məbləği</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.OrderNo</td>
-                            <td>@item.InvoiceNo</td>
-                            <td>@item.SenderName</td>
-                            <td>@item.StartDate</td>
-                            <td>@item.ServiceType!.ServiceType</td>
-                            <td>@item.ToCourier!.CourierName</td>
-                            <td>@item.SenderAddress</td>
-                            <td>@item.ReceiverName</td>
-                            <td>@item.ReceiverAddress</td>
-                            <td>@item.OrderPrice</td>
-                            <td>36%</td>
-                            <td>@(item.OrderPrice*36/100)</td>
-                        </tr>
-                    }
-                    <!-- Add more rows as needed -->
-                </tbody>
-            </table>
-        </div>
-        <div class="back-btn">
-            <a asp-action="Index" asp-controller="Home">⬅</a>
-        </div>
+ <body>
+      <div class="container">
+        
+          <div class="form-table">
+              <table class="styled-table">
+                  <thead>
+                      <tr>
+                          <th class="column-waybill">Waybill</th>
+                          <th class="column-gonderen">Göndərən</th>
+                          <th class="column-gonderen-unvan">Göndərənin Ünvanı</th>
+
+                          <th class="column-tarix">Tarix</th>
+                          <th >Saat</th>
+                          <th class="column-nov">Xidmət Növü</th>
+                          <th>Kuryer Nömrəsi</th>
+
+                          <th class="column-kuryer">Kuryer</th>
+                          <th class="column-alici">Alıcı</th>
+                          <th class="column-alici-unvan">Alıcının Ünvanı</th>
+                          <th class="column-mebleg">Məbləğ</th>
+                          <th class="column-mebleg">Kuryerin Faizi</th>
+                          <th class="column-mebleg">Faizin Məbləği</th>
+                      </tr>
+                  </thead>
+                  <tbody id="allDatas">
+                      @foreach (var item in Model.Orders)
+                      {
+                          <tr>
+                              <td>@item.InvoiceNo</td>
+                              <td>@item.SenderName</td>
+                              <td>@item.SenderAddress</td>
+                            <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                            <td>@item.StartDate.ToString("HH:mm")</td>
+                              <td>@item.ServiceType!.ServiceType</td>
+                            <td>@item.ToCourier!.CourierCode</td>
+                              <td>@item.ToCourier!.CourierName</td>
+                              <td>@item.ReceiverName</td>
+                              <td>@item.ReceiverAddress</td>
+                              <td>@item.FinalPrice</td>
+                              <td>36%</td>
+                             <td>@((item.FinalPrice*36/100).ToString("0.00"))</td>
+                         </tr>
+                      }
+                  </tbody>
+              </table>
+          </div>
+          <div class="back-btn">
+              <a asp-action="Index" asp-controller="Home">⬅</a>
+          </div>
+      </div>
+      <!-- FORMU dəyişdik: artıq submit olmur -->
+    <div style="margin: 20px 0; text-align:center;">
+        <label for="courierSelect">Kuryer seçin:</label>
+        <select id="courierSelect" name="courierName">
+            <option value="">Hamısı</option>
+            @foreach (var courier in Model.Couriers)
+            {
+                <option value="@courier.CourierName">@(courier.CourierCode+ "->" +courier.CourierName)</option>
+            }
+        </select>
     </div>
-</body>
+    <h3 style="text-align:center;">Ümumi Maaş: <span id="totalSalary">@Model.TotalSalary.ToString("0.00") ₼</span></h3>
 
+    <script>
+        document.getElementById('courierSelect').addEventListener('change', function () {
+            const selectedCourier = this.value;
+
+            fetch(`/Courier/GetCourierOrders?courierName=${encodeURIComponent(selectedCourier)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('allDatas');
+                    tbody.innerHTML = '';
+
+                    data.orders.forEach(order => {
+                        const [date, time] = order.startDate.split(' ');
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                                <td>${order.invoiceNo}</td>
+                                <td>${order.senderName}</td>
+                                <td>${order.senderAddress}</td>
+                                <td>${date}</td>
+                                <td>${time}</td>
+                                <td>${order.serviceType}</td>
+                                <td>${order.courierCode}</td>
+                                <td>${order.courierName}</td>
+                                <td>${order.receiverName}</td>
+                                <td>${order.receiverAddress}</td>
+                                <td>${order.finalPrice.toFixed(2)}</td>
+                                <td>36%</td>
+                                <td>${order.salaryAmount.toFixed(2)}</td>
+                            `;
+                        tbody.appendChild(row);
+                    });
+
+                    // Ümumi maaşı göstər
+                    document.getElementById('totalSalary').textContent = `${data.totalSalary.toFixed(2)} ₼`;
+                })
+                .catch(error => {
+                    console.error('Xəta:', error);
+                });
+        });
+    </script>
+  </body>
 </html>

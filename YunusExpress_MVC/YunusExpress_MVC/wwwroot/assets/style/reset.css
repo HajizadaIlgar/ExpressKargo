@@ -67,7 +67,11 @@ h5,
 h6 {
   text-wrap: balance;
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 /*
     10. Create a root stacking context
   */

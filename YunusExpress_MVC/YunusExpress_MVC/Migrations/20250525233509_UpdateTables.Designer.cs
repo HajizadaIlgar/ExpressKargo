@@ -12,8 +12,8 @@ using YunusExpress_MVC.DataAccess;
 namespace YunusExpress_MVC.Migrations
 {
     [DbContext(typeof(YunusExpressDbContext))]
-    [Migration("20250517100142_init")]
-    partial class init
+    [Migration("20250525233509_UpdateTables")]
+    partial class UpdateTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,6 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CourierPhoneNum")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrdersId")
@@ -110,11 +109,11 @@ namespace YunusExpress_MVC.Migrations
 
             modelBuilder.Entity("YunusExpress_MVC.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("OrderNo")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderNo"));
 
                     b.Property<int?>("CourierId")
                         .HasColumnType("int");
@@ -128,24 +127,26 @@ namespace YunusExpress_MVC.Migrations
                     b.Property<bool>("EDV")
                         .HasColumnType("bit");
 
+                    b.Property<decimal>("FinalPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("FromCourierId")
                         .HasColumnType("int");
 
                     b.Property<int>("InvoiceNo")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsPaylanma")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Note")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("OrderNo")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("OrderPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ReceiverAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ReceiverId")
@@ -156,11 +157,9 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverPhoneNum")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderAddress")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderName")
@@ -168,7 +167,6 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderPhoneNum")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ServiceId")
@@ -184,10 +182,9 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ZengEdeninAdi")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderNo");
 
                     b.HasIndex("CourierId");
 

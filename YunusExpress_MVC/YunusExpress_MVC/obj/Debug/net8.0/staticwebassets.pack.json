@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\favicon.ico",
+      "PackagePath": "staticwebassets\\assets\\favicon.ico"
+    },
+    {
       "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\logo.png",
       "PackagePath": "staticwebassets\\assets\\logo.png"
     },
@@ -11,6 +15,14 @@
     {
       "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\index.css",
       "PackagePath": "staticwebassets\\assets\\style\\index.css"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\invoiceList.css",
+      "PackagePath": "staticwebassets\\assets\\style\\invoiceList.css"
+    },
+    {
+      "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\invoys.css",
+      "PackagePath": "staticwebassets\\assets\\style\\invoys.css"
     },
     {
       "Id": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\newClient.css",

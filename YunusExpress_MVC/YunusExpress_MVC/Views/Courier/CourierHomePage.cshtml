@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "CourierHomePage";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -9,9 +10,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YunisExpress</title>
     <link rel="stylesheet" href="~/assets/style/index.css">
     <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
+    <title>Kuryerlərim</title>
 </head>
 
 <body>
@@ -31,11 +33,9 @@
                 <a asp-controller="Courier" asp-action="CourierIndex" class="btn-primary">Keç</a>
             </div>
 
-            <div class="option-card">
-                <h3 class="card-title">Kuryerlərim</h3>
-                <a href="" class="btn-primary">Keç</a>
-            </div>
-            <a href="./index.html" class="option-card btn">Əsas Səhifəyə Qayıt</a>
+           
+            <a asp-controller="Home" asp-action="Index" class="option-card btn">Əsas Səhifəyə Qayıt</a>
+            
 
 
 

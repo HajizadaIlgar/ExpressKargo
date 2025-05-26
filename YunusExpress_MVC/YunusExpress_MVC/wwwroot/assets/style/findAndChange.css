@@ -106,12 +106,12 @@ body {
 
 .styled-table th{
     padding: 3px 3px;
-    border: 1px solid #dddddd;
+    border: 1px solid #000;
 }
 
 .styled-table td {
     padding: 3px 3px;
-    border: 1px solid #dddddd;
+    border: 1px solid #000;
     color: #000000;
 }
 
@@ -120,10 +120,10 @@ body {
     background-color: #acacac63; 
     cursor: pointer;
 }
-.styled-table tbody tr td:hover {
+/*.styled-table tbody tr td:hover {
     background-color: #acacaca4; 
     cursor: pointer;
-}
+}*/
 
 /* CELLS */
 .column-sifaris {
@@ -145,7 +145,7 @@ body {
 }
 
 .column-nov {
-    width: 1%; 
+    width: 1%;
 }
 
 .column-kuryer {

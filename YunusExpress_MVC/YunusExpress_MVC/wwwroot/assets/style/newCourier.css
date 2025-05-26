@@ -31,13 +31,14 @@ body {
 h1 {
     text-align: center;
     font: 700 35px arial;
+    padding: 20px 0;
 }
 
 .container {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    padding: 10px;
+    padding: 15px 25px;
     border: 1px solid var(--border-color);
     max-width: 500px;
     margin: 40px auto 0 auto;

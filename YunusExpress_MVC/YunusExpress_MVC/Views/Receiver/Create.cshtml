@@ -13,6 +13,8 @@
     <title>Yeni Müştəri</title>
     <link href="~/assets/style/reset.css" rel="stylesheet">
     <link href="~/assets/style/newClient.css" rel="stylesheet">
+    <link href="~/assets/favicon.ico" rel="icon" />
+
 </head>
 
 <body>
@@ -27,27 +29,27 @@
 
                     <div class="text-section">
                         <label asp-for="ClientCode" class="text-label">Müştəri Nömrəsi</label>
-                        <input asp-for="ClientCode" type="text" class="text-input" />
+                        <input asp-for="ClientCode" type="text" class="text-input" id="clientCode" required/>
                     </div>
 
                     <div class="text-section">
                         <label asp-for="ReceiverName" class="text-label">Müştəri Adı</label>
-                        <input asp-for="ReceiverName" type="text" class="text-input" />
+                        <input asp-for="ReceiverName" type="text" class="text-input" id="clientName" required />
                     </div>
 
                     <div class="text-section">
                         <label asp-for="ReceiverAddress" class="text-label">Müştərinin Adresi</label>
-                        <input asp-for="ReceiverAddress" type="text" class="text-input" />
+                        <input asp-for="ReceiverAddress" type="text" class="text-input" id="clientAdd" />
                     </div>
 
                     <div class="text-section">
                         <label asp-for="ReceiverPhoneNum" class="text-label">Müştərinin Telefon Nömrəsi</label>
-                        <input asp-for="ReceiverPhoneNum" type="tel" class="text-input" maxlength="17" />
+                        <input asp-for="ReceiverPhoneNum" type="tel" class="text-input" maxlength="17" id="clientNum" />
                     </div>
 
                     <div class="text-section">
                         <label asp-for="ContractDate" class="text-label">Müqavilənin Tarixi</label>
-                        <input asp-for="ContractDate" type="date" class="text-input" style="width: 199px;" />
+                        <input asp-for="ContractDate" type="date" class="text-input" style="width: 199px;" id="contrDate" />
                     </div>
 
                     <div class="text-section">
@@ -59,44 +61,47 @@
                     </div>
                 </fieldset>
             </div>
+            <div class="form-section">
+                <fieldset>
+                    <legend>Müştərinin Bank Məlumatları</legend>
+                    <div class="text-section">
+                        <label asp-for="BankName" class="text-label">Bank Adı</label>
+                        <input asp-for="BankName" type="text" class="text-input" id="bankName" />
+                    </div>
 
+                    <div class="text-section">
+                        <label asp-for="BankCode" class="text-label">Kod</label>
+                        <input asp-for="BankCode" type="text" class="text-input" id="bankCode" />
+                    </div>
+
+                    <div class="text-section">
+                        <label asp-for="BankVoen" class="text-label">Bankın VÖEN-i</label>
+                        <input asp-for="BankVoen" type="text" class="text-input" id="bankVoen" />
+                    </div>
+                </fieldset>
+            </div>
             <div class="form-section">
                 <fieldset>
                     <legend>Müştərinin Rekvizitləri</legend>
 
                     <div class="text-section">
-                        <label asp-for="BankName" class="text-label">Bank Adı</label>
-                        <input asp-for="BankName" type="text" class="text-input" />
-                    </div>
-
-                    <div class="text-section">
-                        <label asp-for="BankCode" class="text-label">Kod</label>
-                        <input asp-for="BankCode" type="text" class="text-input" />
-                    </div>
-
-                    <div class="text-section">
-                        <label asp-for="BankVoen" class="text-label">Bankın VÖEN-i</label>
-                        <input asp-for="BankVoen" type="text" class="text-input" />
-                    </div>
-
-                    <div class="text-section">
                         <label asp-for="Swift" class="text-label">S.W.I.F.T.</label>
-                        <input asp-for="Swift" type="text" class="text-input" />
+                        <input asp-for="Swift" type="text" class="text-input" id="swift" />
                     </div>
 
                     <div class="text-section">
                         <label asp-for="Voen" class="text-label">VÖEN</label>
-                        <input asp-for="Voen" type="text" class="text-input" />
+                        <input asp-for="Voen" type="text" class="text-input" id="voen" />
                     </div>
 
                     <div class="text-section">
                         <label asp-for="Iban" class="text-label">IBAN</label>
-                        <input asp-for="Iban" type="text" class="text-input" />
+                        <input asp-for="Iban" type="text" class="text-input" id="iban" />
                     </div>
 
                     <div class="text-section">
                         <label asp-for="Mh" class="text-label">M/H</label>
-                        <input asp-for="Mh" type="text" class="text-input" />
+                        <input asp-for="Mh" type="text" class="text-input" id="mh" />
                     </div>
                 </fieldset>
             </div>
@@ -128,6 +133,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        //avtomatik tarix doldurma
+        document.getElementById("contrDate").value = new Date().toISOString().split('T')[0];
         const form = document.getElementById("client-form");
 
         const clientCodeInput = document.getElementById("ClientCode");
@@ -172,66 +179,53 @@
             }
         });
     });
-</script>
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const select = document.getElementById("isEdvSelect");
+    //     const hiddenInput = document.querySelector("input[name='IsEdv']");
 
+    //     İlk dəyəri təyin et
+    //     hiddenInput.value = select.value;
 
+    //     Dəyişiklik olduqda input-u yenilə
+    //     select.addEventListener("change", function () {
+    //         hiddenInput.value = select.value;
+    //     });
+    // });
+    //enterle diger inputlara kecis sistemi
+    // Ordered list of input IDs
+    const inputOrder = [
+        "clientCode", 
+        "clientName", 
+        "clientAdd", 
+        "clientNum", 
+        "bankName", 
+        "bankCode", 
+        "bankVoen", 
+        "swift", 
+        "voen", 
+        "iban", 
+        "mh"
 
+        // add the rest of your input IDs here in the order you want
+    ];
 
-<script>
-    const phoneInput = document.getElementById("kuryer-tel");
+    // Convert to actual input elements
+    const inputs = inputOrder.map(id => document.getElementById(id)).filter(Boolean);
 
-    function formatAzerbaijanPhone(value) {
-        let digits = value.replace(/\D/g, "");
-        if (digits.startsWith("994")) digits = "+" + digits;
-        else if (digits.startsWith("0")) digits = "+994" + digits.slice(1);
-        else if (!digits.startsWith("994")) digits = "+994" + digits;
-
-        return digits
-            .replace(/^(\+994)(\d{2})?(\d{3})?(\d{2})?(\d{2})?/, function (_, p1, p2, p3, p4, p5) {
-                return [
-                    p1,
-                    p2 ? " " + p2 : "",
-                    p3 ? " " + p3 : "",
-                    p4 ? " " + p4 : "",
-                    p5 ? " " + p5 : ""
-                ].join("");
-            });
-    }
-
-    // Autofill on page load
-    window.addEventListener("DOMContentLoaded", () => {
-        if (!phoneInput.value.trim()) {
-            phoneInput.value = "+994 ";
-        }
-    });
-
-    // Autofill on focus
-    phoneInput.addEventListener("focus", () => {
-        if (!phoneInput.value.startsWith("+994")) {
-            phoneInput.value = "+994 ";
-        }
-    });
-
-    // Format while typing
-    phoneInput.addEventListener("input", (e) => {
-        const formatted = formatAzerbaijanPhone(e.target.value);
-        e.target.value = formatted;
-    });
-</script>
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const select = document.getElementById("isEdvSelect");
-            const hiddenInput = document.querySelector("input[name='IsEdv']");
-
-            // İlk dəyəri təyin et
-            hiddenInput.value = select.value;
-
-            // Dəyişiklik olduqda input-u yenilə
-            select.addEventListener("change", function () {
-                hiddenInput.value = select.value;
-            });
+    // Attach keydown listener to each input
+    inputs.forEach((input, index) => {
+        input.addEventListener("keydown", (e) => {
+            console.log(input.id);
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const nextInput = inputs[index + 1];
+                if (nextInput) {
+                    nextInput.focus();
+                } else {
+                    // Optionally submit form or do nothing
+                    // console.log("Form completed or no next input");
+                }
+            }
         });
-    </script>
- 
+    });
+</script>

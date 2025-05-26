@@ -1,0 +1,117 @@
+﻿@using YunusExpress_MVC.ViewModels
+@model List<ReceiverDebtViewModel>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoys Tap</title>
+    <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link rel="stylesheet" href="~/assets/style/invoiceList.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>İnvoys Tap</h1>
+        <form action="">
+            <!-- <div class="form-heading">
+                <div style="display: flex;">
+                    <div>
+                        <div class="text-section" style="width: 350px;">
+                            <label class="text-label">Göndərən</label>
+                            <input type="text" class="text-input" style="width: 60px;" list="order-numbers" />
+                            <datalist id="order-numbers">
+                                <option value="Order001"></option>
+                                <option value="Order002"></option>
+                                <option value="Order003"></option>
+                                <option value="Order004"></option>
+                            </datalist>
+                            <input type="text" class="text-input" />
+                        </div>
+                        <div class="text-section" style="width: 350px;">
+                            <label class="text-label">Kuryer</label>
+                            <input type="text" class="text-input" style="width: 60px;" list="order-numbers" />
+                            <datalist id="order-numbers">
+                                <option value="Order001"></option>
+                                <option value="Order002"></option>
+                                <option value="Order003"></option>
+                                <option value="Order004"></option>
+                            </datalist>
+                            <input type="text" class="text-input" />
+                        </div>
+                    </div>
+                    <div style="margin: 0 0 0 50px;">
+                        <div style="width: 150px;margin:0 0 5px 0">
+                            <input type="text" class="text-input" style="width: 60px;" list="order-numbers" />
+                            <p style="display: inline;">-dən</p>
+                        </div>
+                        <div style="width: 150px;">
+                            <input type="text" class="text-input" style="width: 60px;" list="order-numbers" />
+                            <p style="display: inline;">-dək</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="radios">
+                    <div class="radio-section">
+                        <input type="radio" class="radio-input" id="sender" name="type" />
+                        <label class="radio-label" for="sender">Hamısı</label>
+                    </div>
+                    <div class="radio-section">
+                        <input type="radio" class="radio-input" id="seperation" name="type" />
+                        <label class="radio-label" for="seperation">Paylanma</label>
+                    </div>
+                    <div class="radio-section">
+                        <input type="radio" class="radio-input" id="buklet" name="type" />
+                        <label class="radio-label" for="buklet">Bukletlər</label>
+                    </div>
+                    <div class="radio-section">
+                        <input type="radio" class="radio-input" id="waybil" name="type" />
+                        <label class="radio-label" for="waybil">Waybill - 0</label>
+                    </div>
+                </div>
+                <div style="width: 250px;display: flex;">
+                    <button class="today-btn">Bu gün</button>
+                </div>
+            </div> -->
+            <div class="form-table">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th class="column-alici-unvan">Müştəri Adı</th>
+                            <th class="column-mebleg">Aylıq Borc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="cursor:default">
+                                <td style="cursor:default">
+                                    <a asp-controller="Order" asp-action="ForPrintInvoice" asp-route-id="@item.id"
+                                       style="color: black; text-decoration: none;">
+                                        @item.ReceiverName
+                                    </a>
+                                </td>
+                                <td>@item.TotalDebt</td>
+                            </tr>
+                        }
+
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="back-btn">
+                
+                    <a asp-controller="Home" asp-action="Index">⬅</a>
+                
+            </div>
+        </form>
+    </div>
+    </div>
+</body>
+
+</html>

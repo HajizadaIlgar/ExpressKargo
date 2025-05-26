@@ -1,0 +1,304 @@
+﻿@using YunusExpress_MVC.ViewModels
+@model InvoiceDto
+<!DOCTYPE html>
+<html lang="az">
+
+<head>
+    <meta charset="UTF-8">
+    <title>YunisExpress Hesab-faktura</title>
+    <link rel="stylesheet" href="~/assets/style/invoys.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
+</head>
+
+<body>
+    <div class="invoice-container">
+        @foreach (var items in Model.PartOfInvoice)
+        {
+        <div class="header">
+            <div class="logo">YUNIS<span class="express">Express</span></div>
+            <div style="font-size:0.95rem; margin-left: auto;">
+                Məktub və Bağlamaların Daşınması
+            </div>
+        </div>
+        <div class="header-details">
+            <span>Ünvan: Bakı şəh., Ə. Hüseynzadə küçəsi 69</span>
+            <span>Tel.(994-12) 596-00-77 / Faks 596-00-77</span>
+        </div>
+        <div class="header-details">
+            <span id="headingDate">1 noyabr 2024 il</span>
+            <span>Müq. nömrəsi: 366</span>
+                <span>Müq Tarix: @items.ContractDate.ToString("dd/MM/yyyy")</span>
+        </div>
+          
+                <div class="invoice-title">
+                    Hesab-faktura № <span style="border:1px solid #888; padding:2px 10px; border-radius:4px; background:#f3f6fa;">@items.Orders/2025</span>
+        </div>
+            
+        <div class="invoice-info">
+                <span>Kod: @items.ClientCode</span>
+                <span>Təşkilat: @items.ReceiverName</span>
+            <span></span>
+        </div>
+        <div class="address">
+                Ünvan:@items.ReceiverAddress
+        </div>
+        <div class="info-row">
+            <div class="info-col">
+                <div style="font-weight:600; margin-bottom:2px;">Alanın rekvizitləri</div>
+                <div class="info-box">
+                    Bank Respublika ASC<br>
+                    Bankın VÖEN-i: 990001901<br>
+                    S.W.I.F.T. BRESAZ22 &nbsp;&nbsp; Kod 505668<br>
+                    Hesab: AZ58NABZ013501000000000985961<br>
+                    M/H: AZ28NABZ013501000000000985961<br>
+                    VÖEN: 14006739821
+                </div>
+            </div>
+            <div class="info-col">
+                <div style="font-weight:600; margin-bottom:2px;">Ödəyənin rekvizitləri</div>
+                <div class="info-box">
+                        @items.BankName<br>
+                        Kod: @items.BankCode<br>
+                        Bankın VÖEN-i: @items.BankVoen<br>
+                        S.W.I.F.T: @items.Swift<br>
+                        VÖEN: @items.Voen<br>
+                        IBAN: @items.Iban<br>
+                        M/H: @items.Mh
+                </div>
+            </div>
+        
+        </div>
+        }
+        <div class="table-title">
+            Hesabata əsasən  ilin  ayında yerinə yetirilmiş daşımalar üçün ödənış
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:32px;">№</th>
+                    <th>Poçt xidməti</th>
+                    <th style="width:120px;">Məbləğ (manat)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="center">1</td>
+                    <td>Daxili çatdırmalar</td>
+                    <td class="right">@Model.PartOfPrice.Sum(x => decimal.Parse(x.Total))</td>
+                </tr>
+                <tr>
+                    <td class="center">2</td>
+                    <td>Güzəşt : @Model.PartOfPrice.FirstOrDefault()?.Discount1 %</td>
+                    <td class="right">0.00</td> <!-- Güzəşt hesablamanı əlavə edə bilərsən -->
+                </tr>
+                <tr>
+                    <td class="center">3</td>
+                    <td>Beynəlxalq çatdırmalar :</td>
+                    <td class="right">0.00</td>
+                </tr>
+                <tr>
+                    <td class="center">4</td>
+                    <td>Güzəşt : 0%</td>
+                    <td class="right">0.00</td>
+                </tr>
+                <tr>
+                    <td class="center">5</td>
+                    <td>ƏDV : @(Model.PartOfPrice.Any(x => x.Edv) ? "18" : "0") %</td>
+                    <td class="right">
+                        @{
+                            // ƏDV hesablaması - cəmi məbləğin 18%-i yoxsa 0
+                            var edvRate = Model.PartOfPrice.Any(x => x.Edv) ? 0.18m : 0m;
+                            var edvAmount = Model.TotalPrice * edvRate;
+                        }
+                        @edvAmount.ToString("0.00")
+                    </td>
+                </tr>
+                <tr class="total-row">
+                    <td class="center">6</td>
+                    <td>Cəmi ödəniləcək :</td>
+                    <td class="right">@((Model.TotalPrice + edvAmount).ToString("0.00"))</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-se" style="font-weight:bold;">
+            Hesab 15 gün ərzində ödənilməlidir.<br/>
+            Qiymətlər manatla göstərilib. Ödəniş nəğd və ya köçürmə Yolu İlə.
+        </div>
+        <div class="signature">
+            <div>
+                <div class="signature-item">
+                    <span class="label">Rəhbər</span>
+                    <div class="line"></div>
+                </div>
+                <div class="signature-item">
+                    <span class="label">Baş Mühasib</span>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div>
+                <span class="left-thing">M.Y.</span>
+            </div>
+        </div>
+        <div class="print-btn">
+            <a href="javascript:void(0);" onclick="window.print()">Print</a>
+        </div>
+        <div class="back-btn">
+
+            <a asp-controller="Home" asp-action="Index">⬅</a>
+
+        </div>
+        
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date();
+            const day = today.getDate(); // Cari tarixi al
+            const year = today.getFullYear(); // İl
+            const month = today.getMonth(); // Ay (0-dan başlayır, 0 = yanvar, 1 = fevral, ...)
+            const months = [
+                "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust",
+                "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
+            ];
+            const monthName = months[month]; // Bu ayın adı
+
+            // Hesabatın başlığını dəyişdir
+            const titleElement = document.querySelector(".table-title");
+            const headingDate = document.getElementById("headingDate");
+            if (titleElement) {
+                titleElement.textContent = `Hesabata əsasən ${year} ilin ${monthName} ayında yerinə yetirilmiş daşımalar üçün ödəniş`;
+                
+                headingDate.textContent = `${day} ${monthName} ${year} il`;
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+ <br />
+ <br />
+ <br />
+ <br />
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Invoice</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<style>
+  @@import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
+  body {
+    font-family: 'Times New Roman', serif;
+  }
+  .border-collapse-separate {
+    border-collapse: separate;
+    border-spacing: 0 0.25rem;
+  }
+</style>
+</head>
+<body class="bg-white p-6">
+  <div class="max-w-5xl mx-auto text-[13px] leading-tight text-black">
+    <div class="flex justify-between items-start mb-2">
+      <div class="font-bold text-[18px]">
+        ZAMAN <span class="italic font-normal">Express</span>
+      </div>
+            @{
+                var firstOrder = Model.Orders.FirstOrDefault();
+            }
+
+            @if (firstOrder != null)
+            {
+                <div class="text-[13px] text-right leading-[1.1]">
+                    <div><span class="font-bold">Təşkilat</span> @firstOrder.ReceiverName </div>
+                    <div><span class="font-bold">Kod</span> @firstOrder.Receiver.ClientCode</div>
+                    <div><span class="font-bold">VÖEN</span> @firstOrder.Receiver.Voen</div>
+                    <div><span class="font-bold">Ünvan</span> @firstOrder.ReceiverAddress</div>
+                    <div><span class="font-bold">Tel</span> @firstOrder.ReceiverPhoneNum</div>
+                    <div><span class="font-bold">Faks</span></div>
+                    <div><span class="font-bold italic">Kontraktın No-si</span> @firstOrder.Receiver.ClientCode</div>
+                </div>
+            }
+
+    </div>
+    <div class="text-[10px] mb-3">
+      <div>Çatdırılmalı Poçtdaşıma Xidməti</div>
+      <div>Ünvan: Bakı şəh., Əlibəy Hüseynzada küç. 69. Tel. 596 00 77 / Faks 596 01 77</div>
+    </div>
+    <div class="mb-3">
+      <div class="inline-block border border-black px-2 py-[1px] text-[14px] font-semibold">6342/2024</div>
+      <span class="ml-2 text-[13px]">əsasən 2024 ilin oktyabr ayının hesabatı</span>
+      <div class="mt-1 text-[13px]">1 noyabr 2024 il</div>
+    </div>
+
+    <table class="w-full border border-black border-collapse-separate" style="border-spacing: 0 0.15rem;">
+      <thead>
+        <tr class="text-[10px] font-semibold text-center border-b border-black">
+          <th class="border-r border-black px-1 py-0.5 w-[3.5rem]">Sif №</th>
+          <th class="border-r border-black px-1 py-0.5 w-[4.5rem]">Veybil</th>
+          <th class="border-r border-black px-1 py-0.5 w-[4.5rem]">Tarix</th>
+          <th class="border-r border-black px-1 py-0.5 w-[8rem]">Adı</th>
+          <th class="border-r border-black px-1 py-0.5 w-[12rem] text-left">Göndərən Ünvanı</th>
+          <th class="border-r border-black px-1 py-0.5 w-[5rem]">Zona</th>
+          <th class="border-r border-black px-1 py-0.5 w-[2.5rem]">Sif. növü</th>
+          <th class="border-r border-black px-1 py-0.5 w-[8rem]">Adı</th>
+          <th class="border-r border-black px-1 py-0.5 w-[12rem] text-left">Ünvanı</th>
+          <th class="border-r border-black px-1 py-0.5 w-[3rem]">Qiymət</th>
+          <th class="border-r border-black px-1 py-0.5 w-[4rem]">Əlavə xidmət</th>
+          <th class="px-1 py-0.5 w-[4rem]">Məbləğ</th>
+          <th class="px-1 py-0.5 w-[5rem]">Qeyd</th>
+        </tr>
+      </thead>
+            <tbody class="text-[11px] text-center">
+                @foreach (var item in Model.Orders)
+                {
+                    <tr class="border-b border-black">
+                        <td class="border-r border-black px-1 py-0.5">@item.OrderNo</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.InvoiceNo</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.StartDate.ToString("dd.MM.yyyy")</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.ReceiverName</td>
+                        <td class="border-r border-black px-1 py-0.5 text-left">@item.ReceiverAddress</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.DeliveryZone.Name</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.ServiceType!.ServiceType</td>
+                        <td class="border-r border-black px-1 py-0.5 text-left">@item.SenderName</td>
+                        <td class="border-r border-black px-1 py-0.5 text-left">@item.SenderAddress</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.OrderPrice</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.SpecialPrice</td>
+                        <td class="border-r border-black px-1 py-0.5">@item.FinalPrice</td>
+                        <td class="px-1 py-0.5">@item.Note</td>
+                    </tr>
+                }
+            </tbody>
+
+    </table>
+    <div class="flex justify-center mt-6 space-x-20 text-[13px] font-semibold">
+      <div class="text-center">
+        Müqaviləyə əsasən güzəşt: 0%
+        <br />
+        <br />
+        Müqaviləyə əsasən güzəşt: 0%
+      </div>
+            <div class="text-left">
+                <div class="flex justify-between"><span>Sifarişlərin sayı :</span> <span>@Model.Orders.Count()</span></div>
+                <div class="flex justify-between"><span>Daxili çatdırmalar :</span> <span>@Model.Orders.Sum(o => o.OrderPrice).ToString("0.00")</span></div>
+                <div class="flex justify-between"><span>Güzəştin məbləği :</span> <span>@Model.Orders.Sum(o => o.SpecialPrice).GetValueOrDefault().ToString("0.00")</span></div>
+                <div class="flex justify-between">
+                    <span>Beynəlxalq çatdırmalar :</span>
+                    <span>
+                        @Model.Orders.Where(o => o.DeliveryZone != null && o.DeliveryZone.Id>=6).Sum(o => o.OrderPrice).ToString("0.00")
+                    </span>
+                </div>
+                <div class="flex justify-between"><span>Güzəştin məbləği :</span> <span>@Model.Orders.Where(o => o.DeliveryZone != null && o.DeliveryZone.Id >= 6).Sum(o => o.SpecialPrice).Value.ToString("0.00")</span></div>
+                <div class="flex justify-between"><span>Ümumi :</span> <span>@Model.Orders.Sum(o => o.FinalPrice).ToString("0.00")</span></div>
+                <div class="flex justify-between"><span>ƏDV 0 % :</span> <span>0.00</span></div>
+                <div class="flex justify-between border border-black mt-1 px-2 py-0.5">
+                    <span>Yekun :</span> <span>@Model.Orders.Sum(o => o.FinalPrice).ToString("0.00") man.</span>
+                </div>
+            </div>
+
+    </div>
+  </div>
+</body>
+</html>

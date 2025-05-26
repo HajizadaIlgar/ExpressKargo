@@ -219,3 +219,11 @@ h1 {
   border: 2px inset #000;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input {
+    text-align: right !important;
+}

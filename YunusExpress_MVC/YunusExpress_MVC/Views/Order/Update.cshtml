@@ -7,494 +7,459 @@
     ViewData["Title"] = "Yeni Sifariş Yarat";
 }
 
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Order</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="~/assets/style/newOrder.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yeni Sifariş</title>
+  <link href="~/assets/style/newOrder.css" rel="stylesheet">
+    <link href="~/assets/favicon.ico" rel="icon" />
 </head>
-<style>
-    .custom-validation-error {
-        color: #e74c3c;
-        font-weight: bold;
-        font-size: 14px;
-        margin-top: 5px;
-        display: flex;
-        align-items: center;
-    }
 
-        .custom-validation-error::before {
-            content: "⚠️";
-            margin-right: 5px;
-        }
 
-</style>
 <body>
-    <h1>Yeni Sifariş</h1>
-    <div class="container">
-        <form enctype="multipart/form-data" method="post">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div asp-validation-summary="ModelOnly"></div>
-
-            <div class="form-heading">
-                <div class="rows">
-                    <div class="row">
+  <h1>Yeni Sifariş</h1>
+  <div class="container">
+        <form method="post" id="order-form">
+      <div class="vcontainer">
+        <div class="form-heading">
+          <div class="rows" style="display:flex;flex-direction:column;">
+             <div class="row">
+                <div class="text-section">
+                  <label  class="text-label" style="width: 100px;">Sifariş No</label>
+                  <input  type="text" class="text-input" style="width:100px;" readonly/>
+                </div>
+              <div class="text-section">
+                <label asp-for="InvoiceNo" class="text-label" style="width:35px;">Veybil</label>
+                <input asp-for="InvoiceNo" type="text" class="text-input" style="width:100px;" />
+              </div>
+            </div>
+             <div class="row">
+                                           <!-- Receiver seçimi üçün input -->
                         <div class="text-section">
-                            <label asp-for="OrderNo" class="text-label">Sifariş No</label>
-                            <input asp-for="OrderNo" type="text" class="text-input" />
-                            <span asp-validation-for="OrderNo" class="text-danger"></span>
-                        </div>
-                        <div class="text-section">
-                            <label asp-for="InvoiceNo" class="text-label">Veybil</label>
-                            <input asp-for="InvoiceNo" type="text" class="text-input" required />
-                            <span asp-validation-for="InvoiceNo" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <!-- Receiver seçimi üçün input -->
-                        <div class="text-section">
-                            <label class="text-label">Klientin Kodu</label>
-                            <input class="text-input" list="receiverList" id="receiverInput" placeholder="Receiver seçin" />
-                            <datalist id="receiverList">
-                                <select class="form-control" id="receiverSelect" asp-for="ReceiverId" asp-items="ViewBag.Receiver">
-                                    <option value="">Select Receiver</option>
-                                </select>
-                            </datalist>
-                            <span asp-validation-for="ReceiverId" class="text-danger"></span>
+                            <label style="width:100px;" class="text-label">Klientin Kodu</label>
+                            <input class="text-input" list="receiverList" id="receiverInput" style="width:100px;" />
+                            <datalist id="receiverList"></datalist>
                         </div>
 
                         <!-- Müştəri kodunu göstərən input -->
                         <div class="text-section">
-                            <input type="text" id="clientCode" class="text-input" readonly />
+                            <input type="text" id="clientCode" class="text-input" readonly style="width:100px;" />
                         </div>
-                    </div>
-                </div>
-
-                <script>
-                    let receivers = [];
-
-                    document.addEventListener("DOMContentLoaded", async () => {
-                        try {
-                            const response = await fetch('/Order/ReceiverData');
-                            if (!response.ok) throw new Error("Şəbəkə xətası!");
-
-                            receivers = await response.json();
-
-                            const datalist = document.getElementById("receiverList");
-                            datalist.innerHTML = "";
-
-                            // Option dəyərlərini: "1 Veysel_MMC" şəklində göstər
-                            receivers.forEach(receiver => {
-                                const option = document.createElement("option");
-                                option.value = `${receiver.clientCode} ${receiver.receiverName}`; // Görünən dəyər
-                                option.dataset.clientcode = receiver.clientCode;  // clientCode məlumatı
-                                option.dataset.receivername = receiver.receiverName;  // receiverName məlumatı
-                                datalist.appendChild(option);
-                            });
-
-                        } catch (error) {
-                            console.error("Receiver dataları alınmadı:", error);
-                        }
-                    });
-
-                    // Seçim edildikdə uyğun olaraq inputlara doldur
-                    document.getElementById("receiverInput").addEventListener("input", function () {
-                        const inputVal = this.value;
-                        const options = document.querySelectorAll("#receiverList option");
-
-                        for (const option of options) {
-                            if (option.value === inputVal) {
-                                const receiverName = option.dataset.clientcode || '';  // clientCode
-                                const clientCode = option.dataset.receivername || '';  // receiverName
-
-                                // Əsas inputlara dəyərləri yaz
-                                document.getElementById("clientCode").value = clientCode;
-                                document.getElementById("receiverInput").value = receiverName;
-
-                                // Əlavə inputlara uyğun receiver taparaq yaz
-                                const matchedReceiver = receivers.find(r =>
-                                    `${r.clientCode} ${r.receiverName}` === inputVal
-                                );
-
-                                if (matchedReceiver) {
-                                    document.getElementById("senderName").value = matchedReceiver.receiverName;
-                                    document.getElementById("senderAdd").value = matchedReceiver.receiverAddress;
-                                    document.getElementById("senderNum").value = matchedReceiver.receiverPhoneNum;
-                                }
-
-                                return;
-                            }
-                        }
-
-                        // Əgər uyğunluq tapılmazsa — sahələri təmizlə
-                        document.getElementById("clientCode").value = "";
-                        document.getElementById("senderName").value = "";
-                        document.getElementById("senderAdd").value = "";
-                        document.getElementById("senderNum").value = "";
-                    });
-                </script>
-
-
-
-
-
-
-
-                <div style="width: 350px;">
-                    <label asp-for="ZengEdeninAdi" class="text-label">Zəng Edənin Adı</label>
-                    <input asp-for="ZengEdeninAdi" type="text" class="text-input" required />
-                    <span asp-validation-for="ZengEdeninAdi" class="text-danger"></span>
-                </div>
-            </div>
-
-
-            <div class="main-colls">
-                <div class="left-coll">
-                    <div class="sender">
-                        <div class="sender-heading">
-                            <h2>GÖNDƏRƏN</h2>
+                        <div style="display:none">
+                            <input id="priceType" value="" readonly  />
+                            <input id="edvType" value="" readonly />
                         </div>
-                        <div class="sender-main">
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="SenderName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
-                                <input asp-for="SenderName" type="text" class="text-input" style="width: 365px;" id="senderName" required>
-                                <span asp-validation-for="SenderName" class="text-danger"></span>
+             </div>
+                            <div >
+                                <label style="width:100px" asp-for="ZengEdeninAdi" class="text-label">Zəng Edənin Adı</label>
+                                <input asp-for="ZengEdeninAdi" type="text" class="text-input" style="width:100px;" />
                             </div>
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="SenderAddress" class="text-label" style="width: 100px;">Ünvanı</label>
-                                <input asp-for="SenderAddress" type="text" class="text-input" style="width: 365px;" id="senderAdd" required>
-                                <span asp-validation-for="SenderAddress" class="text-danger"></span>
-                            </div>
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="SenderPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
-                                <input asp-for="SenderPhoneNum" class="text-input" style="width: 365px;" id="senderNum" required>
-                                <span asp-validation-for="SenderPhoneNum" class="text-danger"></span>
-                            </div>
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="DeliveryZoneId" class="text-label" style="width:100px">Zona</label>
+
+          </div>
+          
+        </div>
+        <div class="main-colls">
+          <div class="left-coll">
+            <div class="sender">
+              <div class="sender-heading">
+                <h2>GÖNDƏRƏN</h2>
+              </div>
+              <div class="sender-main">
+                <div class="text-section" style="width: 300px;">
+                  <label  asp-for="ReceiverName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
+                  <input asp-for="ReceiverName" type="text" class="text-input" id="senderName">
+                </div>
+                <div class="text-section" style="width: 300px;">
+                  <label asp-for="ReceiverAddress" class="text-label" style="width: 100px;">Ünvanı</label>
+                  <input asp-for="ReceiverAddress" type="text" class="text-input" id="senderAdd">
+                </div>
+                <div class="text-section" style="width: 300px;">
+                  <label asp-for="ReceiverPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
+                  <input asp-for="ReceiverPhoneNum" type="number" class="text-input" id="senderNum">
+                </div>
+                 <div class="text-section" style="width: 300px;">
+                                <label asp-for="DeliveryZoneId" class="text-label" style="width:93px">Zona</label>
                                 <select class="input-select" asp-for="DeliveryZoneId" asp-items="ViewBag.DeliveryZone"
-                                        style="width: 380px;">
-                                    <option disabled selected>Select Zone</option>
+                                        style="width: 187px;" id="zoneSelect">
+                                    <option disabled selected>Seçin...</option>
                                 </select>
-                                <span asp-validation-for="DeliveryZoneId" style="font-size: 13px;" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button onclick="transferValues()" type="button" class="opposite-button">ƏKS <span>&#8645;</span></button>
-                    </div>
-
-                    <div class="sender">
-                        <div class="sender-heading">
-                            <h2>ALAN</h2>
-                        </div>
-                        <div class="sender-main">
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="ReceiverName" class="text-label" style="width: 100px;">Alan Adı</label>
-                                <input asp-for="ReceiverName" type="text" class="text-input" id="acceptName" style="width: 365px;">
-                                <span asp-validation-for="ReceiverName" class="text-danger"></span>
-                            </div>
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="ReceiverAddress" class="text-label" style="width: 100px;">Ünvanı</label>
-                                <input asp-for="ReceiverAddress" type="text" class="text-input" id="acceptAdd" style="width: 365px;">
-                                <span asp-validation-for="ReceiverAddress" class="text-danger"></span>
-                            </div>
-                            <div class="text-section" style="width: 500px;">
-                                <label asp-for="ReceiverPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
-                                <input asp-for="ReceiverPhoneNum" class="text-input" id="acceptNum" style="width: 365px;">
-                                <span asp-validation-for="ReceiverPhoneNum" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-                <div class="right-coll">
-                    <div class="desc-text">
-                        <label asp-for="StartDate" class="text-label">Tarix</label>
-                        <input asp-for="StartDate" class="desc-input" type="datetime-local" />
-                        <span asp-validation-for="StartDate" class="text-danger"></span>
-                    </div>
-                    <div class="desc-text">
-
-                        <label asp-for="ServiceId" class="text-label">Xidmət Növü</label>
-                        <select class="desc-select" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
-                            <option>Select Service</option>
-                        </select>
-                        <span asp-validation-for="ServiceId" class="text-danger" style="display: block;"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="from-courier">Kuryer 1</label>
-                        <select asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="from-courier">
-                            <option disabled selected>Seçin...</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="to-courier">Kuryer 2</label>
-                        <select asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="to-courier">
-                            <option disabled selected>Seçin...</option>
-                        </select>
-                    </div>
-
-
-                    <div class="desc-text">
-                        <label asp-for="OrderPrice" class="text-label">Qiymət</label>
-                        <input asp-for="OrderPrice" onchange="calculateAll()" type="number" id="price" class="desc-input" placeholder="Məs: 100.00">
-                        <span asp-validation-for="OrderPrice" class="text-danger"></span>
-                    </div>
-
-                    <div class="desc-text">
-                        <label asp-for="SpecialPrice" class="text-label">Xüsusi Qiymət</label>
-                        <input asp-for="SpecialPrice" onchange="calculateAll()" type="number" id="specialPrice" class="desc-input" placeholder="Kargo və s.">
-                        <span asp-validation-for="SpecialPrice" class="text-danger"></span>
-                    </div>
-
-                    <div class="desc-text">
-                        <label asp-for="Discount" class="text-label">Güzəşt %</label>
-                        <input asp-for="Discount" onchange="calculateAll()" type="number" id="discountPercent" class="desc-input" placeholder="Məs: 10">
-                        <span asp-validation-for="Discount" class="text-danger"></span>
-                    </div>
-
-                    <div class="desc-text">
-                        <label class="text-label">Cəmi</label>
-                        <input type="text" id="subtotal" class="desc-input" readonly>
-                    </div>
-
-                   <div class="text-section" style="width: 500px; margin-left:13px">
-                    <label asp-for="EDV" class="control-label">ƏDV-li</label>
-                    <input asp-for="EDV" type="checkbox" id="isEDV" />
-                    </div>
-
-
-                    <script>
-                        function calculateAll() {
-                            const checkbox = document.getElementById("isEDV");
-                            const hiddenInput = document.querySelector("input[name='EDV']");
-                            hiddenInput.value = checkbox.checked ? "1" : "0";
-                        }
-                    </script>
-
-                    <div class="desc-text">
-                        <label class="text-label">Yekun</label>
-                        <input type="text" id="total" class="desc-input" readonly>
-                    </div>
-
-                    <script>
-                        document.getElementById("receiverInput").addEventListener("input", function () {
-                            const inputVal = this.value.trim();
-
-                            // inputVal-ın yalnız clientCode hissəsini əldə et (əgər əvvəlcə clientCode gəlirsə)
-                            const clientCodeOnly = inputVal.split(" ")[0];
-
-                            // receivers massivindən uyğun clientCode-a sahib receiver-i tap
-                            const matchedReceiver = receivers.find(r => r.clientCode === clientCodeOnly);
-
-                            if (matchedReceiver) {
-                                // Ad və clientCode inputlarına doldur (əgər lazım olsa)
-                                document.getElementById("clientCode").value = matchedReceiver.receiverName;
-                                document.getElementById("receiverInput").value = matchedReceiver.clientCode;
-
-                                // ƏDV checkbox-unu uyğun olaraq işarələ
-                                document.getElementById("isEDV").checked = matchedReceiver.isEDV === true;
-                            } else {
-                                // Heç nə tapılmadısa təmizlə
-                                document.getElementById("clientCode").value = "";
-                                document.getElementById("isEDV").checked = false;
-                            }
-                        });
-
-                    </script>
-
-                    <div class="desc-text">
-                        <label asp-for="Note" class="text-label">Əlavə Qeyd</label>
-                        <textarea asp-for="Note" class="desc-text-ar"></textarea>
-                        <span asp-validation-for="Note" class="text-danger"></span>
-                    </div>
-
-                    <div class="btns">
-                        <button type="reset" class="btn-reset">Təmizlə</button>
-                        <button type="submit" class="btn-submit">Qeyd Et Və Çıx</button>
-                    </div>
-                </div>
+                 </div>
+              </div>
             </div>
-        </form>
+            <div>
+                <button onclick="transferValues()" type="button" class="opposite-button">ƏKS <span>&#8645;</span></button>
+            </div> 
+            <!-- SENDER  -->
+            <div class="sender">
+              <div class="sender-heading">
+                <h2>ALAN</h2>
+              </div>
+              <div class="sender-main">
+                <div class="text-section" style="width: 300px;">
+                  <label asp-for="SenderName" class="text-label" style="width: 100px;">Göndərənin Adı</label>
+                  <input asp-for="SenderName" type="text" class="text-input" id="acceptName">
+                </div>
+                <div class="text-section" style="width: 300px;">
+                  <label asp-for="SenderAddress" class="text-label" style="width: 100px;">Ünvanı</label>
+                  <input asp-for="SenderAddress" type="text" class="text-input" id="acceptAdd">
+                </div>
+                <div class="text-section" style="width: 300px;">
+                  <label asp-for="SenderPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
+                  <input asp-for="SenderPhoneNum" type="number" class="text-input" id="acceptNum">
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="right-coll">
+                        <div class="desc-text">
+                            <label class="text-label" for="start-date">Tarix</label>
+                            <div class="desc-time">
+                                <input asp-for=StartDate type="date" id="start-date" name="StartDate_Date" class="desc-input-t" />
+                                <input asp-for="StartDate" type="time" id="start-time" name="StartDate_Time" class="desc-input-t" />
+                            </div>
+                        </div>
+
+                        <!-- Gizli input, burada birləşdirilmiş datetime olacaq -->
+                        <input type="hidden" id="StartDate" name="StartDate" />
+                          <div class="desc-text">
+                    
+                            <label asp-for="ServiceId" class="text-label">Xidmət Növü</label>
+                            <select id="serviceType" class="desc-select" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
+                                <option></option>
+                            </select>
+                          </div>
+
+                           <div class="desc-text">
+                                <label class="text-label" for="from-courier">Kuryer 1</label>
+                                <select class="desc-select" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="from-courier">
+                                    <option disabled selected>Seçin...</option>
+                                </select>
+                            </div>
+
+                            <div class="desc-text">
+                                <label class="text-label" for="to-courier">Kuryer 2</label>
+                                <select class="desc-select" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="to-courier">
+                                    <option disabled selected>Seçin...</option>
+                                </select>
+                            </div>
+                       
+            <div class="desc-text">
+           
+            </div>
+
+            <div class="desc-text">
+              <label asp-for="OrderPrice" class="text-label">Qiymət</label>
+              <input asp-for="OrderPrice" type="text" id="orderPrice" class="desc-input" >
+            </div>
+
+            <div class="desc-text">
+              <label asp-for="SpecialPrice" class="text-label">Xüsusi Qiymət</label>
+              <input asp-for="SpecialPrice" type="text" id="SpecialPrice" class="desc-input">
+            </div>
+            <div class="desc-text">
+              <label asp-for="Discount" class="text-label">Güzəşt %</label>
+              <input asp-for="Discount" id="discount" type="text" class="desc-input">
+            </div>
+            <div class="desc-text">
+              <label class="text-label">Cəmi</label>
+              <input type="text" class="desc-input" id="subtotal" readonly>
+            </div>
+            <div class="desc-text">
+              <label class="text-label">ƏDV (18%)</label>
+              <input type="text" class="desc-input" id="edv" readonly>
+            </div>
+            <div class="desc-text">
+              <label asp-for="FinalPrice" class="text-label">Yekun</label>
+              <input asp-for="FinalPrice" type="text" class="desc-input" id="total" readonly>
+            </div>
+            <div class="desc-text">
+              <label asp-for="Note" class="text-label">Əlavə Qeyd</label>
+              <textarea asp-for="Note" name="" class="desc-text-ar"></textarea>
+            </div>
+            <div class="btns">
+              <button type="submit" class="btn-submit">Qeyd Et Və Çıx</button>
+            </div>
+          </div>
+        </div>
+        </div>
+    </form>
+    <div class="back-btn">
+      <a asp-controller="Home" asp-action="Index">⬅</a>
     </div>
+  </div>
 
 
+      <script>
+                window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const response = await fetch('/Order/ReceiverData');
+    if (!response.ok) throw new Error('Network response was not ok');
+
+    // Gələn məlumatı json kimi oxuyuruq
+    const data = await response.json(); // data massiv ola bilər, məsələn [{ senderName, receiverName, clientCode }, ...]
+
+    // senderName inputunu tapırıq
+    const senderInput = document.querySelector('#senderName');
+    const receiverInput = document.querySelector('#receiverInput');
+    const clientCodeInput = document.querySelector('#clientCode');
+
+    if (!senderInput) {
+      console.warn('senderName input tapılmadı');
+      return;
+    }
+
+    const senderValue = senderInput.value;
+
+    // Məlumatlar içindən senderValue-ya uyğun olanı tapırıq
+    const matched = data.find(item => item.receiverName === senderValue);
+    if (matched) {
+       receiverInput.value = matched.clientCode || '';
+       clientCodeInput.value = matched.receiverName || '';
+          priceCalculation()  ;     
+pricePutter();
+    } else {
+      console.log('Uyğun məlumat tapılmadı');
+      if (receiverInput) receiverInput.value = 'amcig';
+      if (clientCodeInput) clientCodeInput.value = 'amcig';
+
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+});
+ //datalistin doldurulmasi
+        let receivers = [];
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const response = await fetch('/Order/ReceiverData');
+                if (!response.ok) throw new Error("Şəbəkə xətası!");
+
+                receivers = await response.json();
+                
+
+                const datalist = document.getElementById("receiverList");
+                datalist.innerHTML = "";
+
+                // Option dəyərlərini: "1 Veysel_MMC" şəklində göstər
+                receivers.forEach(receiver => {
+                    const option = document.createElement("option");
+                    option.value = `${receiver.clientCode} ${receiver.receiverName}`; 
+                    option.dataset.clientcode = receiver.clientCode; 
+                    option.dataset.receivername = receiver.receiverName; 
+                    datalist.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error("Receiver dataları alınmadı:", error);
+            }
+        });
+        
+      //datalistden secilen secime gore inpularin doldurulmasi
+      document.getElementById("receiverInput").addEventListener("input", function () {
+    const inputVal = this.value;
+    const options = document.querySelectorAll("#receiverList option");
+
+    for (const option of options) {
+        if (option.value === inputVal) {
+            // dataset atributlarını düzgün oxu
+            const clientCode = option.dataset.clientcode || '';
+            const receiverName = option.dataset.receivername || '';
+
+            document.getElementById("clientCode").value = clientCode;
+            // Burada receiverInput-un dəyərini dəyişmək qarışıqlığa səbəb ola bilər,
+            // əgər məqsəd varsa, saxla, yoxsa sil:
+            // document.getElementById("receiverInput").value = receiverName;
+
+            const matchedReceiver = receivers.find(r =>
+                `${r.clientCode} ${r.receiverName}` === inputVal
+            );
+
+            if (matchedReceiver) {
+                document.getElementById("senderName").value = matchedReceiver.receiverName || '';
+                document.getElementById("senderAdd").value = matchedReceiver.receiverAddress || '';
+                document.getElementById("senderNum").value = matchedReceiver.receiverPhoneNum || '';
+                document.getElementById("priceType").value = matchedReceiver.qiymetVar || '';
+                document.getElementById("edvType").value = matchedReceiver.isEDV || '';
+            }
+
+            return; // tapdısa daha yoxlama
+        }
+    }
+
+    // Seçim uyğun gəlməsə formu təmizlə
+    document.getElementById("clientCode").value = "";
+    document.getElementById("senderName").value = "";
+    document.getElementById("senderAdd").value = "";
+    document.getElementById("senderNum").value = "";
+    document.getElementById("priceType").value = "";
+    document.getElementById("edvType").value = "";
+});
+
+
+        
+//qiymet hissesi
+        //inputlarin teyin olunmasi
+            let priceEl = document.getElementById('orderPrice');
+            let specialEl = document.getElementById('SpecialPrice');
+            let discountEl = document.getElementById('discount');
+            let subtotalEl = document.getElementById('subtotal');
+            let edvEl = document.getElementById('edv');
+            let totalEl = document.getElementById('total');
+        function priceCalculation() {
+            //kohne-teze qiymet
+            const prices = {
+                "prices": [
+                    { "zoneId": 1, "serviceId": 1, "prices": { "old": 5, "new": 6 } },
+                    { "zoneId": 1, "serviceId": 2, "prices": { "old": 4, "new": 5 } },
+                    { "zoneId": 1, "serviceId": 3, "prices": { "old": 3, "new": 4 } },
+                    { "zoneId": 1, "serviceId": 4, "prices": { "old": 2, "new": 3 } },
+                    { "zoneId": 2, "serviceId": 1, "prices": { "old": 8, "new": 10 } },
+                    { "zoneId": 2, "serviceId": 2, "prices": { "old": 6, "new": 8 } },
+                    { "zoneId": 2, "serviceId": 3, "prices": { "old": 7, "new": 7 } },
+                    { "zoneId": 2, "serviceId": 4, "prices": { "old": 6, "new": 6 } },
+                    { "zoneId": 3, "serviceId": 1, "prices": { "old": 13, "new": 15 } },
+                    { "zoneId": 3, "serviceId": 2, "prices": { "old": 11, "new": 13 } },
+                    { "zoneId": 3, "serviceId": 3, "prices": { "old": 8, "new": 11 } },
+                    { "zoneId": 3, "serviceId": 4, "prices": { "old": 7, "new": 10 } },
+                    { "zoneId": 4, "serviceId": 1, "prices": { "old": 15, "new": 18 } },
+                    { "zoneId": 4, "serviceId": 2, "prices": { "old": 12, "new": 14 } },
+                    { "zoneId": 4, "serviceId": 3, "prices": { "old": 9, "new": 13 } },
+                    { "zoneId": 4, "serviceId": 4, "prices": { "old": 8, "new": 12 } },
+                    { "zoneId": 5, "serviceId": 1, "prices": { "old": 0, "new": 0 } },
+                    { "zoneId": 5, "serviceId": 2, "prices": { "old": 0, "new": 0 } },
+                    { "zoneId": 5, "serviceId": 3, "prices": { "old": 10, "new": 10 } },
+                    { "zoneId": 5, "serviceId": 4, "prices": { "old": 8, "new": 8 } },
+                    { "zoneId": 6, "serviceId": 1, "prices": { "old": 0, "new": 0 } },
+                    { "zoneId": 6, "serviceId": 2, "prices": { "old": 0, "new": 0 } },
+                    { "zoneId": 6, "serviceId": 3, "prices": { "old": 14, "new": 14 } },
+                    { "zoneId": 6, "serviceId": 4, "prices": { "old": 12, "new": 12 } },
+                    { "zoneId": 7, "serviceId": 1, "prices": { "old": 0, "new": 0 } },
+                    { "zoneId": 7, "serviceId": 2, "prices": { "old": 0, "new": 0 } },
+                    { "zoneId": 7, "serviceId": 3, "prices": { "old": 18, "new": 18 } },
+                    { "zoneId": 7, "serviceId": 4, "prices": { "old": 16, "new": 16 } }
+                    
+                ]
+            }
+            
+            let zoneId = parseInt(document.getElementById('zoneSelect').value);
+            let serviceId = parseInt(document.getElementById('serviceType').value);
+            let priceType = document.getElementById("priceType").value === "true"; // priceType true/false olacaq
+            priceType=false;
+            // `prices` içərisindən uyğun qiyməti tapmaq
+            const priceObj = prices.prices.find(p => p.zoneId === zoneId && p.serviceId === serviceId);
+
+            if (priceObj) {
+                // priceType true olduqda yeni qiyməti seçirik, əks halda köhnə qiyməti seçirik
+                const selectedPrice = priceType ? priceObj.prices.new : priceObj.prices.old;
+
+                priceEl.value = selectedPrice;
+                pricePutter();
+            } else {
+                // priceEl.value = "Xeta Bas Verdi";
+                pricePutter();
+
+
+            }
+            pricePutter();
+        }
+        function pricePutter(){
+
+            //Pricelerin Inputlara Doldurulmasi
+            let price = parseFloat(priceEl.value) || 0;
+            let special = parseFloat(specialEl.value) || 0;
+            let discount = parseFloat(discountEl.value) || 0;
+
+            // Qiymətlərin cəmi
+            let sum = price + special;
+            subtotalEl.value = sum.toFixed(2);
+
+            // Güzəşt məbləği
+            let discountAmount = (sum * discount) / 100;
+
+            // Güzəşt sonrası məbləğ
+            let discountedTotal = sum - discountAmount;
+
+
+
+            if (document.getElementById("edvType").value == "true") {
+                let edv = discountedTotal * 0.18;
+                edvEl.value = edv.toFixed(2);
+                let total = discountedTotal + edv;
+                totalEl.value = total.toFixed(2);
+
+            }
+            else if (document.getElementById("edvType").value == "false") {
+                edvEl.value = 0;
+                totalEl.value = discountedTotal;
+
+            }
+
+        }
+        //funksiyalarin isleneceyi yerlere birlesdirilmesi
+        document.getElementById('zoneSelect').addEventListener('change', priceCalculation,pricePutter);
+        document.getElementById('serviceType').addEventListener('change', priceCalculation,pricePutter);
+        [priceEl, specialEl, discountEl].forEach(el =>
+            el.addEventListener('input', pricePutter)
+        );
+           //eks duymesi
+        
+
+            function transferValues() {
+                const senderName = document.getElementById("senderName");
+                const senderAdd = document.getElementById("senderAdd");
+                const senderNum = document.getElementById("senderNum");
+
+                const acceptName = document.getElementById("acceptName");
+                const acceptAdd = document.getElementById("acceptAdd");
+                const acceptNum = document.getElementById("acceptNum");
+
+                // Swap values using a temporary variable
+                [senderName.value, acceptName.value] = [acceptName.value, senderName.value];
+                [senderAdd.value, acceptAdd.value] = [acceptAdd.value, senderAdd.value];
+                [senderNum.value, acceptNum.value] = [acceptNum.value, senderNum.value];
+            }
+            //date-hour birlesdiren
+        document.getElementById("order-form").addEventListener("submit", function (e) {
+            const date = document.getElementById("start-date").value;
+            const time = document.getElementById("start-time").value;
+
+            if (!date) {
+                alert("Tarixi daxil edin");
+                e.preventDefault();
+                return;
+            }
+
+            if (!time) {
+                alert("Saatı daxil edin");
+                e.preventDefault();
+                return;
+            }
+
+            // Tarix və saatı ISO 8601 formatında birləşdiririk (2025-05-17T14:30)
+            const combinedDateTime = date + "T" + time;
+            document.getElementById("StartDate").value = combinedDateTime;
+        });
+        // window.addEventListener('DOMContentLoaded', () => {
+        //     const now = new Date();
+
+        //     // Format date as yyyy-MM-dd
+        //     const date = now.toISOString().split('T')[0];
+
+        //     // Format time as HH:mm (24-hour format)
+        //     const time = now.toTimeString().slice(0, 5);
+
+        //     document.getElementById("start-date").value = date;
+        //     document.getElementById("start-time").value = time;
+        // });
+    </script>
 </body>
 </html>
 
 
-<script>
-
-    function transferValues() {
-        const senderName = document.getElementById("senderName");
-        const senderAdd = document.getElementById("senderAdd");
-        const senderNum = document.getElementById("senderNum");
-
-        const acceptName = document.getElementById("acceptName");
-        const acceptAdd = document.getElementById("acceptAdd");
-        const acceptNum = document.getElementById("acceptNum");
-
-        // Swap values using a temporary variable
-        [senderName.value, acceptName.value] = [acceptName.value, senderName.value];
-        [senderAdd.value, acceptAdd.value] = [acceptAdd.value, senderAdd.value];
-        [senderNum.value, acceptNum.value] = [acceptNum.value, senderNum.value];
-    }
-
-    const clientSelect = document.querySelector('.client-select');
-    const senderSections = Array.from(
-        document.querySelectorAll('.sender-main .text-section')
-    );
-
-    function findField(labelText) {
-        const section = senderSections.find(sec => {
-            const lbl = sec.querySelector('label.text-label');
-            return lbl && lbl.textContent.trim() === labelText;
-        });
-        return section && section.querySelector('input, select');
-    }
-
-    clientSelect.addEventListener('change', () => {
-        const id = clientSelect.value;
-        const data = clientsData[id] || {};
-
-        ['Göndərənin Adı', 'Ünvanı', 'Nömrəsi', 'Zona']
-            .forEach(key => {
-                const field = findField(key);
-                if (field) {
-                    field.value = data[key] || '';
-                }
-            });
-    });
-
-
-    $('#receiverSelect').on('change', function () {
-        var receiverId = $(this).val();
-        if (receiverId) {
-            $.ajax({
-                url: '/Receiver/GetClientCode', // Controller/Action
-                type: 'GET',
-                data: { id: receiverId },
-                success: function (response) {
-                    $('#clientCode').val(response.clientCode);
-                },
-                error: function () {
-                    $('#clientCode').val('');
-                    alert('Kod tapılmadı və ya xəta baş verdi.');
-                }
-            });
-        } else {
-            $('#clientCode').val('');
-        }
-    });
-
-
-</script>
-
-
-<script>
-    let receivers = [];
-
-    document.addEventListener("DOMContentLoaded", async () => {
-        try {
-            const response = await fetch('/Order/ReceiverData');
-            if (!response.ok) throw new Error("Şəbəkə xətası!");
-            receivers = await response.json();
-
-            const datalist = document.getElementById("receiverList");
-            datalist.innerHTML = "";
-
-            receivers.forEach(receiver => {
-                const option = document.createElement("option");
-                option.value = `${receiver.clientCode} ${receiver.receiverName}`;
-                option.dataset.clientcode = receiver.clientCode;
-                option.dataset.receivername = receiver.receiverName;
-                datalist.appendChild(option);
-            });
-
-        } catch (error) {
-            console.error("Receiver dataları alınmadı:", error);
-        }
-    });
-
-    document.getElementById("receiverInput").addEventListener("input", function () {
-        const inputVal = this.value.trim();
-        const clientCodeOnly = inputVal.split(" ")[0];
-
-        const matchedReceiver = receivers.find(r => r.clientCode === clientCodeOnly);
-
-        if (matchedReceiver) {
-            document.getElementById("clientCode").value = matchedReceiver.receiverName;
-            document.getElementById("receiverInput").value = matchedReceiver.clientCode;
-            document.getElementById("isEDV").checked = matchedReceiver.isEDV === true;
-        } else {
-            document.getElementById("clientCode").value = "";
-            document.getElementById("isEDV").checked = false;
-        }
-
-        // Yeni seçimdən sonra hesablama yenilənsin
-
-    });
-
-
-</script>
-
-<script>
-    const priceEl = document.getElementById('price');
-    const specialEl = document.getElementById('specialPrice');
-    const discountEl = document.getElementById('discountPercent');
-    const subtotalEl = document.getElementById('subtotal');
-    const totalEl = document.getElementById('total');
-    const isEDVCheckbox = document.getElementById('isEDV');
-
-
-    [priceEl, specialEl, discountEl, isEDVCheckbox].forEach(el =>
-        el.addEventListener('input', calculateAll)
-    );
-
-    function calculateAll() {
-        const price = parseFloat(priceEl.value) || 0;
-        const special = parseFloat(specialEl.value) || 0;
-        const discount = parseFloat(discountEl.value) || 0;
-
-        const sum = price + special;
-        subtotalEl.value = sum.toFixed(2);
-
-        let net = sum;
-
-        if (discount > 0) {
-            const discountAmount = sum * (discount / 100);
-            net -= discountAmount;
-        }
-
-        if (isEDVCheckbox.checked) {
-            const vatAmount = net * 0.18;
-            net += vatAmount;
-        }
-
-        totalEl.value = net.toFixed(2);
-    }
-
-    calculateAll();
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+ 

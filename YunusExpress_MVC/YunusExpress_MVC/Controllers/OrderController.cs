@@ -19,7 +19,6 @@ namespace YunusExpress_MVC.Controllers
                 .Include(x => x.ServiceType)
                 .AsQueryable();
 
-            // ViewBag-lərə SelectList veririk
             // Kod siyahısı üçün
             var senders = await _context.Receivers
                 .Select(r => new SelectListItem
@@ -30,10 +29,12 @@ namespace YunusExpress_MVC.Controllers
                 .Distinct()
                 .ToListAsync();
             // Kod → Ad map-i
-            var senderNames = await _context.Receivers
-                .ToDictionaryAsync(r => r.ClientCode, r => r.ReceiverName);
+            var senderNamesList = await _context.Receivers
+     .Select(r => new { r.ClientCode, r.ReceiverName })
+     .ToListAsync();
+
             ViewBag.Senders = senders;
-            ViewBag.SenderNames = senderNames;
+            ViewBag.SenderNames = senderNamesList;
 
 
             var courierList = await _context.Couriers
@@ -94,11 +95,28 @@ namespace YunusExpress_MVC.Controllers
             if (type == "waybill")
             {
                 // Məsələn: Waybill-ə görə `SenderName == "Private"`
-                orders = orders.Where(x => x.SenderName == "Private");
+                orders = orders.Where(x => x.ReceiverName == "Private");
             }
+            if (type == "paylanma")
+            {
+                orders = orders.Where(x => x.IsPaylanma);
+            }
+
             return View(await orders.ToListAsync());
         }
 
+        [HttpPost]
+        public IActionResult UpdatePaylanma([FromBody] PaylanmaDto data)
+        {
+            var sifaris = _context.Orders.FirstOrDefault(s => s.OrderNo == data.id);
+            if (sifaris == null)
+                return NotFound();
+
+            sifaris.IsPaylanma = data.IsPaylanma;
+            _context.SaveChanges();
+
+            return Ok();
+        }
 
         [HttpGet]
         public IActionResult GetSenders()
@@ -147,12 +165,7 @@ namespace YunusExpress_MVC.Controllers
             var exists = await _context.Orders.AnyAsync(o => o.InvoiceNo == invoiceNo);
             return Json(!exists);
         }
-        [AcceptVerbs("Get", "Post")]
-        public async Task<IActionResult> IsOrderNoAvailable(int orderNo)
-        {
-            var exists = await _context.Orders.AnyAsync(o => o.OrderNo == orderNo);
-            return Json(!exists);
-        }
+
         public async Task<IActionResult> Create()
         {
 
@@ -174,12 +187,25 @@ namespace YunusExpress_MVC.Controllers
                 Value = x.SenderId.ToString(),
                 Text = $"{x.SenderName} ({x.SenderAddress.ToString()})"
             }).ToListAsync();
-            ViewBag.Courier = await _context.Couriers.ToListAsync();
+            ViewBag.Courier = await _context.Couriers.Select(c => new
+            {
+                CourierId = c.CourierId,
+                CourierCode = c.CourierCode,
+                CourierName = c.CourierName,
+            }).ToListAsync();
             ViewBag.DeliveryZone = await _context.DeliveryZones.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
-                Text = $"{x.Name} ({x.DeliveryZoneType.TypeName})"
+                Text = $"{x.Name}"
             }).ToListAsync();
+
+            var lastOrderNo = await _context.Orders
+               .OrderByDescending(o => o.OrderNo)
+               .Select(o => o.OrderNo)
+               .FirstOrDefaultAsync();
+
+            ViewBag.NextOrderNo = (lastOrderNo) + 1;
+
             return View();
         }
 
@@ -188,10 +214,8 @@ namespace YunusExpress_MVC.Controllers
         {
             if (!ModelState.IsValid)
                 return View(vm);
-
             Order order = new Order
             {
-                OrderNo = vm.OrderNo,
                 InvoiceNo = vm.InvoiceNo,
                 StartDate = vm.StartDate,
 
@@ -202,7 +226,7 @@ namespace YunusExpress_MVC.Controllers
                 ReceiverName = vm.ReceiverName,
                 ReceiverPhoneNum = vm.ReceiverPhoneNum,
                 ReceiverAddress = vm.ReceiverAddress,
-
+                ReceiverId = vm.ReceiverId,
 
                 ServiceId = vm.ServiceId,
                 ToCourierId = vm.ToCourierId,
@@ -214,6 +238,7 @@ namespace YunusExpress_MVC.Controllers
                 OrderPrice = vm.OrderPrice,
                 SpecialPrice = vm.SpecialPrice,
                 Discount = vm.Discount,
+                FinalPrice = vm.FinalPrice,
                 EDV = vm.EDV,
                 Note = vm.Note
             };
@@ -223,12 +248,11 @@ namespace YunusExpress_MVC.Controllers
             return RedirectToAction("Index", "Home");
 
         }
-        public async Task<IActionResult> Update(int? id)
+        public async Task<IActionResult> Update(int? orderNo)
         {
-            if (id is null) return BadRequest();
-            var data = await _context.Orders.Where(x => x.Id == id).Select(x => new OrderUpdateVm
+            if (orderNo == null) return BadRequest();
+            var data = await _context.Orders.Where(x => x.OrderNo == orderNo).Select(x => new OrderUpdateVm
             {
-                Id = x.Id,
                 OrderNo = x.OrderNo,
                 InvoiceNo = x.InvoiceNo,
                 StartDate = x.StartDate,
@@ -253,6 +277,7 @@ namespace YunusExpress_MVC.Controllers
                 OrderPrice = x.OrderPrice,
                 SpecialPrice = x.SpecialPrice,
                 Discount = x.Discount,
+                FinalPrice = x.FinalPrice,
                 EDV = x.EDV,
                 Note = x.Note
 
@@ -274,20 +299,19 @@ namespace YunusExpress_MVC.Controllers
             ViewBag.DeliveryZone = await _context.DeliveryZones.Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
-                Text = $"{x.Name} ({x.DeliveryZoneType.TypeName})"
+                Text = $"{x.Name} "
             }).ToListAsync();
 
             return View(data);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(int? id, OrderUpdateVm vm)
+        public async Task<IActionResult> Update(int? orderNo, OrderUpdateVm vm)
         {
-            if (id == null) return BadRequest();
-            var data = await _context.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (orderNo == null) return BadRequest();
+            var data = await _context.Orders.Where(x => x.OrderNo == orderNo).FirstOrDefaultAsync();
             if (data == null) return NotFound();
             if (data is not null)
             {
-                data.OrderNo = vm.OrderNo;
                 data.InvoiceNo = vm.InvoiceNo;
                 data.StartDate = vm.StartDate;
 
@@ -313,6 +337,7 @@ namespace YunusExpress_MVC.Controllers
                 data.SpecialPrice = vm.SpecialPrice;
                 data.Discount = vm.Discount;
                 data.EDV = vm.EDV;
+                data.FinalPrice = vm.FinalPrice;
                 data.Note = vm.Note;
 
                 await _context.SaveChangesAsync();
@@ -324,14 +349,17 @@ namespace YunusExpress_MVC.Controllers
             return Json(await _context.Receivers.Select(x => new
             {
                 x.ClientCode,
+                x.Id,
                 x.ReceiverName,
                 x.ReceiverPhoneNum,
                 x.ReceiverAddress,
+                x.QiymetVar,
+                x.IsEDV,
             }).ToListAsync());
         }
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int orderNo)
         {
-            var data = await _context.Orders.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var data = await _context.Orders.Where(x => x.OrderNo == orderNo).FirstOrDefaultAsync();
             if (data == null)
                 return NotFound();
             _context.Orders.Remove(data);
@@ -356,5 +384,78 @@ namespace YunusExpress_MVC.Controllers
             var ordersList = await _context.Orders.ToListAsync();
             return Json(ordersList);
         }
+
+        public async Task<IActionResult> InvoiceTab()
+        {
+            var now = DateTime.Now;
+            var startOfMonth = new DateTime(now.Year, now.Month, 1);
+            var endOfMonth = startOfMonth.AddMonths(1);
+
+            var model = await _context.Receivers
+                .Select(r => new ReceiverDebtViewModel
+                {
+                    id = r.Id,
+                    ReceiverName = r.ReceiverName,
+                    TotalDebt = r.Orders
+                        .Where(o => o.StartDate >= startOfMonth && o.StartDate < endOfMonth)
+                        .Sum(o => (decimal?)o.FinalPrice) ?? 0
+                })
+                .ToListAsync();
+
+            return View(model);
+        }
+        public async Task<IActionResult> ForPrintReceiverInvoice()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ForPrintInvoice(int? id)
+        {
+            InvoiceDto dto = new InvoiceDto();
+
+            dto.PartOfInvoice = await _context.Receivers.Include(x => x.Orders)
+                .Where(x => x.Id == id)
+                .Select(x => new InvoiceToListVM
+                {
+                    ReceiverName = x.ReceiverName,
+                    ReceiverAddress = x.ReceiverAddress,
+                    ReceiverPhoneNum = x.ReceiverPhoneNum,
+                    BankName = x.BankName,
+                    BankCode = x.BankCode,
+                    ClientCode = x.ClientCode,
+                    BankVoen = x.BankVoen,
+                    Voen = x.Voen,
+                    Iban = x.Iban,
+                    Swift = x.Swift,
+                    Mh = x.Mh,
+                    Orders = x.Orders.Select(x => x.InvoiceNo).FirstOrDefault(),
+                    ContractDate = x.ContractDate,
+                }).ToListAsync();
+
+            dto.Orders = await _context.Orders.Where(x => x.ReceiverId == id)
+                .Include(x => x.Receiver)
+                .Include(x => x.DeliveryZone)
+                .Include(x => x.ServiceType)
+                .Include(x => x.ToCourier)
+                .Include(x => x.FromCourier)
+              .ToListAsync();
+
+            dto.PartOfPrice = await _context.Orders
+                .Where(x => x.ReceiverId == id)
+                .Select(x => new PriceToListVM
+                {
+                    OrderNo = x.OrderNo,
+                    Total = x.FinalPrice.ToString("0.00"),
+                    Edv = x.EDV,
+                    Discount1 = x.Discount,
+                }).ToListAsync();
+
+            dto.TotalPrice = await _context.Orders
+                .Where(x => x.ReceiverId == id)
+                .SumAsync(x => x.FinalPrice);
+
+            return View(dto);
+        }
+
     }
 }

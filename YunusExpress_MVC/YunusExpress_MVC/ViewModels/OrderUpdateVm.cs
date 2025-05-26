@@ -4,9 +4,7 @@ namespace YunusExpress_MVC.ViewModels
 {
     public class OrderUpdateVm
     {
-        public int Id { get; set; }
 
-        [Required(ErrorMessage = "Sifariş nömrəsi tələb olunur")]
         public int OrderNo { get; set; }
 
         [Required(ErrorMessage = "Qaimə nömrəsi tələb olunur")]
@@ -69,6 +67,7 @@ namespace YunusExpress_MVC.ViewModels
 
         [Range(0, 100, ErrorMessage = "Güzəşt 0-100% arasında olmalıdır")]
         public int? Discount { get; set; }
+        public decimal FinalPrice { get; set; }
 
         public bool EDV { get; set; }
 

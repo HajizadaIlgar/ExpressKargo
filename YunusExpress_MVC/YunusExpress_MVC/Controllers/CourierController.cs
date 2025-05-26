@@ -19,29 +19,56 @@ namespace YunusExpress_MVC.Controllers
         }
         public async Task<IActionResult> CourierIndex()
         {
-            var couriers = _context.Couriers.ToList();
-            var orders = _context.Orders
-                .Include(o => o.ServiceType)
-                .ToList();
+            var orders = await _context.Orders.Include(o => o.ServiceType)
+                                             .Include(o => o.ToCourier)
+                                             .ToListAsync();
 
-            var salaryList = couriers.Select(courier =>
+            var couriers = await _context.Couriers.ToListAsync();
+
+            var totalSalary = orders.Sum(o => o.FinalPrice * 0.36m);
+
+            var model = new CourierSalaryPageViewModel
             {
-                var courierOrders = orders.Where(o => o.ToCourierId == courier.CourierId);
+                Orders = orders,
+                Couriers = couriers,
+                TotalSalary = totalSalary
+            };
 
-                var totalDeliveryAmount = courierOrders.Sum(order => CalculateTotalDeliveryPrice(order));
+            return View(model);
+        }
 
-                var orderNo = orders.Where(y => y.OrderNo == courier.OrdersId);
-                return new CourierSalaryViewModel
-                {
-                    OrderNo = courier.OrdersId,
-                    CourierName = courier.CourierName,
-                    TotalDeliveredAmount = totalDeliveryAmount,
-                    Salary = totalDeliveryAmount * 0.36m
-                };
+        public IActionResult GetCourierOrders(string? courierName)
+        {
+            var ordersQuery = _context.Orders
+                .Include(o => o.ServiceType)
+                .Include(o => o.ToCourier)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(courierName))
+                ordersQuery = ordersQuery.Where(o => o.ToCourier.CourierName == courierName);
+
+            var orders = ordersQuery.ToList();
+
+            var data = orders.Select(o => new
+            {
+                invoiceNo = o.InvoiceNo,
+                senderName = o.SenderName,
+                senderAddress = o.SenderAddress,
+                startDate = o.StartDate.ToString("yyyy-MM-dd HH:mm"),
+                serviceType = o.ServiceType.ServiceType,
+                courierCode = o.ToCourier.CourierCode,
+                courierName = o.ToCourier.CourierName,
+                receiverName = o.ReceiverName,
+                receiverAddress = o.ReceiverAddress,
+                finalPrice = o.FinalPrice,
+                salaryAmount = Math.Round(o.FinalPrice * 0.36m, 2)
             }).ToList();
 
-            return View(orders);
+            var totalSalary = data.Sum(x => x.salaryAmount);
+
+            return Json(new { orders = data, totalSalary });
         }
+
         private decimal CalculateTotalDeliveryPrice(Order order)
         {
             decimal orderPrice = order.OrderPrice;

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -142,9 +141,8 @@ namespace YunusExpress_MVC.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    OrderNo = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderNo = table.Column<int>(type: "int", nullable: false),
                     InvoiceNo = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
@@ -159,6 +157,7 @@ namespace YunusExpress_MVC.Migrations
                     DeliveryZoneId = table.Column<int>(type: "int", nullable: false),
                     FromCourierId = table.Column<int>(type: "int", nullable: false),
                     ToCourierId = table.Column<int>(type: "int", nullable: false),
+                    IsPaylanma = table.Column<bool>(type: "bit", nullable: false),
                     OrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
@@ -168,7 +167,7 @@ namespace YunusExpress_MVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.OrderNo);
                     table.ForeignKey(
                         name: "FK_Orders_Couriers_CourierId",
                         column: x => x.CourierId,

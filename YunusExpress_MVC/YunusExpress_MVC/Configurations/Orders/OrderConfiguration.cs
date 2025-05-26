@@ -9,7 +9,7 @@ namespace YunusExpress_MVC.Configurations.Orders
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             // Primary key
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.OrderNo);
 
             // note hissesidi() isteye bagli 
             builder.Property(x => x.Note)

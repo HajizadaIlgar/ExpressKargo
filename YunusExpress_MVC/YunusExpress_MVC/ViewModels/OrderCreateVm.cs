@@ -6,9 +6,9 @@
 
     public class OrderCreateVm
     {
-        [Required(ErrorMessage = "Sifariş nömrəsi tələb olunur")]
-        [Remote(action: "IsOrderNoAvailable", controller: "Order", ErrorMessage = "Bu Sifaris nömrəsi artıq mövcuddur.")]
-        public int OrderNo { get; set; }
+        //[Required(ErrorMessage = "Sifariş nömrəsi tələb olunur")]
+        //[Remote(action: "IsOrderNoAvailable", controller: "Order", ErrorMessage = "Bu Sifaris nömrəsi artıq mövcuddur.")]
+        //public int OrderNo { get; set; }
 
         [Required(ErrorMessage = "Qaimə nömrəsi tələb olunur")]
         [Remote(action: "IsInvoiceNoAvailable", controller: "Order", ErrorMessage = "Bu Qaimə nömrəsi artıq mövcuddur.")]
@@ -28,33 +28,26 @@
         [Required(ErrorMessage = "Qəbul edən seçilməlidir")]
         public int ReceiverId { get; set; }
 
-        [Required(ErrorMessage = "Zəng edən şəxsin adı tələb olunur")]
         [MaxLength(100, ErrorMessage = "Ad maksimum 100 simvol ola bilər")]
-        public string ZengEdeninAdi { get; set; }
+        public string? ZengEdeninAdi { get; set; }
 
-        [Required(ErrorMessage = "Qəbul edənin adı tələb olunur")]
         [MaxLength(100)]
-        public string ReceiverName { get; set; }
+        public string? ReceiverName { get; set; }
 
-        [Required(ErrorMessage = "Qəbul edənin ünvanı tələb olunur")]
-        public string ReceiverAddress { get; set; }
+        public string? ReceiverAddress { get; set; }
 
-        [Required(ErrorMessage = "Qəbul edənin nömrəsi tələb olunur")]
         [Phone(ErrorMessage = "Telefon nömrəsi düzgün formatda deyil")]
-        public string ReceiverPhoneNum { get; set; }
+        public string? ReceiverPhoneNum { get; set; }
 
         [Required(ErrorMessage = "Zona seçilməlidir")]
         public int DeliveryZoneId { get; set; }
 
-        [Required(ErrorMessage = "Göndərənin adı tələb olunur")]
-        public string SenderName { get; set; }
+        public string? SenderName { get; set; }
 
-        [Required(ErrorMessage = "Göndərənin nömrəsi tələb olunur")]
         [Phone(ErrorMessage = "Telefon nömrəsi düzgün formatda deyil")]
-        public string SenderPhoneNum { get; set; }
+        public string? SenderPhoneNum { get; set; }
 
-        [Required(ErrorMessage = "Göndərənin ünvanı tələb olunur")]
-        public string SenderAddress { get; set; }
+        public string? SenderAddress { get; set; }
 
         [Required(ErrorMessage = "Kuryer seçilməlidir")]
         public int FromCourierId { get; set; }
@@ -77,6 +70,8 @@
 
         [MaxLength(500, ErrorMessage = "Qeyd maksimum 500 simvol ola bilər")]
         public string? Note { get; set; }
+
+        public decimal FinalPrice { get; set; }
     }
 
 }

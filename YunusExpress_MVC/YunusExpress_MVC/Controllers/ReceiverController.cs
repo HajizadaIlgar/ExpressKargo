@@ -13,6 +13,11 @@ namespace YunusExpress_MVC.Controllers
             return View(await _context.Receivers.ToListAsync());
         }
 
+        public async Task<IActionResult> ReceiverList()
+        {
+            return Json(await _context.Receivers.ToListAsync());
+        }
+
         public async Task<IActionResult> Create()
         {
             return View();
@@ -20,8 +25,6 @@ namespace YunusExpress_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ReceiverCreateVm vm)
         {
-
-
             Receiver receiver = new Receiver
             {
                 ReceiverName = vm.ReceiverName,
@@ -40,11 +43,10 @@ namespace YunusExpress_MVC.Controllers
                 Mh = vm.Mh,
                 QiymetVar = vm.QiymetVar,
             };
-
             await _context.Receivers.AddAsync(receiver);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
     }
 }
