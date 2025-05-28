@@ -1,0 +1,174 @@
+﻿@using YunusExpress_MVC.Models
+@using YunusExpress_MVC.ViewModels
+@model ReceiverMontlySalaryVM
+
+@{
+    ViewData["Title"] = "Sifariş Siyahısı";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoys</title>
+    <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link rel="stylesheet" href="~/assets/style/findAndChange.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
+
+</head>
+<body>
+    <div class="container">
+        <form method="get" id="filterForm">
+            <div class="text-section" style="width: 350px;">
+                <label class="text-label">Göndərən</label>
+
+
+                @Html.DropDownList(
+                         "senderName",
+                         ViewBag.Senders as List<SelectListItem>,
+                         "Hamısı",
+                         new
+                         {
+                             id = "senderDropdown",
+                             @class = "text-input",
+                             style = "width:100px;",
+                             onchange = "this.form.submit()"
+                         }
+                         )
+
+                <input type="text"
+                       id="senderDisplay"
+                       class="text-input"
+                       style="width:150px;"
+                       readonly />
+            </div>
+        </form>
+    </div>
+    <div class="form-table">
+        <table class="styled-table" id="allData">
+            <thead>
+                <tr>
+                    <th class="column-sifaris">Sifarişin No</th>
+                    <th class="column-gonderen">Göndərən</th>
+                    <th class="column-gonderen-unvan">Göndərənin Ünvanı</th>
+
+                    <th class="column-waybill">Waybill</th>
+                    @* <th class="column-paylanma">Paylanma</th> *@
+                    <th class="column-tarix">Tarix</th>
+                    <th class="column-saat">Saat</th>
+                    <th class="column-nov">Növ</th>
+                    <th class="column-kuryer">Kuryer</th>
+                    <th class="column-alici">Alıcı</th>
+                    <th class="column-alici-unvan">Alıcının Ünvanı</th>
+                    <th class="column-mebleg">Məbləğ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Orders)
+                {
+                    <tr>
+                        <td>@item.OrderNo</td>
+
+
+                        <td>
+                                @item.ReceiverName
+                        </td>
+                        <td>@item.ReceiverAddress</td>
+
+
+                        <td>@item.InvoiceNo</td>
+                        @*     <td>
+                    <input type="checkbox"
+                    class="paylanma-checkbox"
+                    data-id="@item.OrderNo"
+                    @(item.IsPaylanma ? "checked" : "") />
+                    </td> *@
+                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.StartDate.ToString("HH:mm")</td>
+
+                        <td>@item.ServiceType!.ServiceType</td>
+                        <td>@item.ToCourier!.CourierName</td>
+                        <td>@item.SenderName</td>
+                        <td>@item.SenderAddress</td>
+                        <td>@(item.FinalPrice.ToString("0.00"))</td>
+                    </tr>
+                }
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+        <div style="display:none" id="debt">
+            @Model.TotalSalary.ToString("0.00") ₼
+        </div>
+
+    </div>
+    <div class="back-btn">
+        <a asp-action="Index" asp-controller="Home">⬅</a>
+    </div>
+    <div class="print-btn">
+        <a href="javascript:void(0);" onclick="window.print()">Print</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const senderDropdown = document.getElementById("senderDropdown");
+            const senderDisplayInput = document.getElementById("senderDisplay");
+            const namesMap = @Html.Raw(Json.Serialize(ViewBag.SenderNames));
+            const allData = document.getElementById("allData");
+            const debt = document.getElementById("debt");
+            // 
+            updateSelectedOptionText('senderDropdown');
+
+        
+            function updateDisplayForDropdown(dropdown, map, input) {
+                const code = dropdown.value;
+                input.value = code ? `${map[code] || ""} ${code}` : "";
+            }
+
+            senderDropdown.addEventListener("change", () => updateDisplayForDropdown(senderDropdown, namesMap, senderDisplayInput));
+
+            // Yüklənəndə əvvəlki seçimləri göstər
+            updateDisplayForDropdown(senderDropdown, namesMap, senderDisplayInput);
+            allData.innerHTML += `
+                            <tfoot>
+                                <tr>
+                                    <td colspan="13" style="text-align:right; font-weight:bold;">
+                                        Ümumi Borc: <span id="totalSalary"></span>
+                                    </td>
+                                </tr>
+                            </tfoot>`
+
+            document.getElementById('totalSalary').textContent = `${debt.innerText}`;
+        });
+        // kodla adi ayir
+        function extractClientCode(optionText) {
+            const match = optionText.match(/^([^\s]+)\s/);
+            return match ? match[1] : optionText;
+        }
+
+        // Apply logic for both dropdowns
+        function updateSelectedOptionText(selectId) {
+            const select = document.getElementById(selectId);
+            const selectedOption = select.options[select.selectedIndex];
+
+            if (selectedOption && selectedOption.text.includes("(")) {
+                const codeOnly = extractClientCode(selectedOption.text);
+                selectedOption.text = codeOnly;
+            }
+        }
+
+        
+
+
+         
+       
+
+
+
+      
+    </script>
+</body>
+</html>

@@ -134,19 +134,21 @@
                             </select>
                           </div>
 
-                           <div class="desc-text">
-                                <label class="text-label" for="from-courier">Kuryer 1</label>
-                                <select class="desc-select" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="from-courier">
-                                    <option disabled selected>Seçin...</option>
-                                </select>
-                            </div>
+                        <div class="desc-text">
+                            <label class="text-label" for="from-courier">Kuryer 1</label>
+                            <select class="desc-select form-control" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","DisplayText")' id="from-courier">
+                                <option disabled selected>Seçin...</option>
+                            </select>
+                        </div>
 
-                            <div class="desc-text">
-                                <label class="text-label" for="to-courier">Kuryer 2</label>
-                                <select class="desc-select" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierName")' class="form-control" id="to-courier">
-                                    <option disabled selected>Seçin...</option>
-                                </select>
-                            </div>
+                        <div class="desc-text">
+                            <label class="text-label" for="to-courier">Kuryer 2</label>
+
+                            <select class="desc-select form-control" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","DisplayText")' id="to-courier">
+                                <option disabled selected>Seçin...</option>
+                            </select>
+                        </div>
+
                        
             <div class="desc-text">
            
@@ -207,6 +209,7 @@
     const senderInput = document.querySelector('#senderName');
     const receiverInput = document.querySelector('#receiverInput');
     const clientCodeInput = document.querySelector('#clientCode');
+   
 
     if (!senderInput) {
       console.warn('senderName input tapılmadı');

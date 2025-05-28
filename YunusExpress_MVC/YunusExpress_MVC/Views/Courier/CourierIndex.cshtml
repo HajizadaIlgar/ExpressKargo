@@ -23,7 +23,31 @@
 
  <body>
       <div class="container">
-        
+        <div class="text-section" style="width:380px">
+            <label class="text-label" style="width: 100px;" for="courierSelect">Kuryer seçin:</label>
+            <select id="courierSelect" name="courierName" class="text-input" style="width: 100px;">
+                <option value="">Hamısı</option>
+                @foreach (var courier in Model.Couriers)
+                {
+                    <option value="@courier.CourierName">@(courier.CourierCode)</option>
+                }
+            </select>
+            <input type="text" id="courierNameDisplay" class="text-input" style="width:150px;" readonly />
+
+             @* @Html.DropDownList(
+                      "courierName",
+                      ViewBag.Couriers as List<SelectListItem>,
+                      "Hamısı",
+                      new
+                      {
+                          @class = "text-input",
+                          style = "width: 100px;",
+                          id = "courierDropdown",
+                          onchange = "this.form?.submit()" // Avtomatik filterləmək üçün (istəyə bağlı)
+                      }
+                      ) *@
+
+        </div>
           <div class="form-table">
               <table class="styled-table">
                   <thead>
@@ -50,21 +74,24 @@
                       {
                           <tr>
                               <td>@item.InvoiceNo</td>
-                              <td>@item.SenderName</td>
-                              <td>@item.SenderAddress</td>
+                            <td>@item.ReceiverName</td>
+                            <td>@item.ReceiverAddress</td>
                             <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
                             <td>@item.StartDate.ToString("HH:mm")</td>
                               <td>@item.ServiceType!.ServiceType</td>
                             <td>@item.ToCourier!.CourierCode</td>
                               <td>@item.ToCourier!.CourierName</td>
-                              <td>@item.ReceiverName</td>
-                              <td>@item.ReceiverAddress</td>
+                              <td>@item.SenderName</td>
+                              <td>@item.SenderAddress</td>
                               <td>@item.FinalPrice</td>
                               <td>36%</td>
                              <td>@((item.FinalPrice*36/100).ToString("0.00"))</td>
                          </tr>
-                      }
-                  </tbody>
+                    }
+                    
+
+                </tbody>
+                
               </table>
           </div>
           <div class="back-btn">
@@ -72,21 +99,28 @@
           </div>
       </div>
       <!-- FORMU dəyişdik: artıq submit olmur -->
-    <div style="margin: 20px 0; text-align:center;">
-        <label for="courierSelect">Kuryer seçin:</label>
+  @*   <div style="margin: 20px 0; text-align:center;">
+         <label for="courierSelect">Kuryer seçin:</label>
         <select id="courierSelect" name="courierName">
             <option value="">Hamısı</option>
             @foreach (var courier in Model.Couriers)
             {
                 <option value="@courier.CourierName">@(courier.CourierCode+ "->" +courier.CourierName)</option>
             }
-        </select>
+        </select> 
+    </div> *@
+      @* <h3 style="text-align:center;">Ümumi Maaş: <span id="totalSalary">@Model.TotalSalary.ToString("0.00") ₼</span></h3> *@
+    <div class="print-btn">
+        <a href="javascript:void(0);" onclick="window.print()">Print</a>
     </div>
-    <h3 style="text-align:center;">Ümumi Maaş: <span id="totalSalary">@Model.TotalSalary.ToString("0.00") ₼</span></h3>
-
     <script>
+
         document.getElementById('courierSelect').addEventListener('change', function () {
+
             const selectedCourier = this.value;
+            
+            //kuryerin adinin inputa verilmesi
+            document.getElementById('courierNameDisplay').value = selectedCourier;
 
             fetch(`/Courier/GetCourierOrders?courierName=${encodeURIComponent(selectedCourier)}`)
                 .then(response => response.json())
@@ -96,8 +130,9 @@
 
                     data.orders.forEach(order => {
                         const [date, time] = order.startDate.split(' ');
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+                        // const row = document.createElement('tr');
+                        row = `
+                        <tr>
                                 <td>${order.invoiceNo}</td>
                                 <td>${order.senderName}</td>
                                 <td>${order.senderAddress}</td>
@@ -111,17 +146,29 @@
                                 <td>${order.finalPrice.toFixed(2)}</td>
                                 <td>36%</td>
                                 <td>${order.salaryAmount.toFixed(2)}</td>
-                            `;
-                        tbody.appendChild(row);
-                    });
+                         </tr>
 
-                    // Ümumi maaşı göstər
+                            `;
+                        tbody.innerHTML += row;
+                    });
+                    tbody.innerHTML += `
+                    <tfoot>
+                        <tr>
+                            <td colspan="13" style="text-align:right; font-weight:bold;">
+                                Ümumi Maaş: <span id="totalSalary"></span>
+                            </td>
+                        </tr>
+                    </tfoot>`
+                    
                     document.getElementById('totalSalary').textContent = `${data.totalSalary.toFixed(2)} ₼`;
+
                 })
                 .catch(error => {
                     console.error('Xəta:', error);
                 });
         });
+        
+
     </script>
   </body>
 </html>

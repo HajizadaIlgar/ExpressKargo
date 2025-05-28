@@ -1,4 +1,4 @@
-        body {
+﻿        body {
             font-family: 'Times New Roman', sans-serif;
             background: #f7f7f7;
             margin: 0;
@@ -12,6 +12,9 @@
             border: 1px solid #bbb;
             box-shadow: 0 2px 8px #0001;
             
+        }
+        .logo{
+            object-fit:cover;width:50px;
         }
         .header {
             display: flex;
@@ -201,44 +204,56 @@
     body {
         font-family: Arial, sans-serif;
         margin: 0;
-    }
-
-    /* Hide the print button when printing */
-    .print-btn {
-        display: none;
-    }
-
-    /* Only print the .invoice-container */
-    .invoice-container {
-        width: 100%;
-        max-width: 100%; /* Ensure full width */
-        margin: 0;
         padding: 0;
+        background: white !important;
     }
 
-    /* Force content to fit within one page */
+    /* Butonları gizle */
+    .print-btn, .back-btn {
+        display: none !important;
+    }
+
+    /* Invoice container'ları yan yana ve A5 boyutunda ayarla */
     .invoice-container {
-        page-break-before: always;
-        page-break-after: always;
+        width: 148mm !important; /* A5 genişliği */
+        height: 210mm !important; /* A5 yüksekliği */
+        margin: 0 !important;
+        padding: 10mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        display: inline-block !important;
+        vertical-align: top;
         page-break-inside: avoid;
     }
 
-    /* Ensure content fits in a single page */
+    /* Sayfa düzeni ayarları */
     @page {
-        size: A4;
+        size: A4 landscape;
         margin: 0;
     }
 
-    /* Additional styling for the invoice content */
-    .invoice-container h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
+    /* Container'ların dışındaki tüm içeriği gizle */
+    body > *:not(.invoice-container) {
+        display: none !important;
     }
 
-    /* Adjust content inside the invoice to fit the page */
-    .invoice-container p,
-    .invoice-container table {
-        font-size: 14px;
-        line-height: 1.5;
+    /* Flex container'ı düzelt */
+    body > div[style="display:flex"] {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Tablo ve diğer içeriklerin boyutlarını ayarla */
+    table {
+        font-size: 12px !important;
+    }
+
+    .info-box, .address, .invoice-info {
+        font-size: 12px !important;
+    }
+
+    .invoice-title {
+        font-size: 14px !important;
     }
 }

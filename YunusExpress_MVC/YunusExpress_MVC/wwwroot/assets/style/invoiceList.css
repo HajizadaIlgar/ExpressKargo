@@ -89,8 +89,18 @@ h1{
   cursor: pointer;
 }
 
-.back-btn a:hover {
+.back-btn a:hover,.pay-button:hover {
   background-color: #A0A0A0;
   border: 2px inset #000;
+}
+.pay-button button{
+    color: black;
+    text-decoration: none;
+    font: bold 16px "MS Sans Serif", Arial, sans-serif;
+    background-color: #C0C0C0;
+    border: 2px outset #fff;
+    padding: 6px 12px;
+    display: inline-block;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
 }
 

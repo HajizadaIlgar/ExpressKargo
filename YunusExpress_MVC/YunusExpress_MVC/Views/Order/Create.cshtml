@@ -80,14 +80,50 @@
                   <label asp-for="ReceiverPhoneNum" class="text-label" style="width: 100px;">Nömrəsi</label>
                   <input asp-for="ReceiverPhoneNum" type="number" class="text-input" id="senderNum" >
                 </div>
-                 <div class="text-section" style="width: 300px;">
-                                <label asp-for="DeliveryZoneId" class="text-label" style="width:93px">Zona</label>
-                                <select class="input-select" asp-for="DeliveryZoneId" asp-items="ViewBag.DeliveryZone"
-                                        style="width: 187px;" id="zoneSelect">
-                                   
-                                </select>
-                 </div>
-              </div>
+                <div>
+                                <div class="text-section" style="width: 300px;display:none">
+                                    <label asp-for="DeliveryZoneId" class="text-label" style="width:93px">Zona</label>
+                                    <select class="input-select" asp-for="DeliveryZoneId" asp-items="ViewBag.DeliveryZone"
+                                            style="width: 187px;" id="zoneSelect">
+                                    </select>
+                                </div>
+                                    <div class="text-section" style="width: 300px;">
+                                        <label class="text-label" style="width:93px">Zona(Şəhər)</label>
+
+                                    <select class="input-select" style="width: 187px;" id="zoneSelect1">
+                                             <option value=""></option>
+
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                    </div>
+
+                                        <div class="text-section" style="width: 300px;">
+                                        <label  class="text-label" style="width:93px">Zona(Rayon)</label>
+
+                                    <select class="input-select" style="width: 187px; " id="zoneSelect2" >
+                                            <option value=""></option>
+
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+
+                                        </div>
+
+                                            <div class="text-section" style="width: 300px;">
+                                        <label class="text-label" style="width:93px">Zona(Xarici)</label>
+
+                                    <select class="input-select" style="width: 187px;" id="zoneSelect3" >
+                                         <option value=""></option>
+
+                                        <option value="7">7</option>
+                                    </select>
+                                        </div>
+
+                </div>
+                     </div>
             </div>
             <div>
                 <button onclick="transferValues()" type="button" class="opposite-button">ƏKS <span>&#8645;</span></button>
@@ -134,18 +170,22 @@
 
                            <div class="desc-text">
                                 <label class="text-label" for="from-courier">Kuryer 1</label>
-                            <select class="desc-select form-control" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierCode")' id="from-courier">
-                                    <option disabled selected>Seçin...</option>
-                                </select>
+                            <select class="desc-select form-control" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","DisplayText")' id="from-courier">
+                                <option disabled selected>Seçin...</option>
+                            </select>
                             </div>
 
                             <div class="desc-text">
                                 <label class="text-label" for="to-courier">Kuryer 2</label>
-                            <select class="desc-select form-control" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","CourierCode")'  id="to-courier">
-                                    <option disabled selected>Seçin...</option>
-                                </select>
+
+                            <select class="desc-select form-control" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","DisplayText")' id="to-courier">
+                                <option disabled selected>Seçin...</option>
+                            </select>
                             </div>
+
                        
+
+
             <div class="desc-text">
            
             </div>
@@ -169,7 +209,7 @@
             </div>
             <div class="desc-text">
               <label class="text-label">ƏDV (18%)</label>
-              <input type="text" class="desc-input" id="edv" readonly>
+              <input  type="text" class="desc-input" id="edv" readonly>
             </div>
             <div class="desc-text">
               <label asp-for="FinalPrice" class="text-label">Yekun</label>
@@ -193,6 +233,68 @@
 
 
       <script>
+          //select bolunmesi
+        document.addEventListener('DOMContentLoaded', function () {
+            const originalSelect = document.getElementById('zoneSelect');
+            const select1 = document.getElementById('zoneSelect1');
+            const select2 = document.getElementById('zoneSelect2');
+            const select3 = document.getElementById('zoneSelect3');
+            document.getElementById('from-courier').value = '13';
+            document.getElementById('to-courier').value = '13';
+
+
+            // Başlanğıc vəziyyət
+            updateSelectsState();
+
+            // Selectlər üçün event listenerlar
+            select1.addEventListener('change', function () {
+                originalSelect.value = this.value;
+                priceCalculation();
+                updateSelectsState();
+            });
+
+            select2.addEventListener('change', function () {
+                originalSelect.value = this.value;
+                priceCalculation();
+                updateSelectsState();
+            });
+
+            select3.addEventListener('change', function () {
+                originalSelect.value = this.value;
+                priceCalculation();
+                updateSelectsState();
+            });
+
+            function updateSelectsState() {
+                // Əgər select1-də dəyər seçilibsə (boş deyilsə)
+                if (select1.value !== "") {
+                    select2.disabled = true;
+                    select3.disabled = true;
+                    select2.value = "";
+                    select3.value = "";
+                }
+                // Əgər select2-də dəyər seçilibsə
+                else if (select2.value !== "") {
+                    select1.disabled = true;
+                    select3.disabled = true;
+                    select1.value = "";
+                    select3.value = "";
+                }
+                // Əgər select3-də dəyər seçilibsə
+                else if (select3.value !== "") {
+                    select1.disabled = true;
+                    select2.disabled = true;
+                    select1.value = "";
+                    select2.value = "";
+                }
+                // Heç birində dəyər seçilməyibsə
+                else {
+                    select1.disabled = false;
+                    select2.disabled = false;
+                    select3.disabled = false;
+                }
+            }
+        });
  //datalistin doldurulmasi
         let receivers = [];
 

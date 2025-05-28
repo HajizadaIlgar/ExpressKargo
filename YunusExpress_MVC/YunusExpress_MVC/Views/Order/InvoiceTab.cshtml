@@ -9,15 +9,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoys Tap</title>
+    <title>Hesab Faktura</title>
     <link rel="stylesheet" href="~/assets/style/reset.css">
     <link rel="stylesheet" href="~/assets/style/invoiceList.css">
     <link href="~/assets/favicon.ico" rel="icon" />
 </head>
+<style>
+    .clear-btn {
+        background-color: #ff5e5e;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
+</style>
 <body>
     <div class="container">
-        <h1>İnvoys Tap</h1>
+        <h1>Hesab Faktura</h1>
         <form action="">
             <!-- <div class="form-heading">
                 <div style="display: flex;">
@@ -84,24 +94,32 @@
                         <tr>
                             <th class="column-alici-unvan">Müştəri Adı</th>
                             <th class="column-mebleg">Aylıq Borc</th>
+                            <th class="column-mebleg">Borc Ödəmə</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
                             <tr style="cursor:default">
-                                <td style="cursor:default">
+                                <td>
                                     <a asp-controller="Order" asp-action="ForPrintInvoice" asp-route-id="@item.id"
                                        style="color: black; text-decoration: none;">
                                         @item.ReceiverName
                                     </a>
                                 </td>
                                 <td>@item.TotalDebt</td>
+                                <td>
+                                    <form asp-controller="Order" asp-action="ClearDebt" method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="@item.id" />
+                                        <button type="submit" class="pay-button">Borcu sıfırla</button>
+                                    </form>
+                                </td>
+
                             </tr>
                         }
-
-                        <!-- Add more rows as needed -->
                     </tbody>
+
                 </table>
             </div>
             <div class="back-btn">

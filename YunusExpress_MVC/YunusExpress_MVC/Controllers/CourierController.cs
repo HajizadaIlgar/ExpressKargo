@@ -20,8 +20,8 @@ namespace YunusExpress_MVC.Controllers
         public async Task<IActionResult> CourierIndex()
         {
             var orders = await _context.Orders.Include(o => o.ServiceType)
-                                             .Include(o => o.ToCourier)
-                                             .ToListAsync();
+                                            .Include(o => o.ToCourier)
+                                            .ToListAsync();
 
             var couriers = await _context.Couriers.ToListAsync();
 
