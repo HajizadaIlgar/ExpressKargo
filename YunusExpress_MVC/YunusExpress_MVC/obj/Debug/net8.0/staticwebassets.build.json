@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "M5bOtmx/6cUQghGDpEeAehn9HVVwHnHs+SwLv3moMGs=",
+  "Hash": "O2ib5fr7daVEhvkMY2N2XjpDsh/UxTOgzrvImOniWas=",
   "Source": "YunusExpress_MVC",
   "BasePath": "_content/YunusExpress_MVC",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\style\\index.css"
+    },
+    {
+      "Identity": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\invoHes.css",
+      "SourceId": "YunusExpress_MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\",
+      "BasePath": "_content/YunusExpress_MVC",
+      "RelativePath": "assets/style/invoHes.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\style\\invoHes.css"
     },
     {
       "Identity": "C:\\Users\\Ilqar\\Desktop\\Yunus Express\\YunusExpress_MVC\\YunusExpress_MVC\\wwwroot\\assets\\style\\invoiceList.css",

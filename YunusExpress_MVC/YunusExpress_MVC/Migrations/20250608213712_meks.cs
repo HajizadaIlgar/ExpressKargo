@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace YunusExpress_MVC.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class meks : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +19,7 @@ namespace YunusExpress_MVC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourierCode = table.Column<int>(type: "int", nullable: false),
                     CourierName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourierPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourierPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrdersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -49,6 +50,7 @@ namespace YunusExpress_MVC.Migrations
                     ReceiverName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverDiscount = table.Column<int>(type: "int", nullable: true),
                     ContractDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsEDV = table.Column<bool>(type: "bit", nullable: false),
                     BankName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -146,15 +148,14 @@ namespace YunusExpress_MVC.Migrations
                     InvoiceNo = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
-                    ZengEdeninAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ZengEdeninAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReceiverId = table.Column<int>(type: "int", nullable: true),
-                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SenderPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SenderAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveryZoneId = table.Column<int>(type: "int", nullable: false),
+                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SenderPhoneNum = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SenderAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FromCourierId = table.Column<int>(type: "int", nullable: false),
                     ToCourierId = table.Column<int>(type: "int", nullable: false),
                     IsPaylanma = table.Column<bool>(type: "bit", nullable: false),
@@ -162,8 +163,10 @@ namespace YunusExpress_MVC.Migrations
                     SpecialPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Discount = table.Column<int>(type: "int", nullable: true),
                     EDV = table.Column<bool>(type: "bit", nullable: false),
+                    FinalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CourierId = table.Column<int>(type: "int", nullable: true)
+                    CourierId = table.Column<int>(type: "int", nullable: true),
+                    DeliveryZoneId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -187,8 +190,7 @@ namespace YunusExpress_MVC.Migrations
                         name: "FK_Orders_DeliveryZones_DeliveryZoneId",
                         column: x => x.DeliveryZoneId,
                         principalTable: "DeliveryZones",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Receivers_ReceiverId",
                         column: x => x.ReceiverId,

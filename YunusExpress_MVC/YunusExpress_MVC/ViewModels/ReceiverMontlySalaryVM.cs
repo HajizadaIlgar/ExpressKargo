@@ -7,5 +7,6 @@ namespace YunusExpress_MVC.ViewModels
         public List<Order> Orders { get; set; }
         public List<Receiver> Receivers { get; set; }
         public decimal TotalSalary { get; set; }
+        public decimal FinalPrice { get; set; }
     }
 }

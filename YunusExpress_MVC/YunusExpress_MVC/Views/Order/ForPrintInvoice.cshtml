@@ -1,10 +1,10 @@
 ﻿@using YunusExpress_MVC.ViewModels
 @model InvoiceDto
 @{
-    var allZones = Model.Orders
-        .Select(x => x.DeliveryZone.Id)
-        .Distinct()
-        .ToList();
+    // var allZones = Model.Orders
+    //     .Select(x => x.DeliveryZone.Id)
+    //     .Distinct()
+    //     .ToList();
 
     decimal localTotal = 0;
     decimal internationalTotal = 0;
@@ -12,23 +12,23 @@
     bool hasEdv = Model.Receivers.Any(x => x.IsEDV);
     decimal edvRate = hasEdv ? 0.18m : 0m;
 
-    bool isInternational = allZones.All(z => z == 7);
-    bool isDomestic = allZones.All(z => z >= 1 && z <= 6);
+    // bool isInternational = allZones.All(z => z == 7);
+    // bool isDomestic = allZones.All(z => z >= 1 && z <= 6);
 
-    if (isInternational)
-    {
-        internationalTotal = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
-    }
-    else if (isDomestic)
-    {
-        localTotal = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
-    }
+    // if (isInternational)
+    // {
+    //     internationalTotal = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
+    // }
+    // else if (isDomestic)
+    // {
+    //     localTotal = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
+    // }
 
     decimal subtotal = localTotal + internationalTotal;
     decimal edvAmount = subtotal * edvRate;
     decimal totalWithEdv = subtotal + edvAmount;
 
-    var discountValue = isInternational ? discount1 : 0;
+    // var discountValue = isInternational ? discount1 : 0;
 }
 
 
@@ -43,334 +43,102 @@
 </head>
 
 <body>
-    <div@*  style="display:flex;width:297mm" *@>
-        <div class="invoice-container">
-            @foreach (var items in Model.PartOfInvoice)
-            {
-                <div class="header">
-
-                    <div class="logo"> <img style="object-fit:cover;width:100px;" src="~/assets/logo.png" /> YUNIS<span class="express">Express</span></div>
-                    <div style="font-size:0.95rem; margin-left: auto;">
-                        Məktub və Bağlamaların Daşınması
-                    </div>
-                </div>
-                <div class="header-details">
-                    <span>Ünvan: Bakı şəh., Ə. Hüseynzadə küçəsi 69</span>
-                    <span>Tel.(994-12) 596-00-77 / Faks 596-00-77</span>
-                </div>
-                <div class="header-details">
-                    <span id="headingDate">1 noyabr 2024 il</span>
-                    <span>Müq. nömrəsi: 366</span>
-                    <span>Müq Tarix: @items.ContractDate.ToString("dd/MM/yyyy")</span>
-                </div>
-
-                <div class="invoice-title">
-                    Hesab-faktura № <span style="border:1px solid #888; padding:2px 10px; border-radius:4px; background:#f3f6fa;">@items.Orders/2025</span>
-                </div>
-
-                <div class="invoice-info">
-                    <span>Kod: @items.ClientCode</span>
-                    <span>Təşkilat: @items.ReceiverName</span>
-                    <span></span>
-                </div>
-                <div class="address">
-                    Ünvan:@items.ReceiverAddress
-                </div>
-                <div class="info-row">
-                    <div class="info-col">
-                        <div style="font-weight:600; margin-bottom:2px;">Alanın rekvizitləri</div>
-                        <div class="info-box">
-                            Bank Respublika ASC<br>
-                            Bankın VÖEN-i: 990001901<br>
-                            S.W.I.F.T. BRESAZ22 &nbsp;&nbsp; Kod 505668<br>
-                            <span style="font-size:0.85rem">Hesab: AZ58NABZ013501000000000985961</span><br>
-                            <span style="font-size:0.85rem">M/H: AZ28NABZ013501000000000985961</span><br>
-                            VÖEN: 14006739821
-                        </div>
-                    </div>
-                    <div class="info-col">
-                        <div style="font-weight:600; margin-bottom:2px;">Ödəyənin rekvizitləri</div>
-                        <div class="info-box">
-                            @items.BankName<br>
-                            Kod: @items.BankCode<br>
-                            Bankın VÖEN-i: @items.BankVoen<br>
-                            S.W.I.F.T: @items.Swift<br>
-                            VÖEN: @items.Voen<br>
-                            IBAN: @items.Iban<br>
-                            M/H: @items.Mh
-                        </div>
-                    </div>
-
-                </div>
-            }
-            <div class="table-title">
-                Hesabata əsasən 2025-ci ilin  ayında yerinə yetirilmiş daşımalar üçün ödənış
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:32px;">№</th>
-                        <th>Poçt xidməti</th>
-                        <th style="width:120px;">Məbləğ (manat)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="center">1</td>
-                        <td>Daxili çatdırmalar</td>
-                        <td class="right">@localTotal.ToString("0.00")</td>
-                    </tr>
-                    <tr>
-                        <td class="center">2</td>
-                        <td>Güzəşt : @(allZones.All(z => z >= 1 && z <= 6) ? discount1 : 0) %</td>
-                        <td class="right">
-                            @{
-                                decimal totalAmount3 = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
-                                decimal discountAmount3 = (allZones.All(z => z >= 1 && z <= 6) ? (totalAmount3 * discount1 / 100) : 0);
-                            }
-                            @discountAmount3.ToString("0.00")
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="center">3</td>
-                        <td>Beynəlxalq çatdırmalar</td>
-                        <td class="right">@internationalTotal.ToString("0.00")</td>
-                    </tr>
-                    <tr>
-                        <td class="center">3</td>
-                        @{
-                            decimal totalAmount = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
-                            decimal discountAmount = isInternational ? (totalAmount * discount1 / 100) : 0;
-                        }
-                        @discountAmount.ToString("0.00")
-                        <td>Güzəşt : @(allZones.All(z =>z==7) ? discount1 : 0) %</td>
-                        <td class="right">@discountAmount.ToString("0.00")</td>
-                    </tr>
-
-                    <tr>
-                        <td class="center">5</td>
-                        <td>ƏDV : @(hasEdv ? "18" : "0") %</td>
-                        <td class="right">@edvAmount.ToString("0.00")</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td class="center">6</td>
-                        <td>Cəmi ödəniləcək :</td>
-                        <td class="right">
-                            @{
-                                decimal finalAmount = localTotal > 0 ? localTotal : internationalTotal;
-                            }
-                            @finalAmount.ToString("0.00")
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-            <div class="table-se" style="font-weight:bold;">
-                Hesab 15 gün ərzində ödənilməlidir.<br />
-                Qiymətlər manatla göstərilib. Ödəniş nəğd və ya köçürmə Yolu İlə.
-            </div>
-            <div class="signature">
-                <div>
-                    <div class="signature-item">
-                        <span class="label">Rəhbər</span>
-                        <div class="line"></div>
-                    </div>
-                    <div class="signature-item">
-                        <span class="label">Baş Mühasib</span>
-                        <div class="line"></div>
-                    </div>
-                </div>
-                <div>
-                    <span class="left-thing">M.Y.</span>
-                </div>
-            </div>
-            <div class="print-btn">
-                <a href="javascript:void(0);" onclick="window.print()">Print</a>
-            </div>
-            <div class="back-btn">
-
-                <a asp-controller="Home" asp-action="Index">⬅</a>
-
-            </div>
-
+    @foreach (var items in Model.PartOfInvoice){
+    <div class="faktura-container">
+        <div class="top-line">
+            Mal göndərən – @items.ReceiverName VÖEN: @items.Voen
         </div>
-         @* <div class="invoice-container">
-            @foreach (var items in Model.PartOfInvoice)
-            {
-                <div class="header">
-                    <div class="logo">YUNIS<span class="express">Express</span></div>
-                    <div style="font-size:0.95rem; margin-left: auto;">
-                        Məktub və Bağlamaların Daşınması
-                    </div>
-                </div>
-                <div class="header-details">
-                    <span>Ünvan: Bakı şəh., Ə. Hüseynzadə küçəsi 69</span>
-                    <span>Tel.(994-12) 596-00-77 / Faks 596-00-77</span>
-                </div>
-                <div class="header-details">
-                    <span id="headingDate">1 noyabr 2024 il</span>
-                    <span>Müq. nömrəsi: 366</span>
-                    <span>Müq Tarix: @items.ContractDate.ToString("dd/MM/yyyy")</span>
-                </div>
-
-                <div class="invoice-title">
-                    Hesab-faktura № <span style="border:1px solid #888; padding:2px 10px; border-radius:4px; background:#f3f6fa;">@items.Orders/2025</span>
-                </div>
-
-                <div class="invoice-info">
-                    <span>Kod: @items.ClientCode</span>
-                    <span>Təşkilat: @items.ReceiverName</span>
-                    <span></span>
-                </div>
-                <div class="address">
-                    Ünvan:@items.ReceiverAddress
-                </div>
-                <div class="info-row">
-                    <div class="info-col">
-                        <div style="font-weight:600; margin-bottom:2px;">Alanın rekvizitləri</div>
-                        <div class="info-box">
-                            Bank Respublika ASC<br>
-                            Bankın VÖEN-i: 990001901<br>
-                            S.W.I.F.T. BRESAZ22 &nbsp;&nbsp; Kod 505668<br>
-                            Hesab: AZ58NABZ013501000000000985961<br>
-                            M/H: AZ28NABZ013501000000000985961<br>
-                            VÖEN: 14006739821
-                        </div>
-                    </div>
-                    <div class="info-col">
-                        <div style="font-weight:600; margin-bottom:2px;">Ödəyənin rekvizitləri</div>
-                        <div class="info-box">
-                            @items.BankName<br>
-                            Kod: @items.BankCode<br>
-                            Bankın VÖEN-i: @items.BankVoen<br>
-                            S.W.I.F.T: @items.Swift<br>
-                            VÖEN: @items.Voen<br>
-                            IBAN: @items.Iban<br>
-                            M/H: @items.Mh
-                        </div>
-                    </div>
-
-                </div>
-            }
-            <div class="table-title">
-                Hesabata əsasən  ilin  ayında yerinə yetirilmiş daşımalar üçün ödənış
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width:32px;">№</th>
-                        <th>Poçt xidməti</th>
-                        <th style="width:120px;">Məbləğ (manat)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="center">1</td>
-                        <td>Daxili çatdırmalar</td>
-                        <td class="right">@localTotal.ToString("0.00")</td>
-                    </tr>
-                    <tr>
-                        <td class="center">2</td>
-                        <td>Güzəşt : @(allZones.All(z => z >= 1 && z <= 6) ? discount1 : 0) %</td>
-                        <td class="right">
-                            @{
-                                decimal totalAmount2 = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
-                                decimal discountAmount2 = (allZones.All(z => z >= 1 && z <= 6) ? (totalAmount2 * discount1 / 100) : 0);
+        <div class="center-title">
+            HESAB - FAKTURA № @items.Orders
+        </div>
+        <div class="center-date" id="today-date">
+        @* tarix avtomatik dolacag *@
+        </div>
+        <div class="desc-row">
+            <span><b>ÖDƏYİCİ:</b> @items.ReceiverName</span>
+        </div>
+        <div class="basis">
+            <span><b>Əsas</b> Poçt xidməti göstərilməsi haqqında Müqavilə № @items.ClientCode @items.ContractDate.ToString("dd/MM/yyyy")</span>
+            @* <span class="italic">(Aprel ayında göstərilən xidmətlərə görə)</span>  *@
+               <span class="italic" id="month-info"></span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:40px;">№</th>
+                    <th>XİDMƏTLƏRİN HƏCMİ</th>
+                    <th style="width:70px;">Ədəd</th>
+                    <th style="width:90px;">QİYMƏT (AZN)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td class="service-name">Məktub çatdırılması xidməti</td>
+                    <td>1</td>
+                    <td>@{
+                                decimal finalAmountr = localTotal > 0 ? localTotal : internationalTotal;
                             }
-                            @discountAmount2.ToString("0.00")
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="center">3</td>
-                        <td>Beynəlxalq çatdırmalar</td>
-                        <td class="right">@internationalTotal.ToString("0.00")</td>
-                    </tr>
-                    <tr>
-                        <td class="center">3</td>
-                        @{
-                             totalAmount = Model.PartOfPrice.Sum(x => decimal.Parse(x.Total));
-                             discountAmount = isInternational ? (totalAmount * discount1 / 100) : 0;
-                        }
-                        @discountAmount.ToString("0.00")
-                        <td>Güzəşt : @(allZones.All(z => z == 7) ? discount1 : 0) %</td>
-                        <td class="right">@discountAmount.ToString("0.00")</td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td class="center">5</td>
-                        <td>ƏDV : @(hasEdv ? "18" : "0") %</td>
-                        <td class="right">@edvAmount.ToString("0.00")</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td class="center">6</td>
-                        <td>Cəmi ödəniləcək :</td>
-                        <td class="right">
-                            @{
+                            @Model.TotalPrice.ToString("0.00")</td>
+                </tr>
+                <tr class="sum-row">
+                    <td colspan="3">CƏMİ</td>
+                    <td>@{
                                 decimal finalAmountt = localTotal > 0 ? localTotal : internationalTotal;
                             }
-                            @finalAmount.ToString("0.00")
+                            @Model.TotalPrice.ToString("0.00")
                         </td>
                     </tr>
-                </tbody>
-            </table>
-            <div class="table-se" style="font-weight:bold;">
-                Hesab 15 gün ərzində ödənilməlidir.<br />
-                Qiymətlər manatla göstərilib. Ödəniş nəğd və ya köçürmə Yolu İlə.
+            </tbody>
+        </table>
+        <div class="amount-row">
+            Ödəniləcək məbləğ: @{
+                                decimal finalAmountb = localTotal > 0 ? localTotal : internationalTotal;
+                            }
+                @Model.TotalPrice.ToString("0.00")
             </div>
-            <div class="signature">
-                <div>
-                    <div class="signature-item">
-                        <span class="label">Rəhbər</span>
-                        <div class="line"></div>
-                    </div>
-                    <div class="signature-item">
-                        <span class="label">Baş Mühasib</span>
-                        <div class="line"></div>
-                    </div>
-                </div>
-                <div>
-                    <span class="left-thing">M.Y.</span>
-                </div>
-            </div>
-            <div class="print-btn">
-                <a href="javascript:void(0);" onclick="window.print()">Print</a>
-            </div>
-            <div class="back-btn">
-
-                <a asp-controller="Home" asp-action="Index">⬅</a>
-
-            </div>
-
+        <div class="bank-details">
+            @* <span>F.Ş.: Əsədov F.B.</span> *@
+            <span>H/H: @items.Iban</span>
+            <span>VÖEN: @items.Voen</span>
+            <span>Bank: @items.BankName</span>
+            <span>Kod: @items.BankCode</span>
+            <span>Bank VÖEN: @items.BankVoen</span>
+            <span>M/H: @items.Mh</span>
+            <span>S.W.I.F.T.: @items.Swift</span>
         </div>
- *@
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const today = new Date();
-            const day = today.getDate(); // Cari tarixi al
-            const year = today.getFullYear(); // İl
-            const month = today.getMonth(); // Ay (0-dan başlayır, 0 = yanvar, 1 = fevral, ...)
-            const months = [
-                "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust",
-                "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
-            ];
-            const monthName = months[month]; // Bu ayın adı
+    }
+  
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const today = new Date();
+                const day = today.getDate(); // Cari tarixi al
+                const year = today.getFullYear(); // İl
+                const month = today.getMonth(); // Ay (0-dan başlayır, 0 = yanvar, 1 = fevral, ...)
+                const months = [
+                    "Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust",
+                    "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
+                ];
+                const monthName = months[month]; // Bu ayın adı
 
-            // Hesabatın başlığını dəyişdir
-            const titleElement = document.querySelector(".table-title");
-            const headingDate = document.getElementById("headingDate");
-            if (titleElement) {
-                titleElement.textContent = `Hesabata əsasən ${year} ilin ${monthName} ayında yerinə yetirilmiş daşımalar üçün ödəniş`;
-                
-                headingDate.textContent = `${day} ${monthName} ${year} il`;
-            }
-        });
-    </script>
+                // Hesabatın başlığını dəyişdir
+                const titleElement = document.querySelector(".table-title");
+                const headingDate = document.getElementById("headingDate");
+                if (titleElement) {
+                    titleElement.textContent = `Hesabata əsasən ${year} ilin ${monthName} ayında yerinə yetirilmiş daşımalar üçün ödəniş`;
+
+                    headingDate.textContent = `${day} ${monthName} ${year} il`;
+                }
+            });
+        </script>
+    <div class="print-btn" style="right:800px">
+        <a href="javascript:void(0);" onclick="window.print()">Print</a>
+    </div>
+    <div class="back-btn">
+        <a asp-action="Index" asp-controller="Hesabatlar">⬅</a>
+
+    </div>
 </body>
 
 </html>

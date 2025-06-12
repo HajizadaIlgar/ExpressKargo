@@ -10,6 +10,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #content{
+            display:none;
+        }
+    </style>
     <title>YunisExpress</title>
     <link rel="stylesheet" href="~/assets/style/index.css">
     <link rel="stylesheet" href="~/assets/style/reset.css">
@@ -17,6 +22,8 @@
 </head>
 
 <body>
+
+    <div id="content">
     <div class="container">
         <div class="main-card">
             <div class="logo-container">
@@ -48,13 +55,65 @@
 
         </div>
     </div>
+    </div>
 </body>
 
 </html>
 
 <script>
+    // window.addEventListener('DOMContentLoaded', () => {
+    //     setTimeout(() => {
+    //         const correctPassword = "1234";
+    //         let userPassword;
+
+    //         while (true) {
+    //             userPassword = prompt("Zəhmət olmasa şifrəni daxil edin:");
+
+    //             if (userPassword === null) {
+    //                 document.body.innerHTML = "<h2>Access Canceled</h2>";
+    //                 return;
+    //             }
+
+    //             if (userPassword === correctPassword) {
+    //                 document.getElementById("content").style.display = "block";
+    //                 break;
+    //             } else {
+    //                 alert("Şifrə yanlışdır. Yenidən Cəhd edin");
+    //             }
+    //         }
+    //     }, 100); Small delay (100ms)
+    // });
+    window.addEventListener('load', () => {
+        // Check if password already entered this session
+        if (sessionStorage.getItem("access_granted") === "true") {
+            document.getElementById("content").style.display = "block";
+            return;
+        }
+
+        setTimeout(() => {
+            const correctPassword = ""; // 🔑 Change to your desired password YaAllah
+            let userPassword;
+
+            while (true) {
+                userPassword = prompt("Zəhmət olmasa şifrəni daxil edin:");
+
+                if (userPassword === null) {
+                    document.body.innerHTML = "<h2>Şifrə yanlışdır.Giriş imtina edildi</h2 > ";
+                    return;
+                }
+
+                if (userPassword === correctPassword) {
+                    sessionStorage.setItem("access_granted", "true");
+                    document.getElementById("content").style.display = "block";
+                    break;
+                } else {
+                    alert("Şifrə yanlışdır.Giriş imtina edildi.");
+                }
+            }
+        }, 100); // Small delay for better compatibility
+    });
     function checkPassword() {
-        const correctPassword = ""; //🔑 Change to your real password
+        const correctPassword = ""; //🔑 Change to your real password yunis05032022
         const input = prompt("Zəhmət olmasa şifrəni daxil edin:");
 
         if (input === correctPassword) {
@@ -64,4 +123,6 @@
         }
         
     }
+    
+
 </script>

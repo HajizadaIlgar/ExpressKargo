@@ -21,7 +21,7 @@
 </head>
 <body>
     <div class="container">
-            <form method="get" id="filterForm">
+        <form method="get" id="filterForm">
             <div class="form-heading">
                 @Html.AntiForgeryToken()
 
@@ -80,18 +80,18 @@
 
                     <form method="get" asp-action="Index" id="filterForm">
                         <div style="margin:0 0 0 50px">
-                            <div style="width:150px;margin:0 0 5px 0">
+                            <div style="width:240px;margin:0 0 5px 0">
 
-                            <input style="width:60px" type="date" name="startDate" id="startDate" class="text-input"
-                                   value="@@(Request.Query["startDate"])" />
+                            <input style="width:150px" type="date" name="startDate" id="startDate" class="text-input"
+                                  @*  value="@@(Request.Query["startDate"])" *@ />
                                    <p style="display:inline;">-dən</p>
                             </div>
                             
 
-                            <div style="width:150px;">
+                            <div style="width:240px;">
                            
-                                <input style="width:60px" type="date" name="endDate" id="endDate" class="text-input"
-                                   value="@@(Request.Query["endDate"])" />
+                                <input style="width:150px" type="date" name="endDate" id="endDate" class="text-input"
+                                   @* value="@@(Request.Query["endDate"])" *@ />
                                 <p style="display:inline;">-dək</p>
 
                             </div>
@@ -102,10 +102,13 @@
 
 
                     <div style="height:50px;margin-left:30px;align-items:center" class="radios">
-                            <div class="radio-section">
-                                <input type="radio" name="type" onchange="this.form.submit()" value="all" (Request.Query["type"]= ="all" ? "checked" : "" ) />
-                                <label class="radio-label" for="all">Hamısı</label>
-                            </div>
+                        <div class="radio-section">
+                            <input type="radio" id="allCheck" name="type" value="all"
+                                   onchange="dataClear()"
+                            @@(Request.Query["type"] == "all" ? "checked" : "") />
+                            <label class="radio-label" for="allCheck">Hamısı</label>
+                        </div>
+
                      @*     <div class="radio-section">
                            
                          </div>
@@ -113,8 +116,11 @@
                            
                          </div> *@
                         <div class="radio-section">
-                            <input type="radio" name="type" value="waybill" onchange="this.form.submit()" (Request.Query["type"]= ="waybill" ? "checked" : "" ) />
-                            <label class="radio-label" for="waybil">Waybill - 0</label>
+                            <input type="radio" name="type" value="waybill"
+                                   onchange="dataClear()"
+                                   @@(Request.Query["type"]= ="waybill" ? "checked" : "" )
+                                   id="waybillRadio" />
+                            <label class="radio-label" for="waybillRadio">Waybill - 0</label>
                         </div>
                            @*   <div class="radio-section">
                                  <input type="radio" name="type" value="paylanma" onchange="this.form.submit()" (Request.Query["type"]= ="paylanma" ? "checked" : "" ) />
@@ -126,6 +132,7 @@
                     </div>
                     *@
                 </div>
+            </div>
             </form>
 
 
@@ -189,54 +196,80 @@
                     </tbody>
                 </table>
             </div>
-            <div class="back-btn">
-                <a asp-action="Index" asp-controller="Home">⬅</a>
+    <div class="bottom-line">
+
+        <div class="rowShower">
+                   <div id="selectedRow">
+                       0
+                   </div>
+                   <div id="rowCountDisplay">
+
+                   </div>
             </div>
-    </div>
-<script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const todayFilterBtn = document.getElementById("todayFilterBtn");
-            const courierDropdown = document.getElementById("courierDropdown");
-            const senderDropdown = document.getElementById("senderDropdown");
-            const nameInput = document.getElementById("courierNameDisplay");
-            const senderDisplayInput = document.getElementById("senderDisplay");
-            const courierNames = @Html.Raw(Json.Serialize(ViewBag.CourierNames));
-            const namesMap = @Html.Raw(Json.Serialize(ViewBag.SenderNames));
+
+            <div class="print-btn" style="right:800px">
+                <a href="javascript:void(0);" onclick="window.print()">Print</a>
+            </div>
+                <div class="back-btn">
+                    <a asp-action="Index" asp-controller="Home">⬅</a>
+                </div>
+        </div>
+
+    <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                updateSelectedOptionText('senderDropdown');
+                updateSelectedOptionText('courierDropdown');
+                const todayFilterBtn = document.getElementById("todayFilterBtn");
+                const courierDropdown = document.getElementById("courierDropdown");
+                const senderDropdown = document.getElementById("senderDropdown");
+                const nameInput = document.getElementById("courierNameDisplay");
+                const senderDisplayInput = document.getElementById("senderDisplay");
+                const courierNames = @Html.Raw(Json.Serialize(ViewBag.CourierNames));
+                const namesMap = @Html.Raw(Json.Serialize(ViewBag.SenderNames));
+                // rowlarin sayini tap
+                const tableBody = document.querySelector(".styled-table tbody");
+                const rowCount = tableBody ? tableBody.rows.length : 0; //setir SAYI BURDADIR
+                //avto tarix arguments
+                // document.getElementById("startDate").value = new Date().toISOString().split('T')[0];
+                document.getElementById("endDate").value = new Date().toISOString().split('T')[0];
+
+                //sifirlama all
+                document.getElementById("allCheck").addEventListener("onchange", function () {
+                    dataClear();
+            });
+         
+
+            // Məsələn, bu sayını HTML-də göstərmək üçün:
+            // const countDisplay = document.createElement("div");
+            // countDisplay.textContent = `Cədvəldəki sifariş sayı: ${rowCount}`;
+            // countDisplay.style.margin = "10px 0";
+            // countDisplay.style.fontWeight = "bold";
+
+            document.getElementById("rowCountDisplay").innerHTML = rowCount;
+            //secilen row goster
+            const rows = document.querySelectorAll(".styled-table tbody tr");
+            const selectedRow = document.getElementById("selectedRow");
+
+            rows.forEach((row, index) => {
+                row.addEventListener("mouseenter", () => {
+                    selectedRow.textContent = index + 1;
+                });
+            });
+
 
             // Bugünün tarixini formatla və filtreyi tətbiq et
             todayFilterBtn.addEventListener("click", function () {
                 const today = new Date();
                 const formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD
-
+                dataClear();
                 // URL parametrlərini yenilə
                 const params = new URLSearchParams(window.location.search);
                 params.set("startDate", formattedDate);
                 window.location.href = `/Order?${params.toString()}`;
             });
 
-            // Paylanma checkbox-u ilə serverə məlumat göndər
-            // document.querySelectorAll('.paylanma-checkbox').forEach(checkbox => {
-            //     checkbox.addEventListener('change', function () {
-            //         const sifarisId = this.getAttribute('data-id');
-            //         const isChecked = this.checked;
-
-            //         fetch('/Order/UpdatePaylanma', {
-            //             method: 'POST',
-            //             headers: {
-            //                 'Content-Type': 'application/json',
-            //                 'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-            //             },
-            //             body: JSON.stringify({
-            //                 id: sifarisId,
-            //                 isPaylanma: isChecked
-            //             })
-            //         }).then(response => {
-            //             if (!response.ok) {
-            //                 alert("Xəta baş verdi!");
-            //             }
-            //         });
-            //     });
-            // });
+           
 
             // Courrier seçimi edildikdə adını yenilə
             function updateDisplayForDropdown(dropdown, map, input) {
@@ -268,11 +301,51 @@
             }
         }
 
-        // When page loads, update selected options
-        window.addEventListener('DOMContentLoaded', () => {
-            updateSelectedOptionText('senderDropdown');
-            updateSelectedOptionText('courierDropdown');
-        });
+
+        //tarixe gore filter
+        const startDateInput = document.getElementById("startDate");
+        const endDateInput = document.getElementById("endDate");
+
+        function filterRowsByDate() {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            const rows = document.querySelectorAll(".styled-table tbody tr");
+
+            rows.forEach(row => {
+                const dateCell = row.cells[4]; // tarix sütunu (5-ci sütun, index 4)
+                const rowDate = new Date(dateCell.textContent);
+
+                // Əgər tarix daxil edilməyibsə, hər şeyi göstər
+                if (!startDateInput.value && !endDateInput.value) {
+                    row.style.display = "";
+                } else if (
+                    (!isNaN(startDate) ? rowDate >= startDate : true) &&
+                    (!isNaN(endDate) ? rowDate <= endDate : true)
+                ) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        // Hər iki tarixdə dəyişiklik olduqda filtr et
+        startDateInput.addEventListener("change", filterRowsByDate);
+        endDateInput.addEventListener("change", filterRowsByDate);
+
+        //checkedAllFilter
+        function dataClear() {
+            document.getElementById("startDate").value = "";
+            document.getElementById("endDate").value = "";
+            document.getElementById("courierDropdown").value = "";
+            document.getElementById("senderDropdown").value = "";
+            document.getElementById("courierNameDisplay").value = "";
+            document.getElementById("senderDisplay").value = "";
+
+            document.getElementById("filterForm").submit();
+
+             console.log("salam Alekum");
+        }
 
 </script>
 </body>

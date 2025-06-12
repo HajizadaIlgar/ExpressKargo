@@ -1,11 +1,13 @@
 ﻿namespace YunusExpress_MVC.ViewModels
 {
-    public class ReceiverCreateVm
+    public class
+        ReceiverCreateVm
     {
         public string ClientCode { get; set; }
         public string ReceiverName { get; set; }
         public string? ReceiverAddress { get; set; }
         public string? ReceiverPhoneNum { get; set; }
+        public int? ReceiverDiscount { get; set; }
         public DateTime ContractDate { get; set; }
         public bool IsEDV { get; set; } = false;
 

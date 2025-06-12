@@ -12,8 +12,8 @@ using YunusExpress_MVC.DataAccess;
 namespace YunusExpress_MVC.Migrations
 {
     [DbContext(typeof(YunusExpressDbContext))]
-    [Migration("20250525233509_UpdateTables")]
-    partial class UpdateTables
+    [Migration("20250608213712_meks")]
+    partial class meks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,7 +118,7 @@ namespace YunusExpress_MVC.Migrations
                     b.Property<int?>("CourierId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DeliveryZoneId")
+                    b.Property<int?>("DeliveryZoneId")
                         .HasColumnType("int");
 
                     b.Property<int?>("Discount")
@@ -153,7 +153,6 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ReceiverName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverPhoneNum")
@@ -163,7 +162,6 @@ namespace YunusExpress_MVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderPhoneNum")
@@ -245,6 +243,9 @@ namespace YunusExpress_MVC.Migrations
 
                     b.Property<string>("ReceiverAddress")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReceiverDiscount")
+                        .HasColumnType("int");
 
                     b.Property<string>("ReceiverName")
                         .IsRequired()
@@ -338,11 +339,9 @@ namespace YunusExpress_MVC.Migrations
                         .WithMany("Orders")
                         .HasForeignKey("CourierId");
 
-                    b.HasOne("YunusExpress_MVC.Models.DeliveryZone", "DeliveryZone")
+                    b.HasOne("YunusExpress_MVC.Models.DeliveryZone", null)
                         .WithMany("Orders")
-                        .HasForeignKey("DeliveryZoneId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DeliveryZoneId");
 
                     b.HasOne("YunusExpress_MVC.Models.Courier", "FromCourier")
                         .WithMany()
@@ -365,8 +364,6 @@ namespace YunusExpress_MVC.Migrations
                         .HasForeignKey("ToCourierId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("DeliveryZone");
 
                     b.Navigation("FromCourier");
 

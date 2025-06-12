@@ -14,7 +14,7 @@
 
         // Services: Daily, Regular, Express, Urgent
         public ServiceTypes? ServiceType { get; set; }
-        public int ServiceId { get; set; }
+        public int? ServiceId { get; set; }
 
         public string? ZengEdeninAdi { get; set; }
 
@@ -30,8 +30,8 @@
         public string? SenderPhoneNum { get; set; }
         public string? SenderAddress { get; set; }
 
-        public int DeliveryZoneId { get; set; }
-        public DeliveryZone DeliveryZone { get; set; }
+        //public int? DeliveryZoneId { get; set; }
+        //public DeliveryZone? DeliveryZone { get; set; }
 
         // Göndərən müştəri
         //public int Senderid { get; set; }
@@ -44,7 +44,7 @@
         public Courier ToCourier { get; set; }
 
 
-        public bool IsPaylanma { get; set; } = false;
+        public bool IsPaylanma { get; set; } = false; //borc
         // Qiymətlər hissəsi
         public decimal OrderPrice { get; set; }
         public decimal? SpecialPrice { get; set; }

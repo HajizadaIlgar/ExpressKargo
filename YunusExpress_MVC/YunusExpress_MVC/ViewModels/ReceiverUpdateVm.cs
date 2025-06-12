@@ -1,6 +1,6 @@
-﻿namespace YunusExpress_MVC.Models
+﻿namespace YunusExpress_MVC.ViewModels
 {
-    public class Receiver //Qebul Eden
+    public class ReceiverUpdateVm
     {
         public int Id { get; set; }
 
@@ -20,6 +20,5 @@
         public string? Iban { get; set; }
         public string? Mh { get; set; }
         public bool QiymetVar { get; set; }
-        public ICollection<Order> Orders { get; set; }
     }
 }

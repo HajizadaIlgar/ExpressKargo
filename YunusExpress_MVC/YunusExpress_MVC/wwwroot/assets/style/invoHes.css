@@ -1,4 +1,5 @@
-﻿:root {
+﻿
+:root {
     --primary-color: #0066cc;
     --secondary-color: #003366;
     --text-color: #ffffff;
@@ -315,14 +316,14 @@ body {
     }
 
 /*     Yalnız sıralanan cədvəli göstərir */
-    .form-table, .form-table * {
+    .form-table, .form-table * ,.text-section,.text-label,#customName,#senderDropdown,#senderDisplay{
         visibility: visible;
     }
 
 /*     Cədvəl səhifə boyunca genişlənir */
     .form-table {
         position: absolute;
-        top: 0;
+        top: 50px;
         left: 0;
         width: 100%;
         height: auto;

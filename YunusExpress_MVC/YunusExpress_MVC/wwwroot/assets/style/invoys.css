@@ -1,186 +1,147 @@
-﻿        body {
-            font-family: 'Times New Roman', sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 30px;
-        }
-        .invoice-container {
-            background: #fff;
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 24px 32px 32px 32px;
-            border: 1px solid #bbb;
-            box-shadow: 0 2px 8px #0001;
-            
-        }
-        .logo{
-            object-fit:cover;width:50px;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #222;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-        }
-        .logo {
-            font-weight: bold;
-            font-size: 1.7rem;
-            letter-spacing: 1px;
-            margin-right: 16px;
-        }
-        .express {
-            font-style: italic;
-            font-size: 1.3rem;
-            color: #222;
-        }
-        .header-details {
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-        .header-details span {
-            display: inline-block;
-            margin-right: 18px;
-        }
-        .invoice-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin: 12px 0 4px 0;
-        }
-        .invoice-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px 32px;
-            font-size: 1rem;
-            margin-bottom: 6px;
-        }
-        .invoice-info span {
-            margin-right: 12px;
-        }
-        .address {
-            font-size: 0.95rem;
-            margin-bottom: 10px;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .info-col {
-            width: 48%;
-        }
-        .info-box {
-            border: 1px solid #888;
-            border-radius: 4px;
-            padding: 8px 12px;
-            font-size: 0.97rem;
-            margin-bottom: 10px;
-        }
-        .info-box strong {
-            display: block;
-            margin-bottom: 4px;
-        }
-        .table-title,.table-se {
-            font-size: 0.98rem;
-            margin: 12px 0 4px 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 6px;
-            font-size: 0.98rem;
-        }
-        th, td {
-            border: 1px solid #888;
-            padding: 6px 8px;
-            text-align: left;
-        }
-        th {
-            background: #e9ecef;
-            font-weight: 600;
-            text-align: center;
-        }
-        td {
-            background: #fff;
-        }
-        .right {
-            text-align: right;
-        }
-        .center {
-            text-align: center;
-        }
-        .total-row td {
-            font-weight: bold;
-            background: #f3f6fa;
-        }
-        .footer {
-            margin-top: 18px;
-            font-size: 0.95rem;
-        }
-        .signature {
-            margin:30px 0 0 0;
-            display:flex;
-            align-items:center;
-/*            flex-direction:column;*/
-            font-family: Arial, sans-serif;
-        }
-        .left-thing{
-            font:600 22px "Times New Roman";
-            margin:0 0 0 50px;
-        }
-.signature-item {
-    margin-bottom: 20px;
-    width: 350px;
-    display: flex;
-    align-items: center;
-}
-        
-        .label {
-            font-weight: bold;
-            font-size: 14px;
-        }
-        
-        .line {
-            border-top: 1px solid black;
-            width: 200px;
-            margin-top: 10px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-/* Custom Print Button Styling */
-.print-btn {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    z-index: 1000;
+﻿body {
+    font-family: 'Times New Roman', Times, serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
 }
 
-    .print-btn a {
-        color: black;
-        text-decoration: none;
-        font: bold 16px "MS Sans Serif", Arial, sans-serif;
-        background-color: #C0C0C0;
-        border: 2px outset #fff;
-        padding: 6px 12px;
-        display: inline-block;
-        box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
-        cursor: pointer;
+.faktura-container {
+    background: #fff;
+    width: 700px;
+    margin: 30px auto 0 auto;
+    padding: 40px 40px 30px 40px;
+    border: 1px solid #bbb;
+    min-height: 900px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.top-line {
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+
+.center-title {
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.center-date {
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+
+.desc-row {
+    margin: 18px 0 8px 0;
+    font-size: 1rem;
+}
+
+    .desc-row span {
+        display: block;
     }
 
-        .print-btn a:hover {
-            background-color: #A0A0A0;
-            border: 2px inset #000;
-        }
-        @media (max-width: 700px) {
-            .invoice-container { padding: 10px; }
-            .info-row { flex-direction: column; }
-            .info-col { width: 100%; }
-        }
+    .desc-row .left {
+        float: left;
+        width: 60%;
+    }
+
+    .desc-row .right {
+        float: right;
+        width: 40%;
+        text-align: right;
+    }
+
+.clear {
+    clear: both;
+}
+
+.basis {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+    .basis span {
+        display: block;
+    }
+
+    .basis .italic {
+        font-style: italic;
+        font-size: 0.95rem;
+        margin-top: 2px;
+    }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    font-size: 1rem;
+}
+
+th,
+td {
+    border: 1px solid #222;
+    padding: 6px 8px;
+}
+
+th {
+    background: #f3f3f3;
+    font-weight: 600;
+    text-align: center;
+}
+
+td {
+    background: #fff;
+    text-align: center;
+}
+
+.service-name {
+    text-align: left;
+}
+
+.sum-row td {
+    font-weight: bold;
+    background: #f3f3f3;
+}
+
+.amount-row {
+    margin: 18px 0 12px 0;
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+.stamp {
+    margin: 32px 0 0 0;
+    position: relative;
+    height: 120px;
+}
+
+.stamp-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 180px;
+    opacity: 0.45;
+}
+
+.bank-details {
+    margin-top: 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+    .bank-details span {
+        display: block;
+    }
+
 .back-btn {
     position: fixed;
     bottom: 10px;
     left: 10px;
-    z-index: 1000;
+    z-index: 777;
 }
 
     .back-btn a {
@@ -199,53 +160,78 @@
             background-color: #A0A0A0;
             border: 2px inset #000;
         }
-/* Print Styles */
-@media print {
+
+
+.print-btn {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+    .print-btn a {
+        color: black;
+        text-decoration: none;
+        font: bold 16px "MS Sans Serif", Arial, sans-serif;
+        background-color: #C0C0C0;
+        border: 2px outset #fff;
+        padding: 6px 12px;
+        display: inline-block;
+        box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+        cursor: pointer;
+    }
+
+        .print-btn a:hover {
+            background-color: #A0A0A0;
+            border: 2px inset #000;
+        }
+
+
+/*@media print {
     body {
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
         background: white !important;
-    }
+    }*/
 
-    /* Butonları gizle */
-    .print-btn, .back-btn {
+/* Butonları gizle */
+/*.print-btn, .back-btn {
         display: none !important;
-    }
+    }*/
 
-    /* Invoice container'ları yan yana ve A5 boyutunda ayarla */
-    .invoice-container {
-        width: 148mm !important; /* A5 genişliği */
-        height: 210mm !important; /* A5 yüksekliği */
-        margin: 0 !important;
+/* Invoice container'ları yan yana ve A5 boyutunda ayarla */
+/*.invoice-container {
+        width: 148mm !important;*/ /* A5 genişliği */
+/*height: 210mm !important;*/ /* A5 yüksekliği */
+/*margin: 0 !important;
         padding: 10mm !important;
         box-shadow: none !important;
         border: none !important;
         display: inline-block !important;
         vertical-align: top;
         page-break-inside: avoid;
-    }
+    }*/
 
-    /* Sayfa düzeni ayarları */
-    @page {
+/* Sayfa düzeni ayarları */
+/*@page {
         size: A4 landscape;
         margin: 0;
-    }
+    }*/
 
-    /* Container'ların dışındaki tüm içeriği gizle */
-    body > *:not(.invoice-container) {
+/* Container'ların dışındaki tüm içeriği gizle */
+/*body > *:not(.invoice-container) {
         display: none !important;
-    }
+    }*/
 
-    /* Flex container'ı düzelt */
-    body > div[style="display:flex"] {
+/* Flex container'ı düzelt */
+/*body > div[style="display:flex"] {
         display: block !important;
         width: 100% !important;
         height: 100% !important;
-    }
+    }*/
 
-    /* Tablo ve diğer içeriklerin boyutlarını ayarla */
-    table {
+/* Tablo ve diğer içeriklerin boyutlarını ayarla */
+/*table {
         font-size: 12px !important;
     }
 
@@ -256,4 +242,4 @@
     .invoice-title {
         font-size: 14px !important;
     }
-}
+}*/

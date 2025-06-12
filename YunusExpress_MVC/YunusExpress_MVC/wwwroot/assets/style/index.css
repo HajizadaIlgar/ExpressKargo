@@ -156,7 +156,24 @@ body {
   background-color: #A0A0A0;
   border: 2px inset #000;
 }
+    .back-btn a {
+        text-decoration: none;
+        color: black;
+        background-color: #e0e0e0;
+        border: 2px outset #fff;
+        padding: 6px 14px;
+        box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #fff;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        font-family: "MS Sans Serif", Arial, sans-serif;
+        font-weight: bold;
+        margin: 0 320px 0 0;
+    }
 
+        .back-btn a:hover {
+            background-color: #a0a0a0;
+            border: 2px inset black;
+        }
 
 /* Responsive Design */
 @media (max-width: 768px) {

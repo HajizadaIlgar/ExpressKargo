@@ -39,8 +39,8 @@
         [Phone(ErrorMessage = "Telefon nömrəsi düzgün formatda deyil")]
         public string? ReceiverPhoneNum { get; set; }
 
-        [Required(ErrorMessage = "Zona seçilməlidir")]
-        public int DeliveryZoneId { get; set; }
+        //[Required(ErrorMessage = "Zona seçilməlidir")]
+        //public int? DeliveryZoneId { get; set; }
 
         public string? SenderName { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿@using YunusExpress_MVC.ViewModels
-@model ReceiverCreateVm
+@model ReceiverUpdateVm
 @{
     ViewData["Title"] = "Create";
     Layout = null;
@@ -29,7 +29,7 @@
 
                     <div class="text-section">
                         <label asp-for="ClientCode" class="text-label">Müştəri Nömrəsi</label>
-                        <input asp-for="ClientCode" type="text" class="text-input" id="clientCode" required/>
+                        <input asp-for="ClientCode" type="text" class="text-input" id="clientCode" required />
                     </div>
 
                     <div class="text-section">
@@ -51,12 +51,10 @@
                         <label asp-for="ContractDate" class="text-label">Müqavilənin Tarixi</label>
                         <input asp-for="ContractDate" type="date" class="text-input" style="width: 199px;" id="contrDate" />
                     </div>
-
                     <div class="text-section">
-                        <label asp-for="ReceiverDiscount" class="text-label">Güzəşt %</label>
+                        <label asp-for="ReceiverDiscount" class="text-label">Endirim</label>
                         <input asp-for="ReceiverDiscount" type="text" class="text-input" id="disc" />
                     </div>
-
                     <div class="text-section">
                         <label asp-for="IsEDV" class="text-label">ƏDV</label>
                         <select asp-for="IsEDV" class="input-select" style="width: 199px;">
@@ -64,7 +62,6 @@
                             <option value="false">Yoxdu</option>
                         </select>
                     </div>
-
                 </fieldset>
             </div>
             <div class="form-section">
@@ -117,15 +114,16 @@
                     <div class="text-section">
                         <label asp-for="QiymetVar" class="text-label">Qiymət Seçimi</label>
                         <select asp-for="QiymetVar" class="input-select" style="width: 199px;">
-                            <option value="true">Yeni Qiymət</option>
-                            <option value="false">Köhnə Qiymət</option>
+
+                            <option value="New">Yeni Qiymət</option>
+                            <option value="Old">Köhnə Qiymət</option>
                         </select>
                     </div>
                 </fieldset>
             </div>
 
             <div class="btns">
-                <button type="submit" class="btn-submit">Yarat</button>
+                <button type="submit" class="btn-submit">Yenilə</button>
             </div>
         </form>
         <div class="back-btn">
@@ -200,17 +198,16 @@
     //enterle diger inputlara kecis sistemi
     // Ordered list of input IDs
     const inputOrder = [
-        "clientCode", 
-        "clientName", 
-        "clientAdd", 
-        "clientNum", 
-        "disc", 
-        "bankName", 
-        "bankCode", 
-        "bankVoen", 
-        "swift", 
-        "voen", 
-        "iban", 
+        "clientCode",
+        "clientName",
+        "clientAdd",
+        "clientNum",
+        "bankName",
+        "bankCode",
+        "bankVoen",
+        "swift",
+        "voen",
+        "iban",
         "mh"
 
         // add the rest of your input IDs here in the order you want

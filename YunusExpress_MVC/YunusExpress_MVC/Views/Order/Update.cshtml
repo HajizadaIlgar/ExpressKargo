@@ -29,8 +29,8 @@
           <div class="rows" style="display:flex;flex-direction:column;">
              <div class="row">
                 <div class="text-section">
-                  <label  class="text-label" style="width: 100px;">Sifariş No</label>
-                  <input  type="text" class="text-input" style="width:100px;" readonly/>
+                  <label@*  asp-for="OrderNo" *@  class="text-label" style="width: 100px;">Sifariş No</label>
+                  <input asp-for="OrderNo"  type="text" class="text-input" style="width:100px;" readonly/>
                 </div>
               <div class="text-section">
                 <label asp-for="InvoiceNo" class="text-label" style="width:35px;">Veybil</label>
@@ -460,6 +460,16 @@ pricePutter();
         //     document.getElementById("start-date").value = date;
         //     document.getElementById("start-time").value = time;
         // });
+
+
+        //kuryerlerin sinxronlasdirilmasi 
+        document.getElementById("from-courier").addEventListener("change", function () {
+            const selectedValue = this.value;
+            const toCourier = document.getElementById("to-courier");
+
+            // Set the selected value in the second select
+            toCourier.value = selectedValue;
+        });
     </script>
 </body>
 </html>

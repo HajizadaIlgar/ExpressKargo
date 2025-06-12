@@ -45,7 +45,7 @@
                                    
                                 </datalist>
                         </div>
-                        <!-- Müştəri kodunu göstərən input -->
+                            <!-- Müştəri kodunu göstərən input  -->
                         <div class="text-section">
                             <input type="text" id="clientCode" class="text-input" readonly style="width:100px;" />                            <input asp-for="ReceiverId" type="hidden"  id="receiverId" />
 
@@ -82,21 +82,29 @@
                 </div>
                 <div>
                                 <div class="text-section" style="width: 300px;display:none">
-                                    <label asp-for="DeliveryZoneId" class="text-label" style="width:93px">Zona</label>
-                                    <select class="input-select" asp-for="DeliveryZoneId" asp-items="ViewBag.DeliveryZone"
-                                            style="width: 187px;" id="zoneSelect">
+                                    <label  class="text-label" style="width:93px">Zona</label>
+                                    <select class="input-select" style="width: 187px;" id="zoneSelect">
+                                        <option value="1"></option>
+                                        <option value="2"></option>
+                                        <option value="3"></option>
+                                        <option value="4"></option>
+                                        <option value="5"></option>
+                                        <option value="6"></option>
+                                        <option value="7"></option>
+
                                     </select>
                                 </div>
                                     <div class="text-section" style="width: 300px;">
                                         <label class="text-label" style="width:93px">Zona(Şəhər)</label>
 
                                     <select class="input-select" style="width: 187px;" id="zoneSelect1">
-                                             <option value=""></option>
+                                        
 
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <option value="">0-Zona</option>
+                                        <option value="1">1-Zona</option>
+                                        <option value="2">2-Zona</option>
+                                        <option value="3">3-Zona</option>
+                                        <option value="4">4-Zona</option>
                                     </select>
                                     </div>
 
@@ -104,21 +112,31 @@
                                         <label  class="text-label" style="width:93px">Zona(Rayon)</label>
 
                                     <select class="input-select" style="width: 187px; " id="zoneSelect2" >
-                                            <option value=""></option>
+                                            <option value="">0-Zona</option>
 
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
+                                        <option value="5">5-Zona</option>
                                     </select>
+
+                                        </div>
+
+                                  <div class="text-section" style="width: 300px;">
+                                            <label  class="text-label" style="width:93px">Zona(M.R)</label>
+
+                                        <select class="input-select" style="width: 187px; " id="zoneSelect3" >
+                                                <option value="">0-Zona</option>
+
+                                            <option value="6">6-Zona</option>
+                                        </select>
 
                                         </div>
 
                                             <div class="text-section" style="width: 300px;">
                                         <label class="text-label" style="width:93px">Zona(Xarici)</label>
 
-                                    <select class="input-select" style="width: 187px;" id="zoneSelect3" >
-                                         <option value=""></option>
+                                    <select class="input-select" style="width: 187px;" id="zoneSelect4" >
+                                         <option value="">0-Zona</option>
 
-                                        <option value="7">7</option>
+                                        <option value="7">7-Zona</option>
                                     </select>
                                         </div>
 
@@ -151,32 +169,33 @@
             </div>
           </div>
           <div class="right-coll">
+                     
                         <div class="desc-text">
-                            <label class="text-label" for="start-date">Tarix</label>
-                            <div class="desc-time">
-                                <input type="date" id="start-date" name="StartDate_Date" class="desc-input-t" />
-                                <input type="time" id="start-time" name="StartDate_Time" class="desc-input-t" />
-                            </div>
+                            <label style="width:100px" class="text-label" for="start-date">Tarix</label>
+                                <div class="desc-time">
+                                <input style="width:85px" type="date" id="start-date" name="StartDate_Date" class="desc-input-t" />
+                                <input style="width:100px" type="time" id="start-time" name="StartDate_Time" class="desc-input-t" />
+                                </div>
                         </div>
 
-                        <!-- Gizli input, burada birləşdirilmiş datetime olacaq -->
-                        <input type="hidden" id="StartDate" name="StartDate" />
-                          <div class="desc-text">
-                    
-                            <label asp-for="ServiceId" class="text-label">Xidmət Növü</label>
+                        <!-- Gizli input, burada birləşdirilmiş datetime olacaq asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")' -->
+                        <input asp-for="StartDate" type="hidden" id="StartDate" name="StartDate" />
+                      
+                        <div class="desc-text">
+                            <label asp-for="ServiceId" style="width:100px" class="text-label">Xidmət Növü</label>
                             <select id="serviceType" class="desc-select" asp-for="ServiceId" asp-items='new SelectList(ViewBag.Service,"Id","ServiceType")'>
                             </select>
-                          </div>
+                        </div>
 
                            <div class="desc-text">
-                                <label class="text-label" for="from-courier">Kuryer 1</label>
+                                <label style="width:100px" class="text-label" for="from-courier">Kuryer 1</label>
                             <select class="desc-select form-control" asp-for="FromCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","DisplayText")' id="from-courier">
                                 <option disabled selected>Seçin...</option>
                             </select>
                             </div>
 
                             <div class="desc-text">
-                                <label class="text-label" for="to-courier">Kuryer 2</label>
+                                <label  style="width:100px"class="text-label" for="to-courier">Kuryer 2</label>
 
                             <select class="desc-select form-control" asp-for="ToCourierId" asp-items='new SelectList(ViewBag.Courier,"CourierId","DisplayText")' id="to-courier">
                                 <option disabled selected>Seçin...</option>
@@ -191,38 +210,38 @@
             </div>
 
             <div class="desc-text">
-              <label asp-for="OrderPrice" class="text-label">Qiymət</label>
+              <label style="width:100px" asp-for="OrderPrice" class="text-label">Qiymət</label>
               <input asp-for="OrderPrice" type="text" id="orderPrice" class="desc-input" >
             </div>
 
             <div class="desc-text">
-              <label asp-for="SpecialPrice" class="text-label">Xüsusi Qiymət</label>
-              <input asp-for="SpecialPrice" type="text" id="SpecialPrice" class="desc-input">
+              <label style="width:100px" asp-for="SpecialPrice" class="text-label">Xüsusi Qiymət</label>
+              <input asp-for="SpecialPrice" type="text" id="SpecialPrice" class="desc-input" placeholder="0.00">
             </div>
             <div class="desc-text">
-              <label asp-for="Discount" class="text-label">Güzəşt %</label>
-              <input asp-for="Discount" id="discount" type="text" class="desc-input">
+              <label style="width:100px" asp-for="Discount" class="text-label">Güzəşt %</label>
+              <input asp-for="Discount" id="discount" type="text" class="desc-input" placeholder="0.00" readonly>
             </div>
             <div class="desc-text">
-              <label class="text-label">Cəmi</label>
+              <label style="width:100px" class="text-label">Cəmi</label>
               <input type="text" class="desc-input" id="subtotal" readonly>
             </div>
             <div class="desc-text">
-              <label class="text-label">ƏDV (18%)</label>
+              <label style="width:100px" class="text-label">ƏDV (18%)</label>
               <input  type="text" class="desc-input" id="edv" readonly>
             </div>
             <div class="desc-text">
-              <label asp-for="FinalPrice" class="text-label">Yekun</label>
+              <label style="width:100px" asp-for="FinalPrice" class="text-label">Yekun</label>
               <input asp-for="FinalPrice" type="text" class="desc-input" id="total" >
             </div>
             <div class="desc-text">
-              <label asp-for="Note" class="text-label">Əlavə Qeyd</label>
+              <label style="width:100px" asp-for="Note" class="text-label">Əlavə Qeyd</label>
               <textarea asp-for="Note" name="" class="desc-text-ar"></textarea>
             </div>
             <div class="btns">
               <button type="submit" class="btn-submit">Qeyd Et Və Çıx</button>
             </div>
-          </div>
+          </>
         </div>
         </div>
     </form>
@@ -239,9 +258,9 @@
             const select1 = document.getElementById('zoneSelect1');
             const select2 = document.getElementById('zoneSelect2');
             const select3 = document.getElementById('zoneSelect3');
-            document.getElementById('from-courier').value = '13';
-            document.getElementById('to-courier').value = '13';
-
+            const select4 = document.getElementById('zoneSelect4');
+            document.getElementById('from-courier').value = '1';
+            document.getElementById('to-courier').value = '1';
 
             // Başlanğıc vəziyyət
             updateSelectsState();
@@ -264,42 +283,76 @@
                 priceCalculation();
                 updateSelectsState();
             });
+            select4.addEventListener('change', function () {
+                originalSelect.value = this.value;
+                priceCalculation();
+                updateSelectsState();
+            });
 
             function updateSelectsState() {
                 // Əgər select1-də dəyər seçilibsə (boş deyilsə)
                 if (select1.value !== "") {
                     select2.disabled = true;
                     select3.disabled = true;
+                    select4.disabled = true;
+
                     select2.value = "";
                     select3.value = "";
+                    select4.value = "";
+
                 }
                 // Əgər select2-də dəyər seçilibsə
                 else if (select2.value !== "") {
                     select1.disabled = true;
                     select3.disabled = true;
+                    select4.disabled = true;
+
                     select1.value = "";
                     select3.value = "";
+                    select4.value = "";
+
                 }
                 // Əgər select3-də dəyər seçilibsə
                 else if (select3.value !== "") {
                     select1.disabled = true;
                     select2.disabled = true;
+                    select4.disabled = true;
+
                     select1.value = "";
                     select2.value = "";
+                    select4.value = "";
+
+                }
+                else if (select4.value !== "") {
+                    select1.disabled = true;
+                    select2.disabled = true;
+                    select3.disabled = true;
+                    select1.value = "";
+                    select2.value = "";
+                    select3.value = "";
                 }
                 // Heç birində dəyər seçilməyibsə
                 else {
                     select1.disabled = false;
                     select2.disabled = false;
                     select3.disabled = false;
+                    select4.disabled=false;
                 }
             }
         });
- //datalistin doldurulmasi
+ //datalistin doldurulmasi(yeni sifarise giren kimi Private gelmesi)
         let receivers = [];
 
         document.addEventListener("DOMContentLoaded", async () => {
             try {
+               
+                document.getElementById('receiverInput').value = '0';
+                document.getElementById('clientCode').value = 'Private';
+                document.getElementById('senderName').value = 'Private';
+                priceCalculation();
+
+
+
                 const response = await fetch('/Order/ReceiverData');
                 if (!response.ok) throw new Error("Şəbəkə xətası!");
 
@@ -345,6 +398,7 @@
                         document.getElementById("senderAdd").value = matchedReceiver.receiverAddress;
                         document.getElementById("priceType").value = matchedReceiver.qiymetVar;
                         document.getElementById("edvType").value = matchedReceiver.isEDV;
+                        document.getElementById("discount").value = matchedReceiver.receiverDiscount;
                         document.getElementById("receiverId").value = matchedReceiver.id; // <-- BUNU ƏLAVƏ ET
                         priceCalculation();
                     }
@@ -352,13 +406,12 @@
                     return;
                 }
             }
-            
-
             // Seçim uygun değilse temizle
             document.getElementById("clientCode").value = "";
             document.getElementById("senderName").value = "";
             document.getElementById("senderAdd").value = "";
             document.getElementById("senderNum").value = ""; 
+            document.getElementById("discount").value = ""; 
             document.getElementById("receiverId").value = ""; // <-- bunu da unutma
 
         });
@@ -399,7 +452,7 @@
                     { "zoneId": 5, "serviceId": 4, "prices": { "old": 8, "new": 8 } },
                     { "zoneId": 6, "serviceId": 1, "prices": { "old": 0, "new": 0 } },
                     { "zoneId": 6, "serviceId": 2, "prices": { "old": 0, "new": 0 } },
-                    { "zoneId": 6, "serviceId": 3, "prices": { "old": 14, "new": 14 } },
+                    { "zoneId": 6, "serviceId": 3, "prices": { "old": 16, "new": 16 } },
                     { "zoneId": 6, "serviceId": 4, "prices": { "old": 12, "new": 12 } },
                     { "zoneId": 7, "serviceId": 1, "prices": { "old": 0, "new": 0 } },
                     { "zoneId": 7, "serviceId": 2, "prices": { "old": 0, "new": 0 } },
@@ -409,23 +462,26 @@
                 ]
             }
            
+            
+
             const zoneId = parseInt(document.getElementById('zoneSelect').value);
             const serviceId = parseInt(document.getElementById('serviceType').value);
             const priceType = document.getElementById("priceType").value === "true"; // priceType true/false olacaq
 
             // `prices` içərisindən uyğun qiyməti tapmaq
-            const priceObj = prices.prices.find(p => p.zoneId === zoneId && p.serviceId === serviceId);
-
+           const priceObj = prices.prices.find(p => p.zoneId === zoneId && p.serviceId === serviceId);
+            console.log(priceObj)
             if (priceObj) {
                 // priceType true olduqda yeni qiyməti seçirik, əks halda köhnə qiyməti seçirik
-                const selectedPrice = priceType ? priceObj.prices.new : priceObj.prices.old;
+               const selectedPrice = priceType ? priceObj.prices.new : priceObj.prices.old;
 
-                priceEl.value = selectedPrice;
-                pricePutter();
-            } else {
-                // priceEl.value = "Xeta Bas Verdi";
+               priceEl.value = selectedPrice;
+               pricePutter();
+           } 
+           else {
+                priceEl.value = "0.00";
 
-            }
+           }
 
         }
         function pricePutter(){
@@ -484,22 +540,23 @@
                 [senderAdd.value, acceptAdd.value] = [acceptAdd.value, senderAdd.value];
                 [senderNum.value, acceptNum.value] = [acceptNum.value, senderNum.value];
             }
-            //date-hour birlesdiren
+            
+   //date-hour birlesdiren
         document.getElementById("order-form").addEventListener("submit", function (e) {
             const date = document.getElementById("start-date").value;
             const time = document.getElementById("start-time").value;
 
-            if (!date) {
-                alert("Tarixi daxil edin");
-                e.preventDefault();
-                return;
-            }
+            // if (!date) {
+            //     alert("Tarixi daxil edin");
+            //     e.preventDefault();
+            //     return;
+            // }
 
-            if (!time) {
-                alert("Saatı daxil edin");
-                e.preventDefault();
-                return;
-            }
+            // if (!time) {
+            //     alert("Saatı daxil edin");
+            //     e.preventDefault();
+            //     return;
+            // }
 
             // Tarix və saatı ISO 8601 formatında birləşdiririk (2025-05-17T14:30)
             const combinedDateTime = date + "T" + time;
@@ -517,6 +574,7 @@
             document.getElementById("start-date").value = date;
             document.getElementById("start-time").value = time;
         });
+
         //enterle diger inputlara kecis sistemi
         // Ordered list of input IDs
         const inputOrder = [

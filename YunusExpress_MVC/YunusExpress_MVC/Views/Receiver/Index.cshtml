@@ -2,15 +2,63 @@
 @model List<Receiver>
 @{
     ViewData["Title"] = "Index";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Müştərilər</title>
+    <link rel="stylesheet" href="~/assets/style/reset.css">
+    <link rel="stylesheet" href="~/assets/style/findAndChange.css">
+    <link href="~/assets/favicon.ico" rel="icon" />
 
+    <style>
+        .table, .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font: 500 13px arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            border: 1px solid #dddddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-<h2>Receivers</h2>
+            .table thead tr, .styled-table thead tr {
+                background-color: #0066cc;
+                color: #ffffff;
+                font-weight: bold;
+            }
+
+            .table th, .styled-table th {
+                padding: 3px 3px;
+                border: 1px solid #000;
+            }
+
+            .table td, .styled-table td {
+                padding: 3px 3px;
+                border: 1px solid #000;
+                color: #000000;
+            }
+
+            .table tbody tr:hover, .styled-table tbody tr:hover {
+                background-color: #acacac63;
+            }
+
+    </style>
+</head>
+<body>
+<h2>Müştərilər</h2>
 
 
 <table class="table">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Müştəri Nömrəsi</th>
             <th>Müştəri Adı</th>
             <th>Telefon</th>
@@ -25,8 +73,13 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.Id</td>
                 <td>@item.ClientCode</td>
-                <td>@item.ReceiverName</td>
+                <td>
+                    <a style="color: black; text-decoration: none;" asp-controller="Receiver" asp-action="Update" asp-route-id="@item.Id">
+                        @item.ReceiverName
+                    </a>
+                </td>
                 <td>@item.ReceiverPhoneNum</td>
                 <td>@item.ContractDate.ToString("yyyy-MM-dd")</td>
                 <td>@(item.IsEDV ? "Var" : "Yoxdu")</td>
@@ -38,3 +91,8 @@
         }
     </tbody>
 </table>
+    <div class="back-btn">
+        <a asp-controller="Home" asp-action="Hesabatlar">⬅</a>
+    </div>
+</body>
+</html>

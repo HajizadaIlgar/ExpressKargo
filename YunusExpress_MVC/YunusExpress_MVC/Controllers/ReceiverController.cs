@@ -34,6 +34,7 @@ namespace YunusExpress_MVC.Controllers
                 ClientCode = vm.ClientCode,
                 IsEDV = vm.IsEDV,
                 ContractDate = vm.ContractDate,
+                ReceiverDiscount = vm.ReceiverDiscount,
 
                 BankName = vm.BankName,
                 BankCode = vm.BankCode,
@@ -50,11 +51,63 @@ namespace YunusExpress_MVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task<IActionResult> Update(int? id)
+        {
+            if (id == null) return BadRequest();
+            var data = await _context.Receivers.Where(x => x.Id == id).Select(x => new ReceiverUpdateVm
+            {
+                Id = x.Id,
+                ClientCode = x.ClientCode,
+                ReceiverName = x.ReceiverName,
+                ReceiverAddress = x.ReceiverAddress,
+                ReceiverPhoneNum = x.ReceiverPhoneNum,
+                ContractDate = x.ContractDate,
+                ReceiverDiscount = x.ReceiverDiscount,
+                IsEDV = x.IsEDV,
+
+                BankName = x.BankName,
+                BankCode = x.BankCode,
+                BankVoen = x.BankVoen,
+                Swift = x.Swift,
+                Voen = x.Voen,
+                Iban = x.Iban,
+                Mh = x.Mh,
+                QiymetVar = x.QiymetVar,
+
+            }).FirstOrDefaultAsync();
+            return View(data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(int? id, ReceiverUpdateVm vm)
+        {
+            if (id == null) return BadRequest();
+            var data = await _context.Receivers.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (data == null) return NotFound();
+            if (data is not null)
+            {
+                data.ClientCode = vm.ClientCode;
+                data.ReceiverName = vm.ReceiverName;
+                data.ReceiverAddress = vm.ReceiverAddress;
+                data.ContractDate = vm.ContractDate;
+                data.ReceiverDiscount = vm.ReceiverDiscount;
+                data.IsEDV = vm.IsEDV;
+                data.BankName = vm.BankName;
+                data.BankCode = vm.BankCode;
+                data.BankVoen = vm.BankVoen;
+                data.Swift = vm.Swift;
+                data.Voen = vm.Voen;
+                data.Iban = vm.Iban;
+                data.Mh = vm.Mh;
+                data.QiymetVar = vm.QiymetVar;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
         public async Task<IActionResult> HesabFaktura(string senderName)
         {
             var orders = await _context.Orders
+                .Where(x => x.IsPaylanma != true)
                 .Include(x => x.Receiver)
-                .Include(x => x.DeliveryZone)
                 .Include(x => x.ToCourier)
                 .Include(x => x.FromCourier)
                 .Include(x => x.ServiceType)
@@ -83,18 +136,27 @@ namespace YunusExpress_MVC.Controllers
                 orders = orders.Where(x => x.ReceiverName == senderName).ToList();
             }
 
+            var now = DateTime.Now;
+            var startOfMonth = new DateTime(now.Year, now.Month, 1);
+            var endOfMonth = startOfMonth.AddMonths(1);
+
             var receivers = await _context.Receivers.ToListAsync();
-            var totalSalary = orders.Sum(o => o.FinalPrice);
+            var totalSalary = orders.Where(o => o.StartDate >= startOfMonth && o.StartDate < endOfMonth && o.IsPaylanma != true)
+                        .Sum(o => (decimal?)o.FinalPrice) ?? 0;
+            var finalPrice = orders.Where(o => o.StartDate >= startOfMonth && o.StartDate < endOfMonth && o.IsPaylanma != true)
+                    .Sum(o => o.FinalPrice);
 
             var model = new ReceiverMontlySalaryVM
             {
                 Orders = orders,
                 Receivers = receivers,
-                TotalSalary = totalSalary
+                TotalSalary = totalSalary,
+                FinalPrice = finalPrice,
             };
 
             return View(model);
         }
+
 
         public async Task<IActionResult> GetReceiverOrders(string? receiverName)
         {

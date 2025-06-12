@@ -12,8 +12,8 @@ namespace YunusExpress_MVC.Controllers
         public async Task<IActionResult> Index(string senderName, string courierName, DateTime? startDate, DateTime? endDate, string type)
         {
             var orders = _context.Orders
+                .Where(x => !x.IsPaylanma)
                 .Include(x => x.Receiver)
-                .Include(x => x.DeliveryZone)
                 .Include(x => x.ToCourier)
                 .Include(x => x.FromCourier)
                 .Include(x => x.ServiceType)
@@ -83,12 +83,7 @@ namespace YunusExpress_MVC.Controllers
             }
             if (type == "waybill")
             {
-                // Məsələn: Waybill-ə görə `SenderName == "Private"`
                 orders = orders.Where(x => x.ReceiverName == "Private");
-            }
-            if (type == "paylanma")
-            {
-                orders = orders.Where(x => x.IsPaylanma);
             }
             return View(await orders.ToListAsync());
         }
@@ -179,15 +174,15 @@ namespace YunusExpress_MVC.Controllers
                 .Select(c => new
                 {
                     CourierId = c.CourierId,
-                    DisplayText = c.CourierCode + "  |    " + c.CourierName
+                    DisplayText = c.CourierCode
                 }).ToListAsync();
 
 
-            ViewBag.DeliveryZone = await _context.DeliveryZones.Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = $"{x.Name}"
-            }).ToListAsync();
+            //ViewBag.DeliveryZone = await _context.DeliveryZones.Select(x => new SelectListItem
+            //{
+            //    Value = x.Id.ToString(),
+            //    Text = $"{x.Name}"
+            //}).ToListAsync();
 
             var lastOrderNo = await _context.Orders
                .OrderByDescending(o => o.OrderNo)
@@ -227,10 +222,9 @@ namespace YunusExpress_MVC.Controllers
                 ReceiverAddress = vm.ReceiverAddress,
                 ReceiverId = vm.ReceiverId,
 
-                ServiceId = vm.ServiceId,
                 ToCourierId = vm.ToCourierId,
                 FromCourierId = vm.FromCourierId,
-                DeliveryZoneId = vm.DeliveryZoneId,
+                ServiceId = vm.ServiceId,
 
                 ZengEdeninAdi = vm.ZengEdeninAdi,
 
@@ -266,12 +260,10 @@ namespace YunusExpress_MVC.Controllers
 
                 ZengEdeninAdi = x.ZengEdeninAdi,
 
-                ServiceId = x.ServiceId,
 
                 ToCourierId = x.ToCourierId,
                 FromCourierId = x.FromCourierId,
 
-                DeliveryZoneId = x.DeliveryZoneId,
 
                 OrderPrice = x.OrderPrice,
                 SpecialPrice = x.SpecialPrice,
@@ -299,7 +291,7 @@ namespace YunusExpress_MVC.Controllers
             .Select(c => new
             {
                 CourierId = c.CourierId,
-                DisplayText = c.CourierCode + " | " + c.CourierName
+                DisplayText = c.CourierCode
             }).ToListAsync();
 
             ViewBag.DeliveryZone = await _context.DeliveryZones.Select(x => new SelectListItem
@@ -330,12 +322,11 @@ namespace YunusExpress_MVC.Controllers
                 data.ReceiverAddress = vm.ReceiverAddress;
 
 
-                data.ServiceId = vm.ServiceId;
 
                 data.ToCourierId = vm.ToCourierId;
                 data.FromCourierId = vm.FromCourierId;
 
-                data.DeliveryZoneId = vm.DeliveryZoneId;
+                //data.DeliveryZoneId = vm.DeliveryZoneId;
 
                 data.ZengEdeninAdi = vm.ZengEdeninAdi;
 
@@ -356,6 +347,7 @@ namespace YunusExpress_MVC.Controllers
             {
                 x.ClientCode,
                 x.Id,
+                x.ReceiverDiscount,
                 x.ReceiverName,
                 x.ReceiverPhoneNum,
                 x.ReceiverAddress,
@@ -403,7 +395,7 @@ namespace YunusExpress_MVC.Controllers
                     id = r.Id,
                     ReceiverName = r.ReceiverName,
                     TotalDebt = r.Orders
-                        .Where(o => o.StartDate >= startOfMonth && o.StartDate < endOfMonth && !o.IsPaylanma)
+                        .Where(o => o.StartDate >= startOfMonth && o.StartDate < endOfMonth && o.IsPaylanma != true)
                         .Sum(o => (decimal?)o.FinalPrice) ?? 0
                 })
                 .ToListAsync();
@@ -457,7 +449,6 @@ namespace YunusExpress_MVC.Controllers
             dto.Orders = await _context.Orders
                 .Where(x => x.ReceiverId == id && x.IsPaylanma != true)
                 .Include(x => x.Receiver)
-                .Include(x => x.DeliveryZone)
                 .Include(x => x.ServiceType)
                 .Include(x => x.ToCourier)
                 .Include(x => x.FromCourier)
@@ -475,8 +466,10 @@ namespace YunusExpress_MVC.Controllers
                 }).ToListAsync();
 
             dto.TotalPrice = await _context.Orders
-                .Where(x => x.ReceiverId == id && x.IsPaylanma != true)
-                .SumAsync(x => x.FinalPrice);
+                    .Where(x => x.ReceiverId == id
+                             && x.IsPaylanma != true
+                             && x.FinalPrice > 0)
+                    .SumAsync(x => (decimal?)x.FinalPrice) ?? 0;
 
             dto.Receivers = await _context.Receivers.Where(x => x.Id == id).ToListAsync();
 

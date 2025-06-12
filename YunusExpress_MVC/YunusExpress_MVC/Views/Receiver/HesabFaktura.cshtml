@@ -16,14 +16,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoys</title>
     <link rel="stylesheet" href="~/assets/style/reset.css">
-    <link rel="stylesheet" href="~/assets/style/findAndChange.css">
+    <link rel="stylesheet" href="~/assets/style/invoHes.css">
     <link href="~/assets/favicon.ico" rel="icon" />
+    <style>
 
+    </style>
 </head>
 <body>
     <div class="container">
         <form method="get" id="filterForm">
-            <div class="text-section" style="width: 350px;">
+            <div class="text-section" style="width: 350px;" id="customName">
                 <label class="text-label">Göndərən</label>
 
 
@@ -94,7 +96,7 @@
                         <td>@item.ToCourier!.CourierName</td>
                         <td>@item.SenderName</td>
                         <td>@item.SenderAddress</td>
-                        <td>@(item.FinalPrice.ToString("0.00"))</td>
+                        <td>@(Model.FinalPrice.ToString("0.00"))</td>
                     </tr>
                 }
                 <!-- Add more rows as needed -->
@@ -106,7 +108,8 @@
 
     </div>
     <div class="back-btn">
-        <a asp-action="Index" asp-controller="Home">⬅</a>
+        <a asp-controller="Home" asp-action="Hesabatlar">⬅</a>
+
     </div>
     <div class="print-btn">
         <a href="javascript:void(0);" onclick="window.print()">Print</a>
